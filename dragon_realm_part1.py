@@ -18,7 +18,7 @@ import random
 
 WIDTH = 58
 
-CAVES = ['right', 'left']
+CAVES = ['right', 'left', 'center']
 
 DELAY = 1.25
 
@@ -46,10 +46,10 @@ def choose():
     """Prompt player to pick "right" or "left" then return response"""
     cave = ""
     while not valid_cave(cave):
-        print("Do you enter the cave on the left or right, or do you run")
+        print("Do you enter the cave on the left or right, or center")
         cave = input("(right,left): ").lower()
         # print("> Hint: You said", cave)
-
+#add a center
         if not valid_cave(cave):
             print('Type "right or "left". \n')
     print()
@@ -106,6 +106,6 @@ def main():
         cave = choose()
         enter(cave)
         again = input("Play again? ")
-
+#juju bean
 if __name__ == '__main__':
     main()
