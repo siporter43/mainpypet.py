@@ -1,2 +1,2 @@
 language = "bash"
-run = "python3 anything_once.py"
+run = "python3 battle.py"
