@@ -32,12 +32,14 @@ import random
 import time
 
 
-
 # ## Global Variables ########################################################
 
 DELAY = 1.5
 
 WIDTH = 50 
+
+MAX_HEALTH = 100
+
 
 # The convention is to name global variables using ALL_CAPS_WITH_UNDERSCORE
 #
@@ -45,6 +47,22 @@ WIDTH = 50
 
 
 # ## Functions ###############################################################
+#pet functions: just some fncns that refer to pet stuff
+
+def show(pet):
+    """Takes a pet and shows its health and pic"""
+    name_display = f"{pet['name']} {pet['pic']}"
+    health_display = f"{pet['health']} of {MAX_HEALTH}"
+    rcol_width = WIDTH - len(name_display) - 1
+    print(name_display, health_display.rjust(rcol_width))
+
+
+def setup(pets):
+    """Takes list of pets and sets initial attributes"""
+    for pet in pets:
+        pet['health'] = MAX_HEALTH
+        # pet['pic'] = PICS[pet['species']]
+        pet['pic'] = PICS.get(pet['species'], "")
 
 # ### top-level game functions ###
 #
@@ -68,8 +86,15 @@ def intro(fighters):
 def fight(fighters):
     """Repeat rounds of the fight until one wins then
        Take a list of two PETs and return the winning PET"""
-    return {}
-
+    winner = None
+    while winner is None:
+        winner = random.choice(fighters)
+        print()
+        for combatant in fighters:
+            show(combatant)
+        print("-" * WIDTH, "\n")
+    return winner
+"""so yeah the while loop is basically the end of a round of battle"""
 
 def endgame(winner):
     """Takes a PET (winner) and announce that they won the fight"""
@@ -91,6 +116,7 @@ def main():
     """Main part for the Pypet Fight Game"""
     print("Gracias to the Blood&Thunderdome.")
     fighters = lotto()
+    setup(fighters)
     intro(fighters)
     winner = fight(fighters)
     endgame(winner)
