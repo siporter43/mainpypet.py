@@ -103,7 +103,7 @@ def lotto():
 #this is just the intro, providing names and stuff
 def intro(fighters):
     """    Takes a list of two PETs (fighters) and prints their details"""
-    print("\n Tonight for you filthy animal is the glorious battle of...\n")
+    print("\n Tonight for you filthy animals is the glorious battle of...\n")
     time.sleep(DELAY)
     header = f"***{fighters[0]['name']} -VS- {fighters[1]['name']}***"
     print(header.center(WIDTH), "\n\n")
