@@ -10,7 +10,7 @@ PETS = [
     {'name': "ScOWLy", 'species': "owl"},             # 0
     {'name': "Donkey Kong", 'species': "monkey"},     # 1
     {'name': "OYnkey", 'species': "pig"},             # 2
-    {'name': "Cathy", 'species': "cthulu"},           # 3
+    {'name': "Cathy", 'species': "cthulhu"},          # 3
     {'name': "StarFox 64", 'species': "fox"},         # 4
 ]
 

@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+#!/usr/bin/env python3
 PyPet Battle Game:
 * Two fighters are randomly chosen from a list of PETS, each starting with a
 health of 100
@@ -34,11 +34,29 @@ import time
 
 # ## Global Variables ########################################################
 
-DELAY = 1.5
+DELAY = 1
 
 WIDTH = 50 
 
 MAX_HEALTH = 100
+
+POWER = (10, 30)
+
+#a list of attacks for some fightin flavor
+
+FIGHTIN_WORDS = (
+    "punches through",
+    "lunges onto",
+    "hits the slam-a-jam on",
+    "does that thing where you rip off an arm to",
+    "emotionally cripples",
+    "hits em with some hot verses",
+    "removes the feet of",
+    "mutters passive agressively at",
+    "reveals the truth of the universe to",
+    "swan dives into",
+    "viciously cuddles",
+)
 
 
 # The convention is to name global variables using ALL_CAPS_WITH_UNDERSCORE
@@ -46,7 +64,8 @@ MAX_HEALTH = 100
 # GLOBAL_VARIABLE = 2
 
 
-# ## Functions ###############################################################
+# ## Functions #################################################y
+##############
 #pet functions: just some fncns that refer to pet stuff
 
 def show(pet):
@@ -61,8 +80,16 @@ def setup(pets):
     """Takes list of pets and sets initial attributes"""
     for pet in pets:
         pet['health'] = MAX_HEALTH
-        # pet['pic'] = PICS[pet['species']]
-        pet['pic'] = PICS.get(pet['species'], "")
+        pet['pic'] = PICS[pet['species']]
+
+# ###Game event fncns###
+
+def attack(foe):
+    """Inflict a random amount of damage, then return that value & attack used"""
+    act = random.choice(FIGHTIN_WORDS)
+    damage = random.randint(POWER[0], POWER[1])
+    foe['health'] -= damage
+    return damage, act
 
 # ### top-level game functions ###
 #
@@ -73,10 +100,10 @@ def lotto():
     #shuffle randomly re-orders the PETS list
     return[PETS[0], PETS[1]]
 
-
+#this is just the intro, providing names and stuff
 def intro(fighters):
     """    Takes a list of two PETs (fighters) and prints their details"""
-    print("\n Tonight for you chumps...\n")
+    print("\n Tonight for you filthy animal is the glorious battle of...\n")
     time.sleep(DELAY)
     header = f"***{fighters[0]['name']} -VS- {fighters[1]['name']}***"
     print(header.center(WIDTH), "\n\n")
@@ -87,17 +114,40 @@ def fight(fighters):
     """Repeat rounds of the fight until one wins then
        Take a list of two PETs and return the winning PET"""
     winner = None
+    current = 0
     while winner is None:
-        winner = random.choice(fighters)
+        attacker = fighters[current]
+        rival = fighters[not current]
+        input(f"\n{attacker['name']} fight>")
+        # the attack
+        damage, act = attack(rival)
+        #pause for dramatic effect and print attack deets
+        time.sleep(DELAY)
+        print(f"\n {attacker['name']} {act} {rival['name']}...\n")
+        #pause them show damage
+        time.sleep(DELAY)
+        print(f"-{damage} {rival['name']}".center(WIDTH), "\n")
+        time.sleep(DELAY)
+        #check for a loser
+        if rival['health'] <=0:
+            #doesn't allow hp to drop below 0
+            rival['health'] = 0
+            #set winner, this is last round
+            winner = attacker
         print()
         for combatant in fighters:
             show(combatant)
         print("-" * WIDTH, "\n")
+        current = not current 
     return winner
 """so yeah the while loop is basically the end of a round of battle"""
 
 def endgame(winner):
     """Takes a PET (winner) and announce that they won the fight"""
+    print()
+    print(f"{winner['name']} is the TRUE MANDALORE!".center(WIDTH), "\n")
+    print(winner['pic'].center(WIDTH), "\n")
+    print("-" * WIDTH, "\n")
 
 # The convention is to name functions, arguments, and local varibales using
 # lower_case_with_underscore
