@@ -1,6 +1,6 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-#!/usr/bin/env python3
 PyPet Battle Game:
 * Two fighters are randomly chosen from a list of PETS, each starting with a
 health of 100
