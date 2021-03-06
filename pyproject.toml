@@ -1,18 +1,24 @@
 [tool.poetry]
-name = "New Pypet"
+name = "project_outrun"
 version = "0.1.0"
 description = ""
 authors = ["siporter43 <67347341+siporter43@users.noreply.github.com>"]
 
+
 [tool.poetry.dependencies]
 python = "^3.8"
-requests = "^2.25.0"
+requests = "^2.25.1"
 
 [tool.poetry.dev-dependencies]
-ipython = "^7.19.0"
 pylint = "^2.6.0"
+pytest = "^5.2"
+ipython = "^7.19.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
+
+[tool.poetry.scripts]
+hello = "project_outrun.hello:hello"
+get_beer = "project_outrun.beer_exercise:main"
