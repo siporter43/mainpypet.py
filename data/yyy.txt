@@ -1,0 +1,7 @@
+ls ./Recipes/blueberry-muffins.md
+
+ls /Users/guest/Music
+
+ls ../letter.doc
+
+ls ~/Pictures

@@ -1,12 +1,12 @@
 
 # Functions
 def groceries():
-    fh = open("groceries.txt")
+    fh = open("data/groceries.txt")
     contents = fh.read()
     fh.close()
     print("Groceries")
     print("=========")
-    fh = open("groceries.txt")
+    fh = open("data/groceries.txt")
     for line in fh.readlines():
         print(line, end="")
     fh.close()
@@ -20,7 +20,7 @@ def mug_brownie():
     fh.close()
 
 def todo():
-    fh = open("todo.txt")
+    fh = open("data/todo.txt")
     for line in fh.readlines():
         print("*", line, end ="")
     fh.close()
@@ -32,13 +32,13 @@ def make_groceries():
         "dog food", 
         "My enemies"]
     
-    fh = open("groceries.txt", "w")
+    fh = open("data/groceries.txt", "w")
     for item in groceries:
         fh.write(f"- {item} \n")
     fh.close()
 
 def add_groceries():
-    fh = open("groceries.txt", "a")
+    fh = open("data/groceries.txt", "a")
     fh.write("boogers\n")
     fh.close()
 
