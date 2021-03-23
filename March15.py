@@ -35,4 +35,4 @@ def spite_words():
 # main()
 # greet()
 # reply()
-spite_words()
+# spite_words()
