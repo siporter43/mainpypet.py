@@ -24,11 +24,11 @@ Reminders:
 # [ ] Part 3: Search contacts
     # [x] 1. Now ask the user if they want to list, add, or search contacts.
     # [x] 2. If the user chooses search, then ask them what they want to search for.
-    # [ ] 3. Open the file and loop through each line. If the line contains the text that they entered, print the line.
+    # [x] 3. Open the file and loop through each line. If the line contains the text that they entered, print the line.
     #      Hint: use the in operator.
     # Bonus:
     # [ ] 4. If nothing was found, print a message that no matching contacts were found.
-    # [ ] 5. Make the search cases insensitive by changing both the user input and the line to lower case.
+    # [x] 5. Make the search cases insensitive by changing both the user input and the line to lower case.
 
     
 def contact_book(contact, phone_number):
@@ -46,9 +46,15 @@ def get_contacts():
     return contents
 
 def search_contacts():
-     """Plan is to have user input a name and then return a name or number...need to use the -in- """
-     answer = input("What do you want to search for: Name or Number")
-        
+    """Plan is to have user input text...need to use the -in- """
+    answer = input("What text do you want to search for?")
+    fh = open("data/contacts.txt")
+    for line in fh.readlines():
+        if answer.lower() in line.lower():
+            print(line, end="")
+    fh.close()
+
+
 def main():
     """ask for user input on action (add or print) then respond"""
     question = input("Wanna add, search, or print contact list (no answer shows the world)?: ")
@@ -59,10 +65,10 @@ def main():
     elif question == "print": 
         contacts = get_contacts()
         print(contacts)
-    else question == "search":
+    elif question == "search":
         search = search_contacts()
 
 # contact_book()
-# main()
+main()
 
 
