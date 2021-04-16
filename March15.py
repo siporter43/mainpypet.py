@@ -1,5 +1,6 @@
 
 
+# functions
 
 def main():
     fh = open("data/contacts.txt")
