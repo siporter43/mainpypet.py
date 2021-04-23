@@ -10,10 +10,32 @@ def main():
         if f.suffix == ".txt":
             print(f.name)
 
+def otra_dir():
+    path = Path("tests")
+    for f in path.iterdir():
+        print(f.name)
+
+    
 def temp_maker():
     path = Path("data")/"tmp"
     path.mkdir(exist_ok=True)
-    
+
+def new_maker():
+     path = Path.cwd()
+     path = path.parent / "project_trello" / "kim_gordon"
+     path.mkdir(exist_ok=True)
+     print(path)   
+
+# def far_breaker():
+
+
+def far_file():
+    path = Path.cwd()
+    band_path = path.parent / "project_trello" / "kim_gordon" 
+    file_path = band_path / "kissability"
+    file_path.touch()
+    print(file_path.absolute())
+
 def temp_breaker():
     path = Path("data")/"tmp"
     path.rmdir()
@@ -37,4 +59,10 @@ def empty_file_maker():
 
 # temp_breaker()
 
-empty_file_maker()
+# empty_file_maker()
+
+# otra_dir()
+
+# new_maker()
+
+far_file()
