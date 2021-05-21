@@ -43,7 +43,7 @@ def main():
 def del_firstd():
     path = Path("Xman_Xmas")
     path.rmdir()
-    print("Dawn has fell")
+    print("Dawn fell")
 
 def x_file():
     path = Path("data")/ "Xman_Xmas"

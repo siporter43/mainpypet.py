@@ -40,6 +40,25 @@ def del_bingo():
     path.rmdir()
     print("Kill it with fire")
 
+def create_flashcard():
+    path = Path("flashcards.csv")
+    path.mkdir(exist_ok=True)
+    print("You got your flashcard directory, broseph")
+
+def samp_flash():
+    path = Path("flashcards.csv")
+    new_file = path / "sample_1"
+    new_file.touch(exist_ok=True)
+    print("Success")
+
+def flash_instr():
+    path = Path("flashcards.csv")
+    start_file = path / "intro.py"
+    start_file.touch(exist_ok=True)
+    print("Let's get it started")
+    fh = open("flash_instr.py", "w")
+
+
 
 """script runner"""
 
@@ -49,6 +68,10 @@ def del_bingo():
 
 # new_data()
 
-del_tmp()
+# del_tmp()
 
 # del_bingo()
+
+# create_flashcard()
+
+samp_flash()
