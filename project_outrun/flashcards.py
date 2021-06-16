@@ -5,40 +5,26 @@
 # Directions
 
 """
+https://alissa-huskey.github.io/python-class/exercises/flashcards.html#part-9-start-the-play-function
 Part 1: Make CSV (filetype/space to keep it)
-    [x] Create a folder data/flashcards if it doesn’t already exist
-    [x] Make a csv file with flashcard data
-    [x] In the data/flashcards directory manually make file ending in .csv. For example paths.csv.
-    [x] Each line should be one card with the format: text for front, text for back.
-
 Part 2: Start flashcards.py (create workspace to create and call flashcards)
-    [x] write a main() function
-    [x] print any temporary debug message in it
-    [x] call it
-
 Part 3: Start load_csv() (create this new fncn)
-    load_csv()
-        [x] write a load_csv() function that takes one argument: path
-        [x] check to make sure the csv file exists. If not, print an error
-            message that includes the path then return
-        [x] print a temporary debug message: loading file: path
-    in main()
-        [x] make a Path object to your csv file
-        [x] call your load_csv() function, passing it your Path object as the
-            argument, and assign the returned value to a variable named cards
-
 Part 4: Read each line of the csv file
-    [x] open the csv file in read mode using the open() function
-    [x] use fh.readlines() to iterate through each line in the file
-    [x] for temporary debugging, print each line
-
 Part 5: Get the card data from the csv file
-    [ ] make an empty dict assigned to a variable named card
-    [ ] split each line on the "," using the .split() method and assign the result to a variable named row
-    [ ] check that there are two items in the row using the len() function. If not print an error message and return
-    [ ] assign card["front"] to the first item in the row, and card["back"] to the second
-    [ ] for temporary debugging, print the card dict
+Part 6: Return the card data to main()¶
+    Have load_csv() put all of the card dictionaries into one big cards list and return that to main().
+        in load_csv(), before the readlines() loop
+            [x] make an empty list assigned to a variable named cards
 
+        in load_csv(), at the end of the readlines() loop
+            [x] use the .append() method on the cards list with the argument card
+
+        in load_csv(), after the loop
+            [x] return cards
+
+        in main()
+            [x] if the cards list is falsy, return
+            [x] otherwise, print the cards list for temporary debugging
 """
 
 # imports
@@ -61,13 +47,21 @@ def load_csv(path):
     print(f"loading file: {path}")
     
     # this part is to open, read, and print the card info
+    cards = []
     fh = open(path)
     card_info = fh.readlines()
     for line in card_info:
+        named_card = {}
+        row = line.split(",")
+        named_card["front"] = row[0]
+        named_card["back"] = row[1]
+        if len(row) != 2:
+            print("errir, too many items")
+            return
+        cards.append(named_card)
         print(f"{line} \n")
     fh.close()
-
-    print(card_info)
+    return cards
 
 
 def main():
@@ -77,6 +71,10 @@ def main():
 
     cards = load_csv(path)
 
+    if cards == False:
+        return
+    else:
+        print(cards)    
     print("Call me Butter because I'm on a roll!")
 
 
