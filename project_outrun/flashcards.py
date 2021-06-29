@@ -77,10 +77,17 @@ def main():
         print(cards)    
     print("Call me Butter because I'm on a roll!")
 
+# below is just an attempt to create a file
 
+def swing_thing():
+    path = Path("June28.py")
+    print(f"Touching file {path}")
+    path.touch()
 
 # runner
 
-main()
 
+# main()
+
+swing_thing()
 # load_csv("paths.csv")
