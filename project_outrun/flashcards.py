@@ -14,7 +14,12 @@ Part 5: Get the card data from the csv file
 Part 6: Return the card data to main()¶
 Part 7: Remove extra whitespace
 Part 8: Skip the Header row
-
+Part 9: Start the play() fncn
+    play()
+        [x] write a play() function that takes one argument: cards
+        [x] for temporary debugging, print something from it
+    main()
+        [x] call play() passing it the list of cards
 """
 
 # imports
@@ -66,10 +71,12 @@ def main():
 
     cards = load_csv(path)
 
+    play(cards)
+
     if cards == False:
         return
-    else:
-        print(cards)    
+    # else:
+    #     print(cards)    
     print("Call me Butter because I'm on a roll!")
 
 
