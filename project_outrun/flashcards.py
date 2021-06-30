@@ -12,19 +12,9 @@ Part 3: Start load_csv() (create this new fncn)
 Part 4: Read each line of the csv file
 Part 5: Get the card data from the csv file
 Part 6: Return the card data to main()¶
-    Have load_csv() put all of the card dictionaries into one big cards list and return that to main().
-        in load_csv(), before the readlines() loop
-            [x] make an empty list assigned to a variable named cards
+Part 7: Remove extra whitespace
+Part 8: Skip the Header row
 
-        in load_csv(), at the end of the readlines() loop
-            [x] use the .append() method on the cards list with the argument card
-
-        in load_csv(), after the loop
-            [x] return cards
-
-        in main()
-            [x] if the cards list is falsy, return
-            [x] otherwise, print the cards list for temporary debugging
 """
 
 # imports
@@ -53,16 +43,21 @@ def load_csv(path):
     for line in card_info:
         named_card = {}
         row = line.split(",")
-        named_card["front"] = row[0]
-        named_card["back"] = row[1]
+        named_card["front"] = row[0].strip()
+        named_card["back"] = row[1].strip()
         if len(row) != 2:
             print("errir, too many items")
             return
+        if named_card["front"] == "front" and named_card["back"] == "back":
+            print("please save")
+            continue
         cards.append(named_card)
         print(f"{line} \n")
     fh.close()
     return cards
 
+def play(cards):
+    print("2 cool for skewl")
 
 def main():
     """this is the fncn to call the load_csv"""
@@ -77,17 +72,12 @@ def main():
         print(cards)    
     print("Call me Butter because I'm on a roll!")
 
-# below is just an attempt to create a file
 
-def swing_thing():
-    path = Path("June28.py")
-    print(f"Touching file {path}")
-    path.touch()
 
 # runner
 
 
-# main()
+main()
 
-swing_thing()
+
 # load_csv("paths.csv")
