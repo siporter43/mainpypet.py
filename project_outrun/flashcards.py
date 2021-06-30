@@ -70,13 +70,13 @@ def main():
     path = Path("data") / "flashcard_project" / "paths.csv"
 
     cards = load_csv(path)
-
-    play(cards)
-
     if cards == False:
         return
-    # else:
-    #     print(cards)    
+        # else:
+        #     print(cards)
+    play(cards)
+
+    
     print("Call me Butter because I'm on a roll!")
 
 
