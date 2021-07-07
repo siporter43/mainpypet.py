@@ -15,11 +15,16 @@ Part 6: Return the card data to main()¶
 Part 7: Remove extra whitespace
 Part 8: Skip the Header row
 Part 9: Start the play() fncn
-    play()
-        [x] write a play() function that takes one argument: cards
-        [x] for temporary debugging, print something from it
-    main()
-        [x] call play() passing it the list of cards
+Part 10: Go through each card in random order
+Part 11: Test the User
+    in play(), in the loop
+        [x] print card["front"]
+        [x] prompt the user for their answer using the input() function and
+            assign the result to a variable named answer
+        [x] check if the answer is the same as card["back"]
+            * [x] if so, print "CORRECT"
+            * [x] if not, print "INCORRECT", then cards["back"]
+        [x] call input() asking if the user wants to continue
 """
 
 # imports
@@ -54,14 +59,28 @@ def load_csv(path):
             print("errir, too many items")
             return
         if named_card["front"] == "front" and named_card["back"] == "back":
-            print("please save")
+            # print("please save")
             continue
         cards.append(named_card)
-        print(f"{line} \n")
+        # print(f"{line} \n")
     fh.close()
     return cards
 
 def play(cards):
+    """what is being done here is randomly drawing cards until the deck runs out"""
+    while len(cards) > 0:
+        card = random.choice(cards)
+        print(card["front"])
+        answer = input("What is the fncn to find this?")
+        if answer == card["back"]:
+            print("CORRECTAMUNDO")
+        else:
+            print("INCORRECTO")   
+        cards.remove(card)
+        keep_going = input("Do you want to continue?")
+        if keep_going != "Yes":
+            print("No thanks")
+            return
     print("2 cool for skewl")
 
 def main():
