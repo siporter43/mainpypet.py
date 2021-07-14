@@ -17,14 +17,20 @@ Part 8: Skip the Header row
 Part 9: Start the play() fncn
 Part 10: Go through each card in random order
 Part 11: Test the User
-    in play(), in the loop
-        [x] print card["front"]
-        [x] prompt the user for their answer using the input() function and
-            assign the result to a variable named answer
-        [x] check if the answer is the same as card["back"]
-            * [x] if so, print "CORRECT"
-            * [x] if not, print "INCORRECT", then cards["back"]
-        [x] call input() asking if the user wants to continue
+Part 12: Scorekeeping
+Part 13: Prettifying flashcards
+    throughout your file
+        [x] get rid of any debug print() statements
+    at the top of the file
+        [x] make a global variable WIDTH and set it to around 75
+    in play
+        [x] print a line to the beginning and end of each card
+        [x] add some extra newlines around various elements
+        [ ] center any string by calling the .center() method 
+        on it and pass the argument WIDTH. For example, the card["front"] line.
+        [ ] right align any string by calling the .rjust() method on it 
+            and passing the argument WIDTH. For example, the card x of y line.
+        [ ] print "score of total" after the end of each card
 """
 
 # imports
@@ -32,8 +38,12 @@ Part 11: Test the User
 from pathlib import Path
 import random
 from sys import stderr
+import textwrap
 
 # global variables
+
+WIDTH = 75
+
 
 # fncns
 
@@ -68,23 +78,34 @@ def load_csv(path):
 
 def play(cards):
     """what is being done here is randomly drawing cards until the deck runs out"""
+    score = 0
+    total = len(cards)
+    num = 1
+    
+    border = "=" * WIDTH
+    
     while len(cards) > 0:
+        print(f"\n You so far have {score} out of a possible {total} \n")
         card = random.choice(cards)
-        print(card["front"])
-        answer = input("What is the fncn to find this?")
+        print(border)
+        print("\n", card["front"], "\n")
+        answer= input("\n What is the fncn to find this? \n")
         if answer == card["back"]:
-            print("CORRECTAMUNDO")
+            print("\n CORRECTAMUNDO \n")
+            score += 1
         else:
-            print("INCORRECTO")   
+            print("\n INCORRECTO \n")   
         cards.remove(card)
-        keep_going = input("Do you want to continue?")
-        if keep_going != "Yes":
-            print("No thanks")
+        keep_going = input("\n Do you want to continue?\n")
+        if keep_going.lower() != "yes":
+            print("\n It's ok to be a quitter...\n")
             return
-    print("2 cool for skewl")
+        num += 1
+        print(border)
+    print(f"You have scored {score} out of {total}")
 
 def main():
-    """this is the fncn to call the load_csv"""
+    """this is the fncn to call the load_csv and play fncn"""
     # /Users/vision/code/project_outrun/data/flashcard_project/paths.csv
     path = Path("data") / "flashcard_project" / "paths.csv"
 
@@ -96,7 +117,6 @@ def main():
     play(cards)
 
     
-    print("Call me Butter because I'm on a roll!")
 
 
 
