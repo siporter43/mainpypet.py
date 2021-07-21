@@ -26,9 +26,9 @@ Part 13: Prettifying flashcards
     in play
         [x] print a line to the beginning and end of each card
         [x] add some extra newlines around various elements
-        [ ] center any string by calling the .center() method 
+        [x] center any string by calling the .center() method 
         on it and pass the argument WIDTH. For example, the card["front"] line.
-        [ ] right align any string by calling the .rjust() method on it 
+        [/] right align any string by calling the .rjust() method on it 
             and passing the argument WIDTH. For example, the card x of y line.
         [ ] print "score of total" after the end of each card
 """
@@ -81,28 +81,30 @@ def play(cards):
     score = 0
     total = len(cards)
     num = 1
-    
     border = "=" * WIDTH
     
     while len(cards) > 0:
-        print(f"\n You so far have {score} out of a possible {total} \n")
+        # print(f"\n You so far have {score} out of a possible {total} \n")
         card = random.choice(cards)
-        print(border)
-        print("\n", card["front"], "\n")
+        print("\n", border)
+        print(card["front"].center(WIDTH), "\n")
         answer= input("\n What is the fncn to find this? \n")
         if answer == card["back"]:
             print("\n CORRECTAMUNDO \n")
             score += 1
         else:
-            print("\n INCORRECTO \n")   
+            print("\n INCORRECTO \n")
+            print("\n The answer is actually", card["back"], "\n")  
+
         cards.remove(card)
+        print(f"Your score is {score} out of {num}")
         keep_going = input("\n Do you want to continue?\n")
         if keep_going.lower() != "yes":
-            print("\n It's ok to be a quitter...\n")
+            print("\n It's ok to be a quitter...sometimes...\n")
             return
         num += 1
-        print(border)
-    print(f"You have scored {score} out of {total}")
+        print(border, "\n")
+    print(f"You have scored {score} out of {total} today. Good luck in the future")
 
 def main():
     """this is the fncn to call the load_csv and play fncn"""
