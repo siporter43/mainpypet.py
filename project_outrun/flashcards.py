@@ -119,13 +119,18 @@ def main():
     play(cards)
 
     
-
+def new_file():
+    path = Path("July26.py")
+    print(f"We're creating the file {path} right now!")
+    path.touch()
 
 
 # runner
 
 
-main()
+# main()
+
+new_file()
 
 
 # load_csv("paths.csv")
