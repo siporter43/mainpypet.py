@@ -19,18 +19,34 @@ Part 10: Go through each card in random order
 Part 11: Test the User
 Part 12: Scorekeeping
 Part 13: Prettifying flashcards
-    throughout your file
-        [x] get rid of any debug print() statements
-    at the top of the file
-        [x] make a global variable WIDTH and set it to around 75
-    in play
-        [x] print a line to the beginning and end of each card
-        [x] add some extra newlines around various elements
-        [x] center any string by calling the .center() method 
-        on it and pass the argument WIDTH. For example, the card["front"] line.
-        [/] right align any string by calling the .rjust() method on it 
-            and passing the argument WIDTH. For example, the card x of y line.
-        [ ] print "score of total" after the end of each card
+Part 14: Wrap long questions
+Part 15: Add topics menu
+    at the top of your file
+        [ ]Make a list assigned to the global variable TOPICS
+    menu()
+        [x]write a menu() function
+        [x]assign TOPICS to a list of Path objects in your flashcards directory 
+        using the .iterdir() method
+        [ ]print an error message if no files are found in your flashcards directory
+        [ ]print the filename minus the .csv extension for each Path object 
+        in the TOPICS list, next to a number
+        [ ]print a special option "all" with a menu selection of 0
+        [ ]make a list assigned to the variable selection
+        [ ]get input from the user asking them to choose one or more topics 
+        and assign it to a variable choices
+        [ ]use the .split() method to split choices into multiple items on whitespace
+        [ ]iterate over each response and assign to num:
+            [ ]if the response is "0", return TOPICS
+            [ ]convert num to an int and subtract 1
+            [ ]get the item from TOPICS at the num index and append it to selection list
+        [ ]return the selection list
+    in main()
+        [ ]at the beginning of the function, make an empty cards list
+        [ ]call menu() and assign the returned value to the variable paths
+        [ ]remove the line where you previously defined the path to your .csv file
+        [ ]iterate over paths and assign each element to the variable path:
+            [ ]call load_csv() with the path argument
+            [ ]append the returned value to cards using the .extend() method
 """
 
 # imports
@@ -43,7 +59,9 @@ import textwrap
 # global variables
 
 WIDTH = 75
+MAXWIDTH = 60
 
+TOPICS = list
 
 # fncns
 
@@ -76,6 +94,18 @@ def load_csv(path):
     fh.close()
     return cards
 
+
+def menu():
+    path = Path("data")/"flashcard_project"
+    TOPICS = list(path.iterdir())
+
+
+    pass 
+
+
+
+
+
 def play(cards):
     """what is being done here is randomly drawing cards until the deck runs out"""
     score = 0
@@ -86,8 +116,11 @@ def play(cards):
     while len(cards) > 0:
         # print(f"\n You so far have {score} out of a possible {total} \n")
         card = random.choice(cards)
+        lines = textwrap.wrap(card["front"])
         print("\n", border)
-        print(card["front"].center(WIDTH), "\n")
+        for front_line in lines:
+            print(f"\n {front_line} \n")
+        # print(f"\n{lines} \n")
         answer= input("\n What is the fncn to find this? \n")
         if answer == card["back"]:
             print("\n CORRECTAMUNDO \n")
@@ -126,11 +159,11 @@ def new_file():
 
 
 # runner
-
+menu()
 
 # main()
 
-new_file()
+# new_file()
 
 
 # load_csv("paths.csv")
