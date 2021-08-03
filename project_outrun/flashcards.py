@@ -153,17 +153,17 @@ def main():
 
     
 def new_file():
-    path = Path("July26.py")
+    path = Path("Aug2.py")
     print(f"We're creating the file {path} right now!")
     path.touch()
 
 
 # runner
-menu()
+# menu()
 
 # main()
 
-# new_file()
+new_file()
 
 
 # load_csv("paths.csv")
