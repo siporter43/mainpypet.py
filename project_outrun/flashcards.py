@@ -27,19 +27,19 @@ Part 15: Add topics menu
         [x]write a menu() function
         [x]assign TOPICS to a list of Path objects in your flashcards directory 
         using the .iterdir() method
-        [ ]print an error message if no files are found in your flashcards directory
-        [ ]print the filename minus the .csv extension for each Path object 
+        [x]print an error message if no files are found in your flashcards directory
+        [x]print the filename minus the .csv extension for each Path object 
         in the TOPICS list, next to a number
-        [ ]print a special option "all" with a menu selection of 0
-        [ ]make a list assigned to the variable selection
-        [ ]get input from the user asking them to choose one or more topics 
+        [x]print a special option "all" with a menu selection of 0
+        [x]make a list assigned to the variable selection
+        [x]get input from the user asking them to choose one or more topics 
         and assign it to a variable choices
-        [ ]use the .split() method to split choices into multiple items on whitespace
-        [ ]iterate over each response and assign to num:
-            [ ]if the response is "0", return TOPICS
-            [ ]convert num to an int and subtract 1
-            [ ]get the item from TOPICS at the num index and append it to selection list
-        [ ]return the selection list
+        [x]use the .split() method to split choices into multiple items on whitespace
+        [x]iterate over each response and assign to choice:
+            [x]if the response is "0", return TOPICS
+            [x]convert choice to an int and subtract 1
+            [x]get the item from TOPICS at the choice index and append it to selection list
+        [x]return the selection list
     in main()
         [ ]at the beginning of the function, make an empty cards list
         [ ]call menu() and assign the returned value to the variable paths
@@ -96,11 +96,29 @@ def load_csv(path):
 
 
 def menu():
+    """the plan is to add a menu to pick a particular set to use"""
     path = Path("data")/"flashcard_project"
     TOPICS = list(path.iterdir())
+    """I want to make an if statement to give an error if there are no files in directory"""
+    if not TOPICS:
+        print("No files in this directory, bro-ski")
+    """now need to do enumerate Stem filenames"""
+    for i, item in enumerate(TOPICS):
+        print(i+1, item.stem)
+    """Now create a special opt for 'all' with menu=0"""
+    print(0,"All")
+    selection = []
+    """get input from user to choose one or more topics assign to var choices"""
+    choices = input("What topic would you like to work with today? ")
+    for choice in choices.split():
+        if choice == "0":
+            return TOPICS
+        choice = int(choice) -1 
+        selection.append(TOPICS[choice])
+    return selection
 
 
-    pass 
+ 
 
 
 
@@ -159,11 +177,11 @@ def new_file():
 
 
 # runner
-# menu()
+print(menu())
 
 # main()
 
-new_file()
+# new_file()
 
 
 # load_csv("paths.csv")
