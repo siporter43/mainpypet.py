@@ -21,40 +21,22 @@ Part 12: Scorekeeping
 Part 13: Prettifying flashcards
 Part 14: Wrap long questions
 Part 15: Add topics menu
+Part 16: Allow Answers with commas
     at the top of your file
-        [ ]Make a list assigned to the global variable TOPICS
-    menu()
-        [x]write a menu() function
-        [x]assign TOPICS to a list of Path objects in your flashcards directory 
-        using the .iterdir() method
-        [x]print an error message if no files are found in your flashcards directory
-        [x]print the filename minus the .csv extension for each Path object 
-        in the TOPICS list, next to a number
-        [x]print a special option "all" with a menu selection of 0
-        [x]make a list assigned to the variable selection
-        [x]get input from the user asking them to choose one or more topics 
-        and assign it to a variable choices
-        [x]use the .split() method to split choices into multiple items on whitespace
-        [x]iterate over each response and assign to choice:
-            [x]if the response is "0", return TOPICS
-            [x]convert choice to an int and subtract 1
-            [x]get the item from TOPICS at the choice index and append it to selection list
-        [x]return the selection list
-    in main()
-        [ ]at the beginning of the function, make an empty cards list
-        [ ]call menu() and assign the returned value to the variable paths
-        [ ]remove the line where you previously defined the path to your .csv file
-        [ ]iterate over paths and assign each element to the variable path:
-            [ ]call load_csv() with the path argument
-            [ ]append the returned value to cards using the .extend() method
+        [x] import the csv module
+    in load_csv() after opening your file
+        [x] Create a new csv reader like so:
+        [x] Instead of iterating over fh.readlines(), iterate over the reader object, which will yields a list of values in each row.        
 """
 
 # imports
 
+from os import pathsep
 from pathlib import Path
 import random
 from sys import stderr
 import textwrap
+import csv
 
 # global variables
 
@@ -75,9 +57,15 @@ def load_csv(path):
     print(f"loading file: {path}")
     
     # this part is to open, read, and print the card info
+    reader = csv.reader(
+    fh,
+    quotechar="'",
+    skipinitialspace=True,
+    escapechar="\\")
+
     cards = []
     fh = open(path)
-    card_info = fh.readlines()
+    card_info = reader
     for line in card_info:
         named_card = {}
         row = line.split(",")
@@ -92,7 +80,6 @@ def load_csv(path):
         cards.append(named_card)
         # print(f"{line} \n")
     fh.close()
-    return cards
 
 
 def menu():
@@ -119,9 +106,6 @@ def menu():
 
 
  
-
-
-
 
 
 def play(cards):
@@ -160,9 +144,13 @@ def play(cards):
 def main():
     """this is the fncn to call the load_csv and play fncn"""
     # /Users/vision/code/project_outrun/data/flashcard_project/paths.csv
-    path = Path("data") / "flashcard_project" / "paths.csv"
+    cards = []
+    paths = menu()
 
-    cards = load_csv(path)
+    for path in paths:
+        card_path = load_csv(path)
+        cards.extend(card_path)
+
     if cards == False:
         return
         # else:
@@ -170,16 +158,16 @@ def main():
     play(cards)
 
     
-def new_file():
-    path = Path("Aug2.py")
-    print(f"We're creating the file {path} right now!")
-    path.touch()
+# def new_file():
+#     path = Path("Aug2.py")
+#     print(f"We're creating the file {path} right now!")
+#     path.touch()
 
 
 # runner
-print(menu())
+# print(menu())
 
-# main()
+main()
 
 # new_file()
 
