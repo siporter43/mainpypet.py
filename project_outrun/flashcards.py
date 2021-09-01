@@ -29,8 +29,9 @@ Part 16: Allow Answers with commas
         [x] Instead of iterating over fh.readlines(), iterate over the reader object, 
         # which will yields a list of values in each row.        
     at the beginning of the loop:
-        [ ] check if row is empty, and if it is:
-            [ ] continue
+        [x] check if row is empty, and if it is:
+            [x] continue
+    31 Aug- I want to find a way to call multiple topics at once
 """
 
 # imports
