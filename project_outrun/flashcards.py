@@ -26,7 +26,11 @@ Part 16: Allow Answers with commas
         [x] import the csv module
     in load_csv() after opening your file
         [x] Create a new csv reader like so:
-        [x] Instead of iterating over fh.readlines(), iterate over the reader object, which will yields a list of values in each row.        
+        [x] Instead of iterating over fh.readlines(), iterate over the reader object, 
+        # which will yields a list of values in each row.        
+    at the beginning of the loop:
+        [ ] check if row is empty, and if it is:
+            [ ] continue
 """
 
 # imports
@@ -49,28 +53,28 @@ TOPICS = list
 
 def load_csv(path):
     """this fncn will check existence and read/print every line in the file"""
-    if path.exists():
-        print(f"File {path} already exists, bro")
-    else:
+    if not path.exists():
         print(f"{path} not here. Make it")
         return
     print(f"loading file: {path}")
     
     # this part is to open, read, and print the card info
+    cards = []
+    fh = open(path)
+    
     reader = csv.reader(
     fh,
     quotechar="'",
     skipinitialspace=True,
     escapechar="\\")
 
-    cards = []
-    fh = open(path)
     card_info = reader
-    for line in card_info:
+    for row in card_info:
         named_card = {}
-        row = line.split(",")
         named_card["front"] = row[0].strip()
         named_card["back"] = row[1].strip()
+        if row == []:
+            continue
         if len(row) != 2:
             print("errir, too many items")
             return
@@ -80,6 +84,7 @@ def load_csv(path):
         cards.append(named_card)
         # print(f"{line} \n")
     fh.close()
+    return cards
 
 
 def menu():
@@ -158,18 +163,18 @@ def main():
     play(cards)
 
     
-def new_file():
-    path = Path("Aug30.py")
-    print(f"We're creating the file {path} right now!")
-    path.touch()
+# def new_file():
+#     path = Path("Aug30.py")
+#     print(f"We're creating the file {path} right now!")
+#     path.touch()
 
 
 # runner
 # print(menu())
 
-# main()
+main()
 
-new_file()
+# new_file()
 
 
 # load_csv("paths.csv")
