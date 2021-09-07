@@ -164,18 +164,18 @@ def main():
     play(cards)
 
     
-# def new_file():
-#     path = Path("Aug30.py")
-#     print(f"We're creating the file {path} right now!")
-#     path.touch()
+def new_file():
+    path = Path("Sept6.py")
+    print(f"We're creating the file {path} right now!")
+    path.touch()
 
 
 # runner
 # print(menu())
 
-main()
+# main()
 
-# new_file()
+new_file()
 
 
 # load_csv("paths.csv")
