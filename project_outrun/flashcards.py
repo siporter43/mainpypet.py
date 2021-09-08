@@ -31,7 +31,7 @@ Part 16: Allow Answers with commas
     at the beginning of the loop:
         [x] check if row is empty, and if it is:
             [x] continue
-    31 Aug- I want to find a way to call multiple topics at once
+
 """
 
 # imports
@@ -71,14 +71,14 @@ def load_csv(path):
 
     card_info = reader
     for row in card_info:
-        named_card = {}
-        named_card["front"] = row[0].strip()
-        named_card["back"] = row[1].strip()
         if row == []:
             continue
         if len(row) != 2:
             print("errir, too many items")
             return
+        named_card = {}
+        named_card["front"] = row[0].strip()
+        named_card["back"] = row[1].strip()
         if named_card["front"] == "front" and named_card["back"] == "back":
             # print("please save")
             continue
@@ -173,9 +173,9 @@ def new_file():
 # runner
 # print(menu())
 
-# main()
+main()
 
-new_file()
+# new_file()
 
 
 # load_csv("paths.csv")
