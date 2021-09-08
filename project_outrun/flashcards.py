@@ -169,6 +169,7 @@ def new_file():
     print(f"We're creating the file {path} right now!")
     path.touch()
 
+# def name_change():
 
 # runner
 # print(menu())
