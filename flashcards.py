@@ -84,4 +84,4 @@ def flash_files():
 
 # flashcard_proj()
 
-flash_files()
+# flash_files()

@@ -165,7 +165,7 @@ def main():
 
     
 def new_file():
-    path = Path("Sept6.py")
+    path = Path("Sept14.py")
     print(f"We're creating the file {path} right now!")
     path.touch()
 
@@ -174,9 +174,9 @@ def new_file():
 # runner
 # print(menu())
 
-main()
+# main()
 
-# new_file()
+new_file()
 
 
 # load_csv("paths.csv")
