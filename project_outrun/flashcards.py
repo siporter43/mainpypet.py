@@ -21,17 +21,22 @@ Part 12: Scorekeeping
 Part 13: Prettifying flashcards
 Part 14: Wrap long questions
 Part 15: Add topics menu
-Part 16: Allow Answers with commas
-    at the top of your file
-        [x] import the csv module
-    in load_csv() after opening your file
-        [x] Create a new csv reader like so:
-        [x] Instead of iterating over fh.readlines(), iterate over the reader object, 
-        # which will yields a list of values in each row.        
-    at the beginning of the loop:
-        [x] check if row is empty, and if it is:
-            [x] continue
+Part 16: Allow Answers with commas at the top of your file
 
+[ ] Bonus: (from functions param live share)
+    [x] If you don't already have one, make a global variable DEBUG
+    [x] Write a function named: debug with one parameter: message
+    [ ] In the function, check if DEBUG is True (or truthy)
+        [x] If so, then print message
+        [x] Bonus: Print someting before it like "DEBUG: ", or "# ", so you can more
+            easily tell that it is a debug message
+    [x] Throughout your code, anywhere where you are printing something that is not
+        directly related to the flashcards program (ie. "loading {path}..."), call
+        your new debug function instead of printing it.
+    [ ] Also look for any comment out print statements, change print to debug, and uncomment them.
+    [ ] Perhaps add a few extra debug messages. For example, you might want to print
+        the function name at the beginning of each function.
+    [ ] Test with DEBUG set to True as well as with DEBUG set to False
 """
 
 # imports
@@ -50,14 +55,21 @@ MAXWIDTH = 60
 
 TOPICS = list
 
+DEBUG = True
+
 # fncns
+
+def debug(message):
+    if DEBUG == True:
+        print(f"DEBUG:{message}")
+
 
 def load_csv(path):
     """this fncn will check existence and read/print every line in the file"""
     if not path.exists():
         print(f"{path} not here. Make it")
         return
-    print(f"loading file: {path}")
+    debug(f"loading file: {path}")
     
     # this part is to open, read, and print the card info
     cards = []
@@ -80,7 +92,7 @@ def load_csv(path):
         named_card["front"] = row[0].strip()
         named_card["back"] = row[1].strip()
         if named_card["front"] == "front" and named_card["back"] == "back":
-            # print("please save")
+            debug("please save")
             continue
         cards.append(named_card)
         # print(f"{line} \n")
@@ -92,6 +104,7 @@ def menu():
     """the plan is to add a menu to pick a particular set to use"""
     path = Path("data")/"flashcard_project"
     TOPICS = list(path.iterdir())
+    debug("Topics are the where the wildcats are")
     """I want to make an if statement to give an error if there are no files in directory"""
     if not TOPICS:
         print("No files in this directory, bro-ski")
@@ -150,6 +163,7 @@ def play(cards):
 def main():
     """this is the fncn to call the load_csv and play fncn"""
     # /Users/vision/code/project_outrun/data/flashcard_project/paths.csv
+    debug("hello")
     cards = []
     paths = menu()
 
@@ -174,9 +188,9 @@ def new_file():
 # runner
 # print(menu())
 
-# main()
+main()
 
-new_file()
+# new_file()
 
 
 # load_csv("paths.csv")
