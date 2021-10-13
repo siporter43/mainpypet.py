@@ -26,8 +26,36 @@ Part 1.5
         [x]Have it print "Items for sale."
         [x]Iterate over the ITEMS dictionary. Print the name and description of each.
     B. in main()
-        []In between your if and else, add an elif clause that checks if reply is equal to shop.
-        []If so, call do_shop()
+        [x]In between your if and else, add an elif clause that checks if reply is equal to shop.
+        [x]If so, call do_shop()
+
+Part 2.1
+    A. Define do_go
+        [x]Define a do_go() function that takes one argument: args.
+        [x]In do_go() print Trying to go: args
+    B. In main(), in the while loop
+        [x]Strip the value returned from input() using the .strip() method.
+            This means if a user enters " quit" or "quit " the program still knows to call do_quit().
+        [x]Call .split() on reply and assign it to the variable args.
+        [x]Now the args variable will contain a list where each word is an item in the list.
+        [x]Use an if statement to check if args is falsy. If it is, continue.
+        [x]This means that if a user doesn’t enter anything, the program will ignore it and start the loop over.
+        [x]Remove the first item from args using the .pop() method and assign it to the variable command.
+        [x]Now command will contain the first word the user entered, and args will contain a list of the remaining commands. 
+            If there were no additional words, then args will be an empty list.
+        [x]In each clause of the if statement where we check the value of reply, change it to command.
+        [x]Add an elif clause that checks if command is equal to "g" or "go". If it is, call do_go() and pass args.
+
+Part 2.2 Create PLAYER and PLACES
+    A. At the top of your file
+        [x]Create a PLAYER dictionary with the key "place" and the value "home".
+    B. Create a PLACES dictionary where the key is a unique identifier for each place. 
+        [x]The value is a dictionary that with information about each place:
+            "key" – the same thing as the key
+            "name" – a short description
+            "description" – a longer description
+            "east", "west", "north", "south" – the key to the place in that
+        [x]Add two places, "home" and "town-square".
 """
 
 """Imports"""
@@ -41,14 +69,14 @@ DEBUG = True
 ITEMS = {
     "elixir": {
         "key": "elixir",
-        "name": "booze of healing",
-        "description": "some medicine mixed with everclear for taste",
+        "name": "Booze of healing",
+        "description": "Some medicine mixed with everclear for taste",
         "price": -10,
     },
     "club": {
         "key": "club",
         "name": "Club",
-        "description": "a big piece of something you can hit anyone with",
+        "description": "A big piece of something you can hit anyone with",
         "price": -20,
     },
     "flute": {
@@ -59,11 +87,30 @@ ITEMS = {
     },
     "poison": {
         "key": "poison",
-        "name": "poison",
+        "name": "Actual Poison",
         "description": "It's poison. Don't buy this",
         "price": -10
     },
 
+}
+
+PLAYER = {
+    "place": "home"
+}
+
+PLACE = {
+    "home": {
+        "key": "home",
+        "name": "Your Housey-House",
+        "description": "A wondrous chateau filled with cool stuff",
+        "east": "town-square",
+    },
+    "town-square": {
+        "key": "town-square",
+        "name": "Rad Center",
+        "description": "A wretched hive of scum and villainy... and commerce",
+        "west": "home",
+    }
 }
 """FNCNs"""
 
@@ -76,15 +123,29 @@ def do_shop():
     for item in ITEMS.values():
         print(f'Name:{item["name"]} \n Desc.: {item["description"]} \n Cost: {item["price"]}')
 
+def do_go(args):
+    print(f"Trying to go: {args}")
 
 
 def main():
-    print("Welcome!")
+    print("Welcome to the Adventure of a Slight-time!")
     while True:
-        reply = input(">")
+        reply = input(">").strip(" ")
         cancel = ["Quit", "quit", "q"]
-        if reply in cancel:
+        shop = ["shop", "Shop", "s"]
+        go = ["g", "go", "Go"]
+        args = reply.split()
+        if not args:
+            continue
+        command = args.pop(0)
+        debug(f"Command is {command}")
+        debug(f"Args is {args}")
+        if command in cancel:
             do_quit()
+        elif command in shop:
+            do_shop()
+        elif command in go:
+            do_go(args)
         else:
             print("No Such Command")
             continue
@@ -106,8 +167,8 @@ def do_quit():
 
 """Runner"""
 
-# main()
+main()
 
 # check_main()
 
-do_shop()
+# do_shop()
