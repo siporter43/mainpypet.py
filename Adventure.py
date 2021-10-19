@@ -61,6 +61,7 @@ Part 2.2 Create PLAYER and PLACES
 """Imports"""
 from pprint import pprint
 
+from pathlib import Path
 
 """Global Variables"""
 
@@ -163,12 +164,16 @@ def do_quit():
     print("Goodbye, nerd")
     quit()
 
-
+def new_file():
+    path = Path("Strings_Oct18.py")
+    print(f"Now creating {path} for our new lesson")
+    path.touch()
 
 """Runner"""
 
-main()
+# main()
 
 # check_main()
 
 # do_shop()
+new_file()
