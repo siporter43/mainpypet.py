@@ -83,8 +83,47 @@
         # [x] After assigning command, use debug() to print command and args.
         # [x] Call error() instead of print() for the message No such command.
     # F. Test debug messages
-        #  [ ] Test with DEBUG set to True as well as with DEBUG set to False
-
+        #  [x] Test with DEBUG set to True as well as with DEBUG set to False
+# 2.4 Fill in the GO
+    # A. in do_go(): ensure that the user typed a valid direction
+        # In this section we’ll be making sure there is at least one item in the args list 
+        #   and that it is a valid direction.
+        # [x] Check to see if args is falsy, if so:
+            # [x] Use the error() function to print a message saying: "Which way do you want to go?"
+            # [x] return
+    # [x] assign the first item of the args list to the variable direction and make it lowercase
+    # [x] Check if direction is one of "north", "south", "east", "west". If not:
+    # [x] Use the error() function to print a message saying: "Sorry, I don't know how to go: direction.")
+    #   [x] return
+    # B. (still) in do_go(): look up where the user is at
+        # In this section we’ll be using the PLAYER["place"] to get the current place 
+        #   from the PLACES dictionary, as shown here.
+        # [ ] get the value from PLAYER associated with the "place" key and assign it to old_name
+        # [ ] get the value from PLACES associated with old_name and assign it to old_place
+    # C. (still) in do_go(): look up what is in that direction from here
+        # In this section we’ll use the direction (ie. "east") the player wants to go 
+        #   to look up the name of the next place (if any) in the current place dictionary as seen here.
+        # [ ] use the .get() method on old_place to get the value associated with the direction key and 
+        #       assign it to new_name
+        # [ ] Check if new_name is falsy. If so:
+            # [ ] Use the error() function to print a message saying: "Sorry, you can't go direction from here.")
+            # [ ] return
+    # D. (still) in do_go(): figure out where we’re going
+        # Next we’ll look up the new place name from the current place dictionary 
+            # using the direction (ie. "east") to as a key. 
+            # If it’s missing, that means the player can’t go that direction from where they are.
+        # [ ] use the .get() method on PLACES to get the value associated 
+        #   with the new_name key and assign it to new_place
+        # [ ] Check if new_place is falsy. If so:
+            # [ ] Use the error() function to print a message saying: "Woops! 
+            #   The information about {new_name} seems to be missing."
+        # This will only happen if you made a mistake somewhere in your code. But just in case we do, 
+        # we want to have a clear error message so we can tell what went wrong.
+        # [ ] return
+    # E. (still) in do_go(): update the players place and describe it
+        # Finally, we can now update the PLAYER dictionary to point to the new place name and print the place information.
+        # [ ] In the PLAYER dictionary change value associated with the "player" key to new_name
+        # [ ] Print the values associated with the "name" and "description" keys of the new_place dictionary
 
 # Imports
 
@@ -178,7 +217,16 @@ def do_shop():
         print(f'Name:{item["name"]} \n Desc.: {item["description"]} \n Cost: {item["price"]}')
 
 def do_go(args):
+    direction = args
+    compass = ["north", "south", "east", "west"]
+    if direction not in compass:
+        error(f"Sorry, you're wrong. I have no idea how to go {direction} from here.")
+        return
+    if args == False:
+        error(fg.magenta(f"Which way does your heart guide you?"))
+        return
     debug(f"Trying to go: {args}")
+
 
 def main():
     print("Welcome to the Adventure of a Slight-time!")
