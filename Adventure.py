@@ -1,69 +1,105 @@
 """This is our cool new project in which we'll create a text based adventure game :)
             https://alissa-huskey.github.io/python-class/exercises/adventure.html"""
 
-"""
-# Part 1.2
-    # [x] Define a main() function, and have it print "Welcome!"
-    # [x] In main() make a while loop with the condition True.
-    # [x] In the loop, call the input() function, with the prompt "> ". 
-    # Assign the returned value to the variable reply.
-    # [x] Outside of main(): Use an if statement to check if __name__ == "__main__".
-    # [x] In the if statement, call main()
 
-Part 1.3
-    A. Make do_quit()
-        # [x] Make a do_quit() function.
-        # [x] In it, print "Goodbye."
-        # [x] Then call quit()
+# # Part 1.2
+#     # [x] Define a main() function, and have it print "Welcome!"
+#     # [x] In main() make a while loop with the condition True.
+#     # [x] In the loop, call the input() function, with the prompt "> ". 
+#     # Assign the returned value to the variable reply.
+#     # [x] Outside of main(): Use an if statement to check if __name__ == "__main__".
+#     # [x] In the if statement, call main()
 
-    B. In main(), in the while loop:
-        [x] After getting reply, check if reply is equal to q or quit.
-        [x] If so, call do_quit()
-        [x] Otherwise, print a messsage like: "No such command." then continue
-Part 1.5
-    A. Define a do_shop() function
-        [x]Define a do_shop() function.
-        [x]Have it print "Items for sale."
-        [x]Iterate over the ITEMS dictionary. Print the name and description of each.
-    B. in main()
-        [x]In between your if and else, add an elif clause that checks if reply is equal to shop.
-        [x]If so, call do_shop()
+# Part 1.3
+#     A. Make do_quit()
+#         # [x] Make a do_quit() function.
+#         # [x] In it, print "Goodbye."
+#         # [x] Then call quit()
 
-Part 2.1
-    A. Define do_go
-        [x]Define a do_go() function that takes one argument: args.
-        [x]In do_go() print Trying to go: args
-    B. In main(), in the while loop
-        [x]Strip the value returned from input() using the .strip() method.
-            This means if a user enters " quit" or "quit " the program still knows to call do_quit().
-        [x]Call .split() on reply and assign it to the variable args.
-        [x]Now the args variable will contain a list where each word is an item in the list.
-        [x]Use an if statement to check if args is falsy. If it is, continue.
-        [x]This means that if a user doesn’t enter anything, the program will ignore it and start the loop over.
-        [x]Remove the first item from args using the .pop() method and assign it to the variable command.
-        [x]Now command will contain the first word the user entered, and args will contain a list of the remaining commands. 
-            If there were no additional words, then args will be an empty list.
-        [x]In each clause of the if statement where we check the value of reply, change it to command.
-        [x]Add an elif clause that checks if command is equal to "g" or "go". If it is, call do_go() and pass args.
+#     B. In main(), in the while loop:
+#         [x] After getting reply, check if reply is equal to q or quit.
+#         [x] If so, call do_quit()
+#         [x] Otherwise, print a messsage like: "No such command." then continue
+# Part 1.5
+#     A. Define a do_shop() function
+#         [x]Define a do_shop() function.
+#         [x]Have it print "Items for sale."
+#         [x]Iterate over the ITEMS dictionary. Print the name and description of each.
+#     B. in main()
+#         [x]In between your if and else, add an elif clause that checks if reply is equal to shop.
+#         [x]If so, call do_shop()
 
-Part 2.2 Create PLAYER and PLACES
-    A. At the top of your file
-        [x]Create a PLAYER dictionary with the key "place" and the value "home".
-    B. Create a PLACES dictionary where the key is a unique identifier for each place. 
-        [x]The value is a dictionary that with information about each place:
-            "key" – the same thing as the key
-            "name" – a short description
-            "description" – a longer description
-            "east", "west", "north", "south" – the key to the place in that
-        [x]Add two places, "home" and "town-square".
-"""
+# Part 2.1
+#     A. Define do_go
+#         [x]Define a do_go() function that takes one argument: args.
+#         [x]In do_go() print Trying to go: args
+#     B. In main(), in the while loop
+#         [x]Strip the value returned from input() using the .strip() method.
+#             This means if a user enters " quit" or "quit " the program still knows to call do_quit().
+#         [x]Call .split() on reply and assign it to the variable args.
+#         [x]Now the args variable will contain a list where each word is an item in the list.
+#         [x]Use an if statement to check if args is falsy. If it is, continue.
+#         [x]This means that if a user doesn’t enter anything, the program will ignore it and start the loop over.
+#         [x]Remove the first item from args using the .pop() method and assign it to the variable command.
+#         [x]Now command will contain the first word the user entered, and args will contain a list of the remaining commands. 
+#             If there were no additional words, then args will be an empty list.
+#         [x]In each clause of the if statement where we check the value of reply, change it to command.
+#         [x]Add an elif clause that checks if command is equal to "g" or "go". If it is, call do_go() and pass args.
 
-"""Imports"""
+# Part 2.2 Create PLAYER and PLACES
+#     A. At the top of your file
+#         [x]Create a PLAYER dictionary with the key "place" and the value "home".
+#     B. Create a PLACES dictionary where the key is a unique identifier for each place. 
+#         [x]The value is a dictionary that with information about each place:
+#             "key" – the same thing as the key
+#             "name" – a short description
+#             "description" – a longer description
+#             "east", "west", "north", "south" – the key to the place in that
+#         [x]Add two places, "home" and "town-square".
+
+# Part 2.3 Write user message fncns
+    # A. At the top of the file
+        # [x] Import stderr from the sys module
+        # [x] Add a global variable DEBUG and set it to True
+    # B. Define debug() function
+        # [x] Write a function named: debug with one parameter: message
+        # [x] In the function, check if DEBUG is True (or truthy)
+        # [x] If so, then print message
+    # [x] Bonus: Print something before it like "DEBUG: ", or "# ", 
+    #           so you can more easily tell that it is a debug message
+    # C. define error() function
+        # [x] Write a function named: error with one parameter: message
+        # [?] Print message with something before it like "Error: ". 
+            # Send the keyword argument file with the value stderr to print it to stderr. 
+            # See CLI Lesson for more information.
+    # D. in do_go()
+        # [x] Call debug() instead of print() for the message Trying to go: args
+    # E. in main(), in the while loop
+        # [x] At the beginning of the while loop call debug() with the message 
+            # You are at: PLACE. Replace PLACE with the value in the PLAYER dictionary 
+            # associated with the "place" key
+            # This will print a debug message with your current location 
+            # every time the loop runs.
+        # [x] After assigning command, use debug() to print command and args.
+        # [x] Call error() instead of print() for the message No such command.
+    # F. Test debug messages
+        #  [ ] Test with DEBUG set to True as well as with DEBUG set to False
+
+
+# Imports
+
+from os import error
+
 from pprint import pprint
 
 from pathlib import Path
 
-"""Global Variables"""
+from sys import stderr
+
+from console import fg, bg, fx
+
+
+# Global Variables
 
 DEBUG = True
 
@@ -105,19 +141,36 @@ PLACE = {
         "name": "Your Housey-House",
         "description": "A wondrous chateau filled with cool stuff",
         "east": "town-square",
+        "north": "well"
     },
     "town-square": {
         "key": "town-square",
         "name": "Rad Center",
         "description": "A wretched hive of scum and villainy... and commerce",
         "west": "home",
+        "south": "cove"
+    },
+    "well":{
+        "key": "well",
+        "name": "The Well Well",
+        "description": "A Well Well full of Magic and Intrigue",
+        "south": "home"
+    },
+    "cove":{
+        "key": "cove",
+        "name": "Ducky Cover",
+        "description": "A cove full of ducks of all shapes and sizes...and tempers",
+        "north": "town-square"
     }
 }
-"""FNCNs"""
+# FNCNs
 
 def debug(message):
     if DEBUG == True:
-        print(f"DEBUG:{message}")
+        print(fx.dim(f"DEBUG:{message}"))
+
+def error(message):
+    print(bg.red(f"ERROR: {message}"))
 
 def do_shop():
     print("Items for Sale:")
@@ -125,12 +178,12 @@ def do_shop():
         print(f'Name:{item["name"]} \n Desc.: {item["description"]} \n Cost: {item["price"]}')
 
 def do_go(args):
-    print(f"Trying to go: {args}")
-
+    debug(f"Trying to go: {args}")
 
 def main():
     print("Welcome to the Adventure of a Slight-time!")
     while True:
+        debug(f'You are at:{PLAYER["place"]}')
         reply = input(">").strip(" ")
         cancel = ["Quit", "quit", "q"]
         shop = ["shop", "Shop", "s"]
@@ -148,7 +201,7 @@ def main():
         elif command in go:
             do_go(args)
         else:
-            print("No Such Command")
+            error("No Such Command")
             continue
     else:
         do_quit()
@@ -169,11 +222,10 @@ def new_file():
     print(f"Now creating {path} for our new lesson")
     path.touch()
 
-"""Runner"""
+# Runner
 
-# main()
+main()
 
 # check_main()
 
 # do_shop()
-new_file()
