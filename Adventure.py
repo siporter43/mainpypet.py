@@ -98,15 +98,15 @@
     # B. (still) in do_go(): look up where the user is at
         # In this section we’ll be using the PLAYER["place"] to get the current place 
         #   from the PLACES dictionary, as shown here.
-        # [ ] get the value from PLAYER associated with the "place" key and assign it to old_name
-        # [ ] get the value from PLACES associated with old_name and assign it to old_place
+        # [x] get the value from PLAYER associated with the "place" key and assign it to old_name
+        # [x] get the value from PLACES associated with old_name and assign it to old_place
     # C. (still) in do_go(): look up what is in that direction from here
         # In this section we’ll use the direction (ie. "east") the player wants to go 
         #   to look up the name of the next place (if any) in the current place dictionary as seen here.
-        # [ ] use the .get() method on old_place to get the value associated with the direction key and 
+        # [x] use the .get() method on old_place to get the value associated with the direction key and 
         #       assign it to new_name
-        # [ ] Check if new_name is falsy. If so:
-            # [ ] Use the error() function to print a message saying: "Sorry, you can't go direction from here.")
+        # [x] Check if new_name is falsy. If so:
+            # [] Use the error() function to print a message saying: "Sorry, you can't go direction from here.")
             # [ ] return
     # D. (still) in do_go(): figure out where we’re going
         # Next we’ll look up the new place name from the current place dictionary 
@@ -174,7 +174,7 @@ PLAYER = {
     "place": "home"
 }
 
-PLACE = {
+PLACES = {
     "home": {
         "key": "home",
         "name": "Your Housey-House",
@@ -217,15 +217,21 @@ def do_shop():
         print(f'Name:{item["name"]} \n Desc.: {item["description"]} \n Cost: {item["price"]}')
 
 def do_go(args):
-    direction = args
+    debug(f"Trying to go: {args}")
     compass = ["north", "south", "east", "west"]
+    old_name = PLAYER["place"]
+    old_place = PLACES[old_name]
+    if not args:
+        error(fg.cyan(f"Which way does your heart guide you?"))
+        return
+    direction = args[0].lower()
     if direction not in compass:
         error(f"Sorry, you're wrong. I have no idea how to go {direction} from here.")
         return
-    if args == False:
-        error(fg.magenta(f"Which way does your heart guide you?"))
+    new_name = old_place.get(direction)
+    if not new_name:
+        error(fx.frame("Sorry, you can't get there from here"))
         return
-    debug(f"Trying to go: {args}")
 
 
 def main():
