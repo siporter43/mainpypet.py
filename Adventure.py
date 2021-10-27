@@ -106,8 +106,8 @@
         # [x] use the .get() method on old_place to get the value associated with the direction key and 
         #       assign it to new_name
         # [x] Check if new_name is falsy. If so:
-            # [] Use the error() function to print a message saying: "Sorry, you can't go direction from here.")
-            # [ ] return
+            # [x] Use the error() function to print a message saying: "Sorry, you can't go direction from here.")
+            # [x] return
     # D. (still) in do_go(): figure out where we’re going
         # Next we’ll look up the new place name from the current place dictionary 
             # using the direction (ie. "east") to as a key. 
@@ -232,7 +232,7 @@ def do_go(args):
     if not new_name:
         error(fx.frame("Sorry, you can't get there from here"))
         return
-
+    new_place = new_name.get()
 
 def main():
     print("Welcome to the Adventure of a Slight-time!")
