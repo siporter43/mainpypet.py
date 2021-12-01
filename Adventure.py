@@ -21,7 +21,30 @@
     # E. (still) in do_go(): update the players place and describe it
         # Finally, we can now update the PLAYER dictionary to point to the new place name and print the place information.
         # [x] In the PLAYER dictionary change value associated with the "player" key to new_name
-        # [ ] Print the values associated with the "name" and "description" keys of the new_place dictionary
+        # [x] Print the values associated with the "name" and "description" keys of the new_place dictionary
+
+# Part 3: Prettify
+# 3.1 Text Wrapping
+#   A. at the top of your file
+    # [x] import the textwrap module
+    # [x] Add a global variable WIDTH and assign it the value 60 (or so, to taste).
+    # [x] Add a global variable MARGIN and assign the value of two or three spaces. 
+#   B. Make wrap()
+    # [x] Define a wrap() function which takes one argument text.
+    # [x] For now, just print MARGIN, then text in the function, so we can make sure it works.
+#   C. In do_go(), at the end
+    # [x] Instead of calling print() to print the place description, call the wrap() function you just wrote.
+#   D. In wrap()
+    # [ ] Remove the line where you previously printed text.
+    # [ ] Call the fill() function from the textwrap module and assign the result to the variable paragraph. 
+    #     Pass the arguments:
+        # text
+        # WIDTH
+        # keyword argument initial_indent with the value MARGIN
+        # keyword argument subsequent_indent with the value MARGIN
+    # [ ] Print paragraph.
+
+
 
 # Imports
 
@@ -35,8 +58,14 @@ from sys import stderr
 
 from console import fg, bg, fx
 
+import textwrap
+
 
 # Global Variables
+
+WIDTH = 60
+
+MARGIN = "  "
 
 DEBUG = True
 
@@ -119,6 +148,9 @@ def debug(message):
 def error(message):
     print(bg.red(f"ERROR: {message}"))
 
+def wrap(text):
+    textwrap.fill()
+
 def do_shop():
     print("Items for Sale:")
     for item in ITEMS.values():
@@ -145,8 +177,8 @@ def do_go(args):
         error(f"OOOPS, The info about {new_name} seems missing")
         return
     PLAYER["place"] = new_name
-    print(new_place["name"]) 
-    print(new_place["description"])
+    wrap(new_place["name"]) 
+    wrap(new_place["description"])
 
 
 
@@ -188,7 +220,7 @@ def do_quit():
     quit()
 
 def new_file():
-    path = Path("Strings_Oct18.py")
+    path = Path("Strings_Nov29.py")
     print(f"Now creating {path} for our new lesson")
     path.touch()
 
@@ -199,3 +231,6 @@ main()
 # check_main()
 
 # do_shop()
+
+# new_file()
+
