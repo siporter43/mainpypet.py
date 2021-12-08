@@ -35,14 +35,49 @@
 #   C. In do_go(), at the end
     # [x] Instead of calling print() to print the place description, call the wrap() function you just wrote.
 #   D. In wrap()
-    # [ ] Remove the line where you previously printed text.
-    # [ ] Call the fill() function from the textwrap module and assign the result to the variable paragraph. 
+    # [x] Remove the line where you previously printed text.
+    # [x] Call the fill() function from the textwrap module and assign the result to the variable paragraph. 
     #     Pass the arguments:
         # text
         # WIDTH
         # keyword argument initial_indent with the value MARGIN
         # keyword argument subsequent_indent with the value MARGIN
-    # [ ] Print paragraph.
+    # [x] Print paragraph.
+# 3.2 Colors
+ #  A. Install console
+        # [x] Follow the instructions here to install.
+        # [x] Import fg, bg, and fx from console.
+#   B. At the top of your file
+#       [x] Import fg, bg, and fx from console.
+#   C. In error(), debug(), other places…
+    #   [x]In the places you want it, such as in the error() and debug() function, add colors and styles to your taste.
+# 3.3: Headers and write fncns
+    #A. Define write() fncn 
+        #[x] Write a function named: write with one parameter: text
+        #[x] In the function: print MARGIN, followed by text. You can do this as an f-string or pass the keyword argument 
+        #sep with the value "" to avoid adding an extra space between them.
+    # B. Define header() function
+        # [x] Write a function named: header with one parameter: title
+        # [x] In the function:
+        # [x] Print a blank line.
+        # [x] Use the bold method on the fx object to make title bold. (Or whatever other styles/colors you want.)
+        # [x] Pass the result as an argument to write().
+        # [x] Print a blank line.
+    # C. In do_shop():
+        # [x] When printing the title ("Items for sale") call header() instead of print().
+        # [x] When printing the item name and description, 
+        #   change the call to the print() function to call the write() function instead.
+    # D. In do_quit():
+        # [x] When printing any message (like "Goodbye") call write() instad of print().
+    # E. In do_go():
+        # [x] When printing the place name call header() instead of print().
+# Part 4: Examine Items 
+# 4.1 Add New Items 
+    # A. In ITEMS:
+    #   [x] Add two items to the ITEMS dictionary with keys: "desk" and "book". Like previous items, 
+    #   each element one should be a dictionary with a "name" and "description"; unlike the others, these will have no "price".
+    # B. In do_shop(), in the for loop:
+    #   [ ] Before printing each item, check if the item has a "price" key. continue if not.
 
 
 
@@ -65,7 +100,7 @@ import textwrap
 
 WIDTH = 60
 
-MARGIN = "  "
+MARGIN = 4
 
 DEBUG = True
 
@@ -94,7 +129,18 @@ ITEMS = {
         "description": "It's poison. Don't buy this",
         "price": -10
     },
-
+    "book": {
+        "key": "book",
+        "name": "Books of Mild Secrets",
+        "description": "It's a pleather-bound book of pages from sages",
+        "price": ""
+    },
+    "desk": {
+        "key": "desk",
+        "name": "The Resolute Desk",
+        "description": "A heavy wooden desk with a clever book open on its surface",
+        "price": ""
+    }
 }
 
 PLAYER = {
@@ -143,18 +189,29 @@ PLACES = {
 
 def debug(message):
     if DEBUG == True:
-        print(fx.dim(f"DEBUG:{message}"))
+        print(fg.green(bg.black(f"DEBUG:{message}")))
 
 def error(message):
     print(bg.red(f"ERROR: {message}"))
 
 def wrap(text):
-    textwrap.fill()
+    margin = MARGIN * " "
+    paragraph = textwrap.fill(text, WIDTH, initial_indent= margin, subsequent_indent= margin)
+    print(paragraph)
+
+def write(text):
+    print(f"{MARGIN} {text}")
+
+def header(title):
+    print()
+    real_title = fg.lightblack(fx.bold(title))
+    write(real_title)
+    print()
 
 def do_shop():
-    print("Items for Sale:")
+    header("Items for Sale:")
     for item in ITEMS.values():
-        print(f'Name:{item["name"]} \n Desc.: {item["description"]} \n Cost: {item["price"]}')
+        write(f'Name:{item["name"]} \n Desc.: {item["description"]} \n Cost: {item["price"]}')
 
 def do_go(args):
     debug(f"Trying to go: {args}")
@@ -174,11 +231,11 @@ def do_go(args):
         return
     new_place = PLACES.get(new_name)
     if not new_place:
-        error(f"OOOPS, The info about {new_name} seems missing")
+        error(f"OOOPS, The info about {fg.lightpurple({new_name})} seems missing")
         return
     PLAYER["place"] = new_name
-    wrap(new_place["name"]) 
-    wrap(new_place["description"])
+    wrap(fx.bold(new_place["name"])) 
+    wrap(fx.encircle(new_place["description"]))
 
 
 
@@ -186,7 +243,7 @@ def main():
     print("Welcome to the Adventure of a Slight-time!")
     while True:
         debug(f'You are at:{PLAYER["place"]}')
-        reply = input(">").strip(" ")
+        reply = input(fg.yellow(">")).strip(" ")
         cancel = ["Quit", "quit", "q"]
         shop = ["shop", "Shop", "s"]
         go = ["g", "go", "Go"]
@@ -216,7 +273,7 @@ def check_main():
 
 
 def do_quit():
-    print("Goodbye, nerd")
+    write(bg.lightmagenta("Goodbye, nerd"))
     quit()
 
 def new_file():
