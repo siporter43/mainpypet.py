@@ -77,7 +77,42 @@
     #   [x] Add two items to the ITEMS dictionary with keys: "desk" and "book". Like previous items, 
     #   each element one should be a dictionary with a "name" and "description"; unlike the others, these will have no "price".
     # B. In do_shop(), in the for loop:
-    #   [ ] Before printing each item, check if the item has a "price" key. continue if not.
+    #   [x] Before printing each item, check if the item has a "price" key. continue if not.
+# 4.2 Add do_examine()
+    # A. Make do_examine():
+        # [x] Add a function do_examine() with one parameter: args.
+        # [x] Use the debug() function to print the value of args, something like:
+        # Trying to examine: args
+    # B. In main(), in the while loop:
+        # [x] Add an elif clause that checks if command is "x", "exam", or "examine".
+        #   If it is, call do_examine() and pass args.
+# 4.3 Finish Examine Command
+    # A. In do_examine() ensure args is not empty
+        # [ ] Check to see if args is falsy, if so:
+        # [ ] Use the error() function to print a message saying: "What do you want to examine?"
+        # [ ] return
+    # B. Still in do_examine(): get the current place
+        # [ ] get the value from PLAYER associated with the "place" key and assign it to place_name
+        # [ ] get the value from PLACES associated with place_name and assign it to place
+    # C. Still in do_examine(): check the name
+        # [ ] assign the first element from the args list to the variable name and make it lowercase
+        # [ ] check if name is in the items list by:
+        # [ ] use an if statement with the condition:
+        # [ ] check if name is not in the list returned by .get()
+        # [ ] use the .get() method on place to get the "items" list and pass
+        # [ ] if the above condition is met:
+        # [ ] print an error message like: "Sorry, I don't know what this is: name."
+        # [ ] return
+        # [ ] Check if name is a key in the ITEMS dictionary, if not:
+        # [ ] Print an error message like:
+        # "Woops! The information about name seems to be missing."
+        # This will only happen if you made a mistake somewhere in your code. But just in case we do, 
+        #     we want to have a clear error message so we can tell what went wrong.
+    # D. Still in do_examine(): get and print the item info
+        # [ ] Get the value from the ITEMS dictionary associated with the 
+        #     name key and assign it to the variable item
+        # [ ] Using the header() funciton print the item name
+        # [ ] Using the wrap() function print the item description
 
 
 
@@ -200,7 +235,7 @@ def wrap(text):
     print(paragraph)
 
 def write(text):
-    print(f"{MARGIN} {text}")
+    print(MARGIN * " ", text, sep="")
 
 def header(title):
     print()
@@ -208,9 +243,15 @@ def header(title):
     write(real_title)
     print()
 
+def do_examine(args):
+    debug(f"Trying to examine: {args}")
+
+
 def do_shop():
     header("Items for Sale:")
     for item in ITEMS.values():
+        if not item["price"]:
+            continue
         write(f'Name:{item["name"]} \n Desc.: {item["description"]} \n Cost: {item["price"]}')
 
 def do_go(args):
@@ -247,6 +288,7 @@ def main():
         cancel = ["Quit", "quit", "q"]
         shop = ["shop", "Shop", "s"]
         go = ["g", "go", "Go"]
+        examine = ["x", "exam", "examine", "Examine"]
         args = reply.split()
         if not args:
             continue
@@ -259,6 +301,8 @@ def main():
             do_shop()
         elif command in go:
             do_go(args)
+        elif command in examine:
+            do_examine(args)
         else:
             error("No Such Command")
             continue
@@ -284,6 +328,8 @@ def new_file():
 # Runner
 
 main()
+
+# do_examine(["cat"])
 
 # check_main()
 
