@@ -7,54 +7,33 @@
 # [x]     3.1 Text Wrapping
 # [x]     3.2 Colors
 # [x]     3.3: Headers and write fncns
-# [ ] Part 4: Examine Items 
-#     [x] 4.1 Add New Items 
-#             [x] A. In ITEMS:
-#                 [x] Add two items to the ITEMS dictionary with keys: "desk" and "book". Like previous items, 
-#                     each element one should be a dictionary with a "name" and "description"; unlike the others, these will have no "price".
-#             [x] B. In do_shop(), in the for loop:
-#                    [x] Before printing each item, check if the item has a "price" key. continue if not.
+# [x] Part 4: Examine Items 
+#     [x] 4.1 Add New Items
 #     [x] 4.2 Add do_examine()
-#             [x] A. Make do_examine():
-#                 [x] Add a function do_examine() with one parameter: args.
-#                 [x] Use the debug() function to print the value of args, something like:
-#                     Trying to examine: args
-#             [x] B. In main(), in the while loop:
-#                [x] Add an elif clause that checks if command is "x", "exam", or "examine".
-#           If it is, call do_examine() and pass args.
-#      [ ] 4.3 Finish Examine Command
-#              [x] A. In do_examine() ensure args is not empty
-#                 [x] Check to see if args is falsy, if so:
-#                 [x] Use the error() function to print a message saying: "What do you want to examine?"
-#                 [x] return
-#              [x] B. Still in do_examine(): get the current place
-#                     [x] get the value from PLAYER associated with the "place"
-#                         key and assign it to place_name
-#                     [x] get the value from PLACES associated with place_name
-#                         and assign it to place
-#              [x] C. Still in do_examine(): check the name
-#                     [x] assign the first element from the args list to the
-#                         variable name and make it lowercase
-#                     [x] check if name is in the items list by:
-#                     [x] use an if statement with the condition:
-#                         [x] check if name is not in the list returned by .get()
-#                         [x] use the .get() method on place to get the "items"
-#                             list and pass
-#                         [x] if the above condition is met:
-#                             [x] print an error message like: "Sorry, I don't
-#                                 know what this is: name."
-#                             [x] return
-#                     [ ] Check if name is a key in the ITEMS dictionary, if not:
-#                         [ ] Print an error message like:
-#                                 "Woops! The information about name seems to be missing."
-#                             This will only happen if you made a mistake somewhere in your code. But just in case we do, 
-#                             we want to have a clear error message so we can tell what went wrong.
-#              [ ] D. Still in do_examine(): get and print the item info
-#                     [ ] Get the value from the ITEMS dictionary associated with the 
-#                         name key and assign it to the variable item
-#                     [ ] Using the header() funciton print the item name
-#                     [ ] Using the wrap() function print the item description
+#     [x] 4.3 Finish Examine Command
+# [] Part 5: Look Around
+#     [x] 5.1: Add Command
+    #       A: Define a do_look() function
+    #           [x] Define a do_look() function.
+    #           [x] In it, use the debug() function to print something like "Trying to look around.".
+    #       B: in main(), in the while loop
+    #           [x] Add an elif that checks if command is "l" or "look".
+    #           [x] if so, call do_look()
+#    [x] 5.2: Print place name and desc.
+#           A: In do_look(): look up and print the current place
+#    [] 5.3: Print the place items
+            # A: At the end of do_look
+#                 [ ] Using the .get() method, get the value from place associated with the items dictionary. Use a default value of [] and assign it to the variable items.
 
+                # [ ] If items is truthy:
+
+                # [ ] Make an empty list assigned to the variable names
+
+                # [ ] Iterate over the items list using the variable name key for each item. For each item:
+
+                # [ ] Get the value from ITEMS associated with the key key and assign it to the variable item
+
+                # [ ] Append the value associated with the "name" key from the items dictionary to the names list
 
 
 # Imports
@@ -125,9 +104,9 @@ PLAYER = {
 
 #  MAP of PLACES:
 #  
-#               well
-#                |
-#               home  -- town square
+#               well  ---   market
+#                |            |
+#               home -- town square
 #                           |
 #                           cove
 # 
@@ -147,13 +126,23 @@ PLACES = {
         "name": "Rad Center",
         "description": "A wretched hive of scum and villainy... and commerce",
         "west": "home",
+        "north": "market",
         "south": "cove",
+    },
+    "market": {
+        "key": "market",
+        "name": "Magique Market",
+        "description": "It's the place to buy the things",
+        "west": "well",
+        "south": "town square",
+        "items": ["elixir", "club", "flute", "poison"]
     },
     "well":{
         "key": "well",
         "name": "The Well Well",
         "description": "A Well Well full of Magic and Intrigue",
-        "south": "home"
+        "south": "home",
+        "east": "market"
     },
     "cove":{
         "key": "cove",
@@ -197,7 +186,20 @@ def do_examine(args):
     if name not in items:
         error(f"Sorry, idk what this is: {name}")
         return
-    debug("Hello Alissa-Monster. AHHHHHHHHHH")
+    if name not in ITEMS:
+        error(f"Welp! The info about {name} isn't here, my dear.")
+        return
+    item = ITEMS[name]
+    header(item["name"])
+    wrap(item["description"])
+
+def do_look():
+    place_name = PLAYER["place"]
+    place = PLACES[place_name]
+    header(place["name"])
+    wrap(place_name["description"])
+    debug("Trying to look around...")
+
 
 def do_shop():
     header("Items for Sale:")
@@ -241,6 +243,7 @@ def main():
         shop = ["shop", "Shop", "s"]
         go = ["g", "go", "Go"]
         examine = ["x", "exam", "examine", "Examine"]
+        look = ["l", "Look", "look"]
         args = reply.split()
         if not args:
             continue
@@ -255,6 +258,8 @@ def main():
             do_go(args)
         elif command in examine:
             do_examine(args)
+        elif command in look:
+            do_look()
         else:
             error("No Such Command")
             continue
