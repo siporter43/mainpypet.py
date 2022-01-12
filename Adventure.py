@@ -21,19 +21,14 @@
     #           [x] if so, call do_look()
 #    [x] 5.2: Print place name and desc.
 #           A: In do_look(): look up and print the current place
-#    [] 5.3: Print the place items
+#    [x] 5.3: Print the place items
             # A: At the end of do_look
-#                 [ ] Using the .get() method, get the value from place associated with the items dictionary. Use a default value of [] and assign it to the variable items.
-
-                # [ ] If items is truthy:
-
-                # [ ] Make an empty list assigned to the variable names
-
-                # [ ] Iterate over the items list using the variable name key for each item. For each item:
-
-                # [ ] Get the value from ITEMS associated with the key key and assign it to the variable item
-
-                # [ ] Append the value associated with the "name" key from the items dictionary to the names list
+#                 [x] Using the .get() method, get the value from place associated with the items dictionary. Use a default value of [] and assign it to the variable items.
+                # [x] If items is truthy:
+                    # [ ] Make an empty list assigned to the variable names
+                    # [ ] Iterate over the items list using the variable name key for each item. For each item:
+                    # [ ] Get the value from ITEMS associated with the key key and assign it to the variable item
+                    # [ ] Append the value associated with the "name" key from the items dictionary to the names list
 
 
 # Imports
@@ -197,9 +192,14 @@ def do_look():
     place_name = PLAYER["place"]
     place = PLACES[place_name]
     header(place["name"])
-    wrap(place_name["description"])
+    wrap(place["description"])
     debug("Trying to look around...")
-
+    items = place.get("items", [])
+    names = []
+    for key in items:
+        item = ITEMS[key]
+        names.append(item["name"])
+    debug(names)        
 
 def do_shop():
     header("Items for Sale:")
