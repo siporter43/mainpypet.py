@@ -278,13 +278,13 @@ def do_quit():
     quit()
 
 def new_file():
-    path = Path("Strings_Nov29.py")
+    path = Path("DotStrings_Jan17.py")
     print(f"Now creating {path} for our new lesson")
     path.touch()
 
 # Runner
 
-main()
+# main()
 
 # do_examine(["cat"])
 
@@ -292,5 +292,5 @@ main()
 
 # do_shop()
 
-# new_file()
+new_file()
 
