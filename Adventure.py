@@ -13,23 +13,17 @@
 #     [x] 4.3 Finish Examine Command
 # [] Part 5: Look Around
 #     [x] 5.1: Add Command
-    #       A: Define a do_look() function
-    #           [x] Define a do_look() function.
-    #           [x] In it, use the debug() function to print something like "Trying to look around.".
-    #       B: in main(), in the while loop
-    #           [x] Add an elif that checks if command is "l" or "look".
-    #           [x] if so, call do_look()
 #    [x] 5.2: Print place name and desc.
-#           A: In do_look(): look up and print the current place
 #    [x] 5.3: Print the place items
-            # A: At the end of do_look
-#                 [x] Using the .get() method, get the value from place associated with the items dictionary. Use a default value of [] and assign it to the variable items.
-                # [x] If items is truthy:
-                    # [ ] Make an empty list assigned to the variable names
-                    # [ ] Iterate over the items list using the variable name key for each item. For each item:
-                    # [ ] Get the value from ITEMS associated with the key key and assign it to the variable item
-                    # [ ] Append the value associated with the "name" key from the items dictionary to the names list
-
+#    [ ] 5.4: Print the nearby places
+            # A: at the end of do_look()
+            #     [ ] print a blank line
+            #     [ ] Use a for loop to iterate over a list: "north", "east", "south", and "west" 
+            #           using the variable name direction. For each one:
+            #     [ ] Get the value associated with the direction key from the place dictionary and assign it to the variable name.
+            #     [ ] If name is falsy, then continue
+            #     [ ] Get the place dictionary from PLACES associated with the name key and assign it to destination.
+            #     [ ] Use the write() function to print: "To the direction is name.". Get name from the destination dictionary.
 
 # Imports
 
@@ -196,10 +190,26 @@ def do_look():
     debug("Trying to look around...")
     items = place.get("items", [])
     names = []
-    for key in items:
-        item = ITEMS[key]
-        names.append(item["name"])
+    if items:
+        for key in items:
+            item = ITEMS.get(key)
+            names.append(item["name"])
+        last = names.pop()
+        text = ", ".join(names)
+        if text:
+            text += " and "
+        text += last
+        print()
+        write(f"You see {text}.\n")
     debug(names)        
+    for direction in ["north", "south", "east", "west"]:
+        name = place.get(direction)
+        if not name:
+            continue
+        destination = PLACES[name]
+        write(f"To the {direction} is: {destination['name']}.")
+
+
 
 def do_shop():
     header("Items for Sale:")
@@ -284,7 +294,7 @@ def new_file():
 
 # Runner
 
-# main()
+main()
 
 # do_examine(["cat"])
 
@@ -292,5 +302,5 @@ def new_file():
 
 # do_shop()
 
-new_file()
+# new_file()
 
