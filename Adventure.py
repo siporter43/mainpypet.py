@@ -11,22 +11,42 @@
 #     [x] 4.1 Add New Items
 #     [x] 4.2 Add do_examine()
 #     [x] 4.3 Finish Examine Command
-# [] Part 5: Look Around
-#     [x] 5.1: Add Command
+# [x] Part 5: Look Around
+#    [x] 5.1: Add Command
 #    [x] 5.2: Print place name and desc.
 #    [x] 5.3: Print the place items
-#    [ ] 5.4: Print the nearby places
-            # A: at the end of do_look()
-            #     [ ] print a blank line
-            #     [ ] Use a for loop to iterate over a list: "north", "east", "south", and "west" 
-            #           using the variable name direction. For each one:
-            #     [ ] Get the value associated with the direction key from the place dictionary and assign it to the variable name.
-            #     [ ] If name is falsy, then continue
-            #     [ ] Get the place dictionary from PLACES associated with the name key and assign it to destination.
-            #     [ ] Use the write() function to print: "To the direction is name.". Get name from the destination dictionary.
+#    [x] 5.4: Print the nearby places
+# [] Part 6: Take Things
+#       [x] 6.1: Add Command
+#       [] 6.2: Validate Item
+        # A: in ITEMS
+        # [x] For any item you wish for the player to be able to take, add "can_take": True to the items dictionary.
+        # B: in do_take(): make sure the item is valid in the current place
+        # [x] Check to see if args is falsy, if so:
+        # [x] get the value from PLAYER associated with the "place" key and assign it to place_name
+        # [x] get the value from PLACES associated with place_name and assign it to place
+        # [x] assign the first item of the args list to the variable name and make it lowercase
+        # [ ] Get the list of items in the place dictionary using .get() with a default value of []. 
+        # Check to see if name is in the list. If not:
+        # [x] Print an error message like:
+        # "Sorry, I don't see a name here."
+        # [x] return
+        # C: still in do_take(): make sure the item is takable
+        # [ ] Using .get(), get the value from ITEMS associated with the name key and assign it to the variable item.
+        # [ ] If item is falsy,
+        # [ ] Print an error message like:
+        # "Woops! The information about name!r seems to be missing."
+        # [ ] return
+        # [ ] Using .get(), get the value from item associated with the "can_take" key. Check to see if it is falsy. 
+        # If so:
+        # [ ] Use wrap() to print a message like:
+        # "You try to pick up item[‘name’], but you find you aren't able to lift it."
+        # [ ] return
+
 
 # Imports
 
+from inspect import ArgSpec
 from os import error
 
 from pprint import pprint
@@ -38,6 +58,8 @@ from sys import stderr
 from console import fg, bg, fx
 
 import textwrap
+
+from pytest import Item
 
 
 # Global Variables
@@ -77,13 +99,15 @@ ITEMS = {
         "key": "book",
         "name": "Books of Mild Secrets",
         "description": "It's a pleather-bound book of pages from sages",
-        "price": ""
+        "price": "",
+        "can_take": True
     },
     "desk": {
         "key": "desk",
         "name": "The Resolute Desk",
         "description": "A heavy wooden desk with a clever book open on its surface",
-        "price": ""
+        "price": "",
+        "can_take": True
     }
 }
 
@@ -152,7 +176,7 @@ def error(message):
 def wrap(text):
     margin = MARGIN * " "
     paragraph = textwrap.fill(text, WIDTH, initial_indent= margin, subsequent_indent= margin)
-    print(paragraph)
+    print(f"{paragraph} \n")
 
 def write(text):
     print(MARGIN * " ", text, sep="")
@@ -207,7 +231,22 @@ def do_look():
         if not name:
             continue
         destination = PLACES[name]
-        write(f"To the {direction} is: {destination['name']}.")
+        write(f"\n To the {direction} is: {destination['name']}. \n")
+
+def do_take(args):
+    place_name = PLAYER["place"]
+    place = PLACES[place_name]
+    if not args:
+        error("Which way do you want to go with all this?")
+        return
+    name = args[0].lower()
+    item = ITEMS.get(name)
+    debug(f"Trying to take: {name}")
+    if name not in place.get(items, []):
+        error(f"I don't see {name} here, you fool of a Took!")
+        return
+    if not item:
+        error(f"Welp! The info about {name} is missing or something...")
 
 
 
@@ -254,6 +293,7 @@ def main():
         go = ["g", "go", "Go"]
         examine = ["x", "exam", "examine", "Examine"]
         look = ["l", "Look", "look"]
+        take = ["t", "take", "grab"]
         args = reply.split()
         if not args:
             continue
@@ -270,6 +310,8 @@ def main():
             do_examine(args)
         elif command in look:
             do_look()
+        elif command in take:
+            do_take(args)
         else:
             error("No Such Command")
             continue
@@ -288,7 +330,7 @@ def do_quit():
     quit()
 
 def new_file():
-    path = Path("DotStrings_Jan17.py")
+    path = Path("ProblemSol_Jan24.py")
     print(f"Now creating {path} for our new lesson")
     path.touch()
 
