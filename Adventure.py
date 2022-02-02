@@ -16,32 +16,26 @@
 #    [x] 5.2: Print place name and desc.
 #    [x] 5.3: Print the place items
 #    [x] 5.4: Print the nearby places
-# [] Part 6: Take Things
+# [x] Part 6: Take Things
 #       [x] 6.1: Add Command
-#       [] 6.2: Validate Item
-        # A: in ITEMS
-        # [x] For any item you wish for the player to be able to take, add "can_take": True to the items dictionary.
-        # B: in do_take(): make sure the item is valid in the current place
-        # [x] Check to see if args is falsy, if so:
-        # [x] get the value from PLAYER associated with the "place" key and assign it to place_name
-        # [x] get the value from PLACES associated with place_name and assign it to place
-        # [x] assign the first item of the args list to the variable name and make it lowercase
-        # [ ] Get the list of items in the place dictionary using .get() with a default value of []. 
-        # Check to see if name is in the list. If not:
-        # [x] Print an error message like:
-        # "Sorry, I don't see a name here."
-        # [x] return
-        # C: still in do_take(): make sure the item is takable
-        # [ ] Using .get(), get the value from ITEMS associated with the name key and assign it to the variable item.
-        # [ ] If item is falsy,
-        # [ ] Print an error message like:
-        # "Woops! The information about name!r seems to be missing."
-        # [ ] return
-        # [ ] Using .get(), get the value from item associated with the "can_take" key. Check to see if it is falsy. 
-        # If so:
-        # [ ] Use wrap() to print a message like:
-        # "You try to pick up item[‘name’], but you find you aren't able to lift it."
-        # [ ] return
+#       [x] 6.2: Validate Item
+#       [x] 6.3: Take it
+#       [x] 6.4: Examine Inventory
+# [] Part 7: Show Inventory
+    # [x] 7.1: Add command
+    # [] 7.2: Print Inventory
+    #        A: in do_inventory()
+            # [ ] Use the header() function to print "Inventory"
+            # [ ] If PLAYER["inventory"] is falsy:
+            # [ ] use the write() function to print "Empty."
+            # [ ] Iterate over the results of .items() on PLAYER["inventory"] using the variables name and qty.
+            # [ ] Get the value associated with the name key from ITEMS and assign it to item.
+            # [ ] Use the write() function to print the qty and item["name"]
+            # [ ] Print a blank line
+
+
+
+
 
 
 # Imports
@@ -107,12 +101,13 @@ ITEMS = {
         "name": "The Resolute Desk",
         "description": "A heavy wooden desk with a clever book open on its surface",
         "price": "",
-        "can_take": True
+        "can_take": False
     }
 }
 
 PLAYER = {
-    "place": "home"
+    "place": "home",
+    "inventory": {}
 }
 
 #  MAP of PLACES:
@@ -196,7 +191,7 @@ def do_examine(args):
         return
     name = args[0].lower()
     items = place.get("items", [])
-    if name not in items:
+    if name not in items or name not in PLAYER["inventory"]:
         error(f"Sorry, idk what this is: {name}")
         return
     if name not in ITEMS:
@@ -242,11 +237,25 @@ def do_take(args):
     name = args[0].lower()
     item = ITEMS.get(name)
     debug(f"Trying to take: {name}")
-    if name not in place.get(items, []):
+    if name not in place.get("items", []):
         error(f"I don't see {name} here, you fool of a Took!")
         return
     if not item:
         error(f"Welp! The info about {name} is missing or something...")
+    if not item.get("can_take", []):
+        wrap(f"You try to pick up {item['name']}, but you are a puny mortal with no muscles")
+        return
+    PLAYER["inventory"].setdefault(name, 0)
+    PLAYER["inventory"][name] + 1
+    place["items"].remove(name)
+    wrap(f"You pick up the {item['name']} and put it in your backy-pack")
+
+
+def do_inventory():
+    debug(f"Trying to show inventory")
+
+
+
 
 
 
@@ -295,6 +304,7 @@ def main():
         look = ["l", "Look", "look"]
         take = ["t", "take", "grab"]
         args = reply.split()
+        inventory = ["i", "inventory", "I", "inven"]
         if not args:
             continue
         command = args.pop(0)
@@ -312,6 +322,8 @@ def main():
             do_look()
         elif command in take:
             do_take(args)
+        elif command in inventory:
+            do_inventory()
         else:
             error("No Such Command")
             continue
