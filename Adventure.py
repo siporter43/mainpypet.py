@@ -21,18 +21,34 @@
 #       [x] 6.2: Validate Item
 #       [x] 6.3: Take it
 #       [x] 6.4: Examine Inventory
-# [] Part 7: Show Inventory
+# [x] Part 7: Show Inventory
     # [x] 7.1: Add command
-    # [] 7.2: Print Inventory
-    #        A: in do_inventory()
-            # [ ] Use the header() function to print "Inventory"
-            # [ ] If PLAYER["inventory"] is falsy:
-            # [ ] use the write() function to print "Empty."
-            # [ ] Iterate over the results of .items() on PLAYER["inventory"] using the variables name and qty.
-            # [ ] Get the value associated with the name key from ITEMS and assign it to item.
-            # [ ] Use the write() function to print the qty and item["name"]
-            # [ ] Print a blank line
-
+    # [x] 7.2: Print Inventory
+# []Part 8: Drop things
+    #  8.1: Add Command
+    #  8.2: Validate
+    # A: in do_drop()
+#    [x] Check to see if args is falsy, if so:
+        # [x] Use the error() function to print a message saying:
+        # "What do you want to drop?"
+        # [x] return
+    # [x] assign the first item of the args list to the variable name and make it lowercase
+    # [x] Check if name is not in PLAYER["inventory"] or if PLAYER["inventory"][name] is falsy. If so:
+        # [x] Use the error() function to print a message saying:
+        # "You don't have any name."
+        # [x] return
+    # 8.3: Drop it
+#     A: in do_drop(): remove from inventory
+#     [x] subtract 1 from PLAYER["inventory"][name]
+#     [x] remove item from inventory if the quantity is 0 by:
+#     if PLAYER["inventory"][name] is falsy:
+#         [x] call .pop() on PLAYER["inventory"] with the argument name
+    # B: still in do_drop(): add to place
+    # [ ] get the value from PLAYER associated with the "place" key and assign it to place_name
+    # [ ] get the value from PLACES associated with place_name and assign it to place
+    # [ ] call .setdefault() on place with the argument items and []
+    # [ ] append name to place["items"]
+    # [ ] print a message using the wrap() function like: You set down the name.
 
 
 
@@ -41,7 +57,7 @@
 # Imports
 
 from inspect import ArgSpec
-from os import error
+from os import error, name
 
 from pprint import pprint
 
@@ -253,7 +269,33 @@ def do_take(args):
 
 def do_inventory():
     debug(f"Trying to show inventory")
-
+    header("Inventory")
+    stuff = PLAYER["inventory"]
+    if not stuff:
+        write("Empty")
+        return
+    for thing, qty in stuff.items():
+        print(f"You find {qty + 1} {thing} \n")
+    
+def do_drop(args):
+    debug(f"Trying to drop {args}")
+    if not args:
+        error("What you wanna drop?")
+        return
+    name = args[0]
+    if name not in PLAYER["inventory"] and PLAYER["inventory"][name]:
+        error(f"You don't have any {name}.")
+        return
+    # Need to figure out how check inventory and see if a given name is there or a qty is falsy
+    PLAYER["inventory"][name] - 1
+    if not PLAYER["inventory"][name]:
+       PLAYER["inventory"][name].pop(name)
+    place_name = PLAYER["place"]
+    place = PLACES[place_name]
+    place.setdefault(items, [])
+    place["items"].append(name)
+    wrap(f"You gently toss {name} on the ground.")
+    
 
 
 
@@ -305,6 +347,7 @@ def main():
         take = ["t", "take", "grab"]
         args = reply.split()
         inventory = ["i", "inventory", "I", "inven"]
+        drop = ["D", "d", "Drop", "drop"]
         if not args:
             continue
         command = args.pop(0)
@@ -324,6 +367,8 @@ def main():
             do_take(args)
         elif command in inventory:
             do_inventory()
+        elif command in drop:
+            do_drop(args)
         else:
             error("No Such Command")
             continue
