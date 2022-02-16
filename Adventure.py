@@ -107,7 +107,7 @@ ITEMS = {
     },
     "book": {
         "key": "book",
-        "name": "Books of Mild Secrets",
+        "name": "The Book of Mild Secrets",
         "description": "It's a pleather-bound book of pages from sages",
         "price": "",
         "can_take": True
@@ -262,7 +262,7 @@ def do_take(args):
         wrap(f"You try to pick up {item['name']}, but you are a puny mortal with no muscles")
         return
     PLAYER["inventory"].setdefault(name, 0)
-    PLAYER["inventory"][name] + 1
+    PLAYER["inventory"][name] = PLAYER["inventory"][name] + 1
     place["items"].remove(name)
     wrap(f"You pick up the {item['name']} and put it in your backy-pack")
 
@@ -275,7 +275,7 @@ def do_inventory():
         write("Empty")
         return
     for thing, qty in stuff.items():
-        print(f"You find {qty + 1} {thing} \n")
+        print(f"You find {qty} {thing} \n")
     
 def do_drop(args):
     debug(f"Trying to drop {args}")
@@ -287,12 +287,12 @@ def do_drop(args):
         error(f"You don't have any {name}.")
         return
     # Need to figure out how check inventory and see if a given name is there or a qty is falsy
-    PLAYER["inventory"][name] - 1
+    PLAYER["inventory"][name] = PLAYER["inventory"][name] - 1
     if not PLAYER["inventory"][name]:
-       PLAYER["inventory"][name].pop(name)
+       PLAYER["inventory"].pop(name)
     place_name = PLAYER["place"]
     place = PLACES[place_name]
-    place.setdefault(items, [])
+    place.setdefault(name, [])
     place["items"].append(name)
     wrap(f"You gently toss {name} on the ground.")
     
