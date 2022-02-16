@@ -286,7 +286,6 @@ def do_drop(args):
     if name not in PLAYER["inventory"] and PLAYER["inventory"][name]:
         error(f"You don't have any {name}.")
         return
-    # Need to figure out how check inventory and see if a given name is there or a qty is falsy
     PLAYER["inventory"][name] = PLAYER["inventory"][name] - 1
     if not PLAYER["inventory"][name]:
        PLAYER["inventory"].pop(name)
@@ -296,8 +295,6 @@ def do_drop(args):
     place["items"].append(name)
     wrap(f"You gently toss {name} on the ground.")
     
-
-
 
 
 
