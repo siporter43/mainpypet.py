@@ -384,13 +384,13 @@ def do_quit():
     quit()
 
 def new_file():
-    path = Path("ProblemSol_Jan24.py")
+    path = Path("MovieList.py")
     print(f"Now creating {path} for our new lesson")
     path.touch()
 
 # Runner
 
-main()
+# main()
 
 # do_examine(["cat"])
 
