@@ -44,11 +44,11 @@
 #     if PLAYER["inventory"][name] is falsy:
 #         [x] call .pop() on PLAYER["inventory"] with the argument name
     # B: still in do_drop(): add to place
-    # [ ] get the value from PLAYER associated with the "place" key and assign it to place_name
-    # [ ] get the value from PLACES associated with place_name and assign it to place
-    # [ ] call .setdefault() on place with the argument items and []
-    # [ ] append name to place["items"]
-    # [ ] print a message using the wrap() function like: You set down the name.
+    # [x] get the value from PLAYER associated with the "place" key and assign it to place_name
+    # [x] get the value from PLACES associated with place_name and assign it to place
+    # [x] call .setdefault() on place with the argument items and []
+    # [x] append name to place["items"]
+    # [x] print a message using the wrap() function like: You set down the name.
 
 
 
@@ -282,11 +282,11 @@ def do_drop(args):
     if not args:
         error("What you wanna drop?")
         return
-    name = args[0]
-    if name not in PLAYER["inventory"] and PLAYER["inventory"][name]:
+    name = args[0].lower()
+    if name not in PLAYER["inventory"] or PLAYER["inventory"][name] < 1:
         error(f"You don't have any {name}.")
         return
-    PLAYER["inventory"][name] = PLAYER["inventory"][name] - 1
+    PLAYER["inventory"][name] -= 1
     if not PLAYER["inventory"][name]:
        PLAYER["inventory"].pop(name)
     place_name = PLAYER["place"]
@@ -384,13 +384,14 @@ def do_quit():
     quit()
 
 def new_file():
-    path = Path("MovieList.py")
+    path = Path("PathsFeb2022.py")
     print(f"Now creating {path} for our new lesson")
     path.touch()
 
+
 # Runner
 
-# main()
+main()
 
 # do_examine(["cat"])
 

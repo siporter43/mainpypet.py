@@ -72,6 +72,3 @@ for i, item in enumerate(films, 1):
 
 
 
-
-
-
