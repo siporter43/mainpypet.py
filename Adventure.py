@@ -24,39 +24,44 @@
 # [x] Part 7: Show Inventory
     # [x] 7.1: Add command
     # [x] 7.2: Print Inventory
-# []Part 8: Drop things
-    #  8.1: Add Command
-    #  8.2: Validate
-    # A: in do_drop()
-#    [x] Check to see if args is falsy, if so:
-        # [x] Use the error() function to print a message saying:
-        # "What do you want to drop?"
-        # [x] return
-    # [x] assign the first item of the args list to the variable name and make it lowercase
-    # [x] Check if name is not in PLAYER["inventory"] or if PLAYER["inventory"][name] is falsy. If so:
-        # [x] Use the error() function to print a message saying:
-        # "You don't have any name."
-        # [x] return
-    # 8.3: Drop it
-#     A: in do_drop(): remove from inventory
-#     [x] subtract 1 from PLAYER["inventory"][name]
-#     [x] remove item from inventory if the quantity is 0 by:
-#     if PLAYER["inventory"][name] is falsy:
-#         [x] call .pop() on PLAYER["inventory"] with the argument name
-    # B: still in do_drop(): add to place
-    # [x] get the value from PLAYER associated with the "place" key and assign it to place_name
-    # [x] get the value from PLACES associated with place_name and assign it to place
-    # [x] call .setdefault() on place with the argument items and []
-    # [x] append name to place["items"]
-    # [x] print a message using the wrap() function like: You set down the name.
-
-
-
+# [x]Part 8: Drop things
+    #[x] 8.1: Add Command
+    #[x] 8.2: Validate
+    #[x] 8.3: Drop it
+# [] Part 9: Refactoring
+    # [] 9.1: Add abort()
+        # A. Define abort()
+            # 1.[x] define an abort() function that takes one argument message
+            # 2.[x] in abort()
+            #     [x] call error() with the argument message.
+            #     [x] call the built-in exit() function and pass it the argument 1
+        # B. in do_take()
+            # [x]1. Call abort() instead of error() when you check if item is falsy
+            # [x]2. remove the return statement
+            # [x]3. To test, temporarily change the key for "book" to somthing else, 
+            #     then type take book from home. 
+            #     It should print an error message then exit the program. 
+            #     After verifying that it works, change it back.
+        # C. in do_examine
+            # [x] 1. Call abort() instead of error() when you check if name is not in ITEMS
+            # [x] 2. remove the return statement
+            # [x] 3. To test, temporarily change the key for "book" to somthing else, 
+                # then type take book from home.
+                # It should print an error message then exit the program. 
+                # After verifying that it works, change it back.
+        # D. in do_go
+            # [ ] Call abort() instead of error() when you check if new_place is truthy
+            # [ ] remove the return statement
+            # [ ] To test, temporarily change the value for home["east"] to somthing else, 
+                # then type go east from home.
+                # It should print an error message then exit the program. 
+                # After verifying that it works, change it back.
 
 
 # Imports
 
 from inspect import ArgSpec
+
 from os import error, name
 
 from pprint import pprint
@@ -103,7 +108,7 @@ ITEMS = {
         "key": "poison",
         "name": "Actual Poison",
         "description": "It's poison. Don't buy this",
-        "price": -10
+        "price": -10,
     },
     "book": {
         "key": "book",
@@ -152,6 +157,7 @@ PLACES = {
         "west": "home",
         "north": "market",
         "south": "cove",
+        "items": []
     },
     "market": {
         "key": "market",
@@ -166,13 +172,15 @@ PLACES = {
         "name": "The Well Well",
         "description": "A Well Well full of Magic and Intrigue",
         "south": "home",
-        "east": "market"
+        "east": "market",
+        "items": []
     },
     "cove":{
         "key": "cove",
         "name": "Ducky Cover",
         "description": "A cove full of ducks of all shapes and sizes...and tempers",
-        "north": "town square"
+        "north": "town square",
+        "items": []
     }
 }
 # FNCNs
@@ -183,6 +191,10 @@ def debug(message):
 
 def error(message):
     print(bg.red(f"ERROR: {message}"))
+
+def abort(message):
+    error(message)
+    exit(1)
 
 def wrap(text):
     margin = MARGIN * " "
@@ -207,12 +219,11 @@ def do_examine(args):
         return
     name = args[0].lower()
     items = place.get("items", [])
-    if name not in items or name not in PLAYER["inventory"]:
+    if name not in items and name not in PLAYER["inventory"]:
         error(f"Sorry, idk what this is: {name}")
         return
     if name not in ITEMS:
-        error(f"Welp! The info about {name} isn't here, my dear.")
-        return
+        abort(f"Welp! The info about {name} isn't here, my dear.")
     item = ITEMS[name]
     header(item["name"])
     wrap(item["description"])
@@ -257,7 +268,7 @@ def do_take(args):
         error(f"I don't see {name} here, you fool of a Took!")
         return
     if not item:
-        error(f"Welp! The info about {name} is missing or something...")
+        abort(f"Welp! The info about {name} is missing or something...")
     if not item.get("can_take", []):
         wrap(f"You try to pick up {item['name']}, but you are a puny mortal with no muscles")
         return
@@ -297,7 +308,6 @@ def do_drop(args):
     
 
 
-
 def do_shop():
     header("Items for Sale:")
     for item in ITEMS.values():
@@ -323,8 +333,7 @@ def do_go(args):
         return
     new_place = PLACES.get(new_name)
     if not new_place:
-        error(f"OOOPS, The info about {fg.lightpurple({new_name})} seems missing")
-        return
+        abort(fg.lightpurple(f"OOOPS, The info about {new_name} seems missing"))
     PLAYER["place"] = new_name
     wrap(fx.bold(new_place["name"])) 
     wrap(fx.encircle(new_place["description"]))
