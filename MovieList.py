@@ -36,7 +36,7 @@ def film_review():
     
     # ask the user
     # user = index number of movie (i) and the place number
-    user = input("Type the number of your favorite movie.")
+    user = input("Type the number of your favorite movie. ")
     number_of_films = len(films)
     
     # [x] B. Make sure it is a movie in the list
@@ -50,10 +50,11 @@ def film_review():
         # [x] C. Print the name of the movie that they picked
         print(f'You picked the movie {films[answer]}.')
     
-    place = input("What place in your favorites list would you like to put it?")
+    place = input("What place in your favorites list would you like to put it? ")
     # [x] D. Move the movie to the new position
-    new_place = int(place)
-    films.insert(new_place, films[answer])
+    new_place = int(place) - 1
+    films.insert(new_place, f"+ {films[answer]}")
+    # films.insert(new_place, films[answer])
     del films[int(user)]
     
     # [x] E. Print the list again in order with numbers next to each movie
