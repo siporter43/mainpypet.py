@@ -26,9 +26,22 @@ films = [
     "Robin Hood",
 ]
 
+# move the part of the film_review() function that actually changes the films list
+# to a new function called move_film(). It should take two arguments:
+# - film_id (what the user types in to the first question)
+# - new_position (what the user types in to the second question)
+
+
 
 # [x] A. Ask the user what item the want to move
 
+def move_film(film_id, new_position):
+    # [x] D. Move the movie to the new position
+    new_place = int(new_position) - 1
+    films.insert(new_place, f"+ {films[film_id]}")
+    # films.insert(new_place, films[answer])
+    del films[film_id]
+        
 def film_review():
     # list the movies
     for i, item in enumerate(films, 1):
@@ -52,15 +65,11 @@ def film_review():
     
     place = input("What place in your favorites list would you like to put it? ")
     # [x] D. Move the movie to the new position
-    new_place = int(place) - 1
-    films.insert(new_place, f"+ {films[answer]}")
-    # films.insert(new_place, films[answer])
-    del films[int(user)]
+    move_film(answer, place)
     
     # [x] E. Print the list again in order with numbers next to each movie
     for i, item in enumerate(films, 1):
         print(i, item)
-
 
 
 """""""""We need to ask:
@@ -79,9 +88,36 @@ def film_review():
 # for film in films:
 #     fav_films.append(film)
 
-
-
-
-
 # Runner
-film_review()
+
+FILMS = films.copy()
+
+def test_move_film_0_3():
+    films = FILMS.copy()
+    move_film(0, 3)
+
+    wanted = ["Dumbo", "Bambi", "Alice in Wonderland", "+ Pinocchio", "Robin Hood"]
+
+    assert films == wanted, \
+        f"After moving 0 to 3 the film order should be: \n{wanted} but instead it's: \n{films}"
+
+def test_move_film_3_0():
+    films = FILMS.copy()
+    assert films == FILMS, "copy failure"
+
+    move_film(3, 0)
+
+    wanted = ["+ Alice in Wonderland", "Pinocchio", "Dumbo", "Bambi", "Robin Hood"]
+
+    assert films == wanted, \
+        f"After moving 3 to 0 the film order should be: \n{wanted} but instead it's: \n{films}"
+
+# test_move_film_0_3()
+# test_move_film_3_0()
+
+def silly_test():
+    films = FILMS.copy()
+    assert films[0] == "Pinocchio", "Not correct"
+
+# film_review()
+silly_test()
