@@ -29,34 +29,16 @@
     #[x] 8.2: Validate
     #[x] 8.3: Drop it
 # [] Part 9: Refactoring
-    # [] 9.1: Add abort()
-        # A. Define abort()
-            # 1.[x] define an abort() function that takes one argument message
-            # 2.[x] in abort()
-            #     [x] call error() with the argument message.
-            #     [x] call the built-in exit() function and pass it the argument 1
-        # B. in do_take()
-            # [x]1. Call abort() instead of error() when you check if item is falsy
-            # [x]2. remove the return statement
-            # [x]3. To test, temporarily change the key for "book" to somthing else, 
-            #     then type take book from home. 
-            #     It should print an error message then exit the program. 
-            #     After verifying that it works, change it back.
-        # C. in do_examine
-            # [x] 1. Call abort() instead of error() when you check if name is not in ITEMS
-            # [x] 2. remove the return statement
-            # [x] 3. To test, temporarily change the key for "book" to somthing else, 
-                # then type take book from home.
-                # It should print an error message then exit the program. 
-                # After verifying that it works, change it back.
-        # D. in do_go
-            # [ ] Call abort() instead of error() when you check if new_place is truthy
-            # [ ] remove the return statement
-            # [ ] To test, temporarily change the value for home["east"] to somthing else, 
-                # then type go east from home.
-                # It should print an error message then exit the program. 
-                # After verifying that it works, change it back.
-
+    # [x] 9.1: Add abort()
+    # [ ] 9.2: Add get_place()
+        # [x] A. Define get_place()
+            # [x] define a get_place() function that takes one optional argument key with a default value of None
+            # [x] if key is falsy then assign key to the value of the PLAYER dict associated with the "place" value
+            # [x] get the value from the PLACES dictionary assocated from the key key and assign it to the variable place
+            # [x] If place is falsy,
+            #     [x] Use the abort() function to print an error message like:
+            #     "Woops! The information about the place name seems to be missing."
+            # [x] return place
 
 # Imports
 
@@ -69,6 +51,7 @@ from pprint import pprint
 from pathlib import Path
 
 from sys import stderr
+from tkinter.messagebox import ABORT
 
 from console import fg, bg, fx
 
@@ -123,6 +106,27 @@ ITEMS = {
         "description": "A heavy wooden desk with a clever book open on its surface",
         "price": "",
         "can_take": False
+    },
+    "dogs": {
+        "key": "dogs",
+        "name": "little pupperonis",
+        "description": "The cutest little things",
+        "price": "",
+        "can_take": False
+    },
+    "snack":{
+        "key": "snack",
+        "name": "secret electro-ice cream",
+        "description": "The ice cream that makes you good at coding instead of giving brain freezes",
+        "price": "",
+        "can_take": True
+    },
+    "bones":{
+        "key": "bones",
+        "name": "The Bones of her enemies",
+        "description": "This is what happens when you don't commit...you get pushed INTO HELL!",
+        "price": "",
+        "can_take": False
     }
 }
 
@@ -137,7 +141,7 @@ PLAYER = {
 #                |            |
 #               home -- town square
 #                           |
-#                           cove
+#                           cove -- Alissa
 # 
 
 
@@ -148,7 +152,7 @@ PLACES = {
         "description": "A wondrous chateau filled with cool stuff",
         "east": "town square",
         "north": "well",
-        "items": ["book", "desk"],
+        "items": ["desk", "book"],
     },
     "town square": {
         "key": "town square",
@@ -180,7 +184,15 @@ PLACES = {
         "name": "Ducky Cover",
         "description": "A cove full of ducks of all shapes and sizes...and tempers",
         "north": "town square",
+        "east": "Alissa",
         "items": []
+    },
+    "Alissa":{
+        "key": "Alissa",
+        "name": "The Robo-Home of the Beep Boop Queen",
+        "description": "The cybernetic lair of the Alissa person, may have food.",
+        "west": "cove",
+        "items": ["snack", "dogs", "bones"]
     }
 }
 # FNCNs
@@ -307,13 +319,20 @@ def do_drop(args):
     wrap(f"You gently toss {name} on the ground.")
     
 
-
 def do_shop():
     header("Items for Sale:")
     for item in ITEMS.values():
         if not item["price"]:
             continue
         write(f'Name:{item["name"]} \n Desc.: {item["description"]} \n Cost: {item["price"]}')
+
+def get_place(key, none):
+    if not key:
+        key = PLAYER["place"]
+    place = PLACES[key]
+    if not place:
+        abort(f"Well ya got me stumped. Info about {name} ain't here, bucko.")    
+    return place
 
 def do_go(args):
     debug(f"Trying to go: {args}")
