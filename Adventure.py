@@ -39,9 +39,30 @@
             #     [x] Use the abort() function to print an error message like:
             #     "Woops! The information about the place name seems to be missing."
             # [x] return place
+        # [] B. In do_go()
+            # [ ] Call get_place() with no arguments to get the value for old_place. 
+            #     (This will replace the existing PLACES[old_place].)
+            # [ ] Remove the line assigning old_name since that is taken care of in get_place()
+            # [ ] Call get_place() with the argument new_name to get the value for new_place. 
+            #     (This will replace the existing PLACES.get(new_place).)
+            # [ ] Remove the lines that calls abort() if new_place is falsy.
+#  [] Part 11: Test Things
+        #[x] 11.1 Setup
+        # [] 11.2 Test is_for_sale
+        # [] 11.3 Test Error
+        #   [] A. Write test_error()
+        #        [?] Add error to your import line, something like: from adventure import is_for_sale, error.
+#                [x] Add a test_error() function with the parameter capsys.
+                # [x] Call error() with any message you like
+                # [x] Assign the results of capsys.readouterr().out to the variable output
+                # [x] Write an assert statement that output equals what you expect to be printed, 
+                #     with a failure message like:
+                # [ ] Run your tests, either at the command line or in VS Code.
+                #     "The formatted error message should be printed."
 
 # Imports
 
+from ast import Assert
 from inspect import ArgSpec
 
 from os import error, name
@@ -51,6 +72,7 @@ from pprint import pprint
 from pathlib import Path
 
 from sys import stderr
+
 from tkinter.messagebox import ABORT
 
 from console import fg, bg, fx
@@ -221,6 +243,7 @@ def header(title):
     real_title = fg.lightblack(fx.bold(title))
     write(real_title)
     print()
+
 
 def do_examine(args):
     place_name = PLAYER["place"]
@@ -412,14 +435,14 @@ def do_quit():
     quit()
 
 def new_file():
-    path = Path("PathsFeb2022.py")
+    path = Path("test_Mar2922.py")
     print(f"Now creating {path} for our new lesson")
     path.touch()
 
 
 # Runner
 
-main()
+# main()
 
 # do_examine(["cat"])
 
