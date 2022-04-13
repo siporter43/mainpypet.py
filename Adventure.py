@@ -30,22 +30,16 @@
     #[x] 8.3: Drop it
 # [] Part 9: Refactoring
     # [x] 9.1: Add abort()
-    # [ ] 9.2: Add get_place()
-        # [x] A. Define get_place()
-            # [x] define a get_place() function that takes one optional argument key with a default value of None
-            # [x] if key is falsy then assign key to the value of the PLAYER dict associated with the "place" value
-            # [x] get the value from the PLACES dictionary assocated from the key key and assign it to the variable place
-            # [x] If place is falsy,
-            #     [x] Use the abort() function to print an error message like:
-            #     "Woops! The information about the place name seems to be missing."
-            # [x] return place
-        # [] B. In do_go()
-            # [ ] Call get_place() with no arguments to get the value for old_place. 
-            #     (This will replace the existing PLACES[old_place].)
-            # [ ] Remove the line assigning old_name since that is taken care of in get_place()
-            # [ ] Call get_place() with the argument new_name to get the value for new_place. 
-            #     (This will replace the existing PLACES.get(new_place).)
-            # [ ] Remove the lines that calls abort() if new_place is falsy.
+    # [x] 9.2: Add get_place()
+    # []  9.3: Add get_item()
+        # [] A. Define get_item()
+            # [ ] define a get_item() function that takes one argument key
+            # [ ] use the .get() method on the ITEMS dictionary to get the value assocated from the key key and assign it to the variable item
+            # [ ] If item is falsy,
+            # [ ] Use the abort() function to print an error message like:
+            # "Woops! The information about the item name seems to be missing."
+            # [ ] return item
+
 #  [] Part 11: Test Things
         #[x] 11.1 Setup
         # [] 11.2 Test is_for_sale
@@ -63,6 +57,7 @@
 # Imports
 
 from ast import Assert
+from email.policy import default
 from inspect import ArgSpec
 
 from os import error, name
@@ -80,6 +75,7 @@ from console import fg, bg, fx
 import textwrap
 
 from pytest import Item
+from requests import get
 
 
 # Global Variables
@@ -244,10 +240,14 @@ def header(title):
     write(real_title)
     print()
 
+def get_item(key):
+    item = ITEMS.get(key)
+    if not item:
+        abort(f"Welp-O! Looks like info about item {name} is missing")
+    return item
 
 def do_examine(args):
-    place_name = PLAYER["place"]
-    place = PLACES[place_name]
+    place = get_place()
     debug(f"Trying to examine: {args}")
     if not args:
         error("What do you want to examine?")
@@ -264,8 +264,7 @@ def do_examine(args):
     wrap(item["description"])
 
 def do_look():
-    place_name = PLAYER["place"]
-    place = PLACES[place_name]
+    place = get_place()
     header(place["name"])
     wrap(place["description"])
     debug("Trying to look around...")
@@ -287,12 +286,11 @@ def do_look():
         name = place.get(direction)
         if not name:
             continue
-        destination = PLACES[name]
+        destination = get_place(name)
         write(f"\n To the {direction} is: {destination['name']}. \n")
 
 def do_take(args):
-    place_name = PLAYER["place"]
-    place = PLACES[place_name]
+    place = get_place()
     if not args:
         error("Which way do you want to go with all this?")
         return
@@ -335,8 +333,7 @@ def do_drop(args):
     PLAYER["inventory"][name] -= 1
     if not PLAYER["inventory"][name]:
        PLAYER["inventory"].pop(name)
-    place_name = PLAYER["place"]
-    place = PLACES[place_name]
+    place = get_place()
     place.setdefault(name, [])
     place["items"].append(name)
     wrap(f"You gently toss {name} on the ground.")
@@ -349,7 +346,7 @@ def do_shop():
             continue
         write(f'Name:{item["name"]} \n Desc.: {item["description"]} \n Cost: {item["price"]}')
 
-def get_place(key, none):
+def get_place(key=None):
     if not key:
         key = PLAYER["place"]
     place = PLACES[key]
@@ -357,11 +354,13 @@ def get_place(key, none):
         abort(f"Well ya got me stumped. Info about {name} ain't here, bucko.")    
     return place
 
+# get_place()            # key = None
+# get_place("somewhere") # key = "somewhere"
+
 def do_go(args):
     debug(f"Trying to go: {args}")
     compass = ["north", "south", "east", "west"]
-    old_name = PLAYER["place"]
-    old_place = PLACES[old_name]
+    old_place = get_place()
     if not args:
         error(fg.cyan(f"Which way does your heart guide you?"))
         return
@@ -373,9 +372,7 @@ def do_go(args):
     if not new_name:
         error(fx.frame("Sorry, you can't get there from here"))
         return
-    new_place = PLACES.get(new_name)
-    if not new_place:
-        abort(fg.lightpurple(f"OOOPS, The info about {new_name} seems missing"))
+    new_place = get_place(new_name)
     PLAYER["place"] = new_name
     wrap(fx.bold(new_place["name"])) 
     wrap(fx.encircle(new_place["description"]))

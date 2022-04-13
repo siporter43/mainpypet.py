@@ -1,11 +1,14 @@
+from ast import arg
 from copy import deepcopy
+from email.policy import default
+from more_itertools import bucket
 
 import pytest
 # import pdbr
 
 import adventure
 
-from adventure import get_place, error, debug, header, write
+from adventure import get_place, error, debug, header, write, get_item
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
 PLACES_STATE = deepcopy(adventure.PLACES)
@@ -31,11 +34,11 @@ def test_truth():
 # [x] import get_place from adventure
 # [x] call get_place() with the fake place key and assign it to a variable like result
 # [x] assert that result equals fake_place
+# @pytest.mark.skip(reason="under construction")
 def test_get_place():
-    fake_place = {"name": "something"}
-    adventure.PLACES["something"] = fake_place
-    result = get_place("something")
-    assert not result == fake_place
+    adventure.PLACES["somewhere"] = {"name": "left"}
+    fake_place = get_place("somewhere")
+    assert fake_place == {"name": "left"}, "We are error"
 
 def test_error(capsys):
     error("IDK my bff Jill?")
@@ -56,3 +59,13 @@ def test_write(capsys):
     write("No, YOU WRITE!")
     output= capsys.readouterr().out
     assert "No, YOU WRITE!" in output, "The formatted message shout be printed"
+
+def test_get_item_missing_from_items():
+    adventure.PLAYER["inventory"]["hats"] = 11
+    with pytest.raises(SystemExit):
+        get_item("hats")
+
+def test_get_item(capsys):
+    adventure.ITEMS["hats"] = {"name": "cap"}
+    item = get_item("hats")
+    assert item == {"name": "cap"}, "Our errors shall be written"
