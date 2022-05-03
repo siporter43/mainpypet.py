@@ -432,7 +432,7 @@ def do_quit():
     quit()
 
 def new_file():
-    path = Path("test_Mar2922.py")
+    path = Path("may2.py")
     print(f"Now creating {path} for our new lesson")
     path.touch()
 
@@ -447,5 +447,5 @@ def new_file():
 
 # do_shop()
 
-# new_file()
+new_file()
 
