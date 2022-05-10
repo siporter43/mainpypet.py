@@ -19,6 +19,12 @@ def add( y, x):
 def subt(y, x):
     return y-x 
 
+def mult(y, x):
+    return y*x
+    
+def div(y, x):
+    return y/x
+
 def hello():
     print(f"hello")
 

@@ -1,5 +1,5 @@
 import may2
-from may2 import add, subt, hello, subtotal
+from may2 import add, subt, hello, subtotal, mult, div
 
 # GIVEN: the prerequisites to running your test, such as the data
 # WHEN: you run the code you want to test
@@ -7,12 +7,22 @@ from may2 import add, subt, hello, subtotal
 
 # simple tests with returned values
 def test_add():
+    # GIVEN: nothing in particular
+    
+    # WHEN: you call add()
     result = add(200,22)
+
+    # THEN: result should be the two numbers added together
     assert result == 222
 
 def test_subt():
-    result = subt(999, 222)
-    assert result == 777
+    # GIVEN: nada in partic
+
+    # WHEN: you call subt()
+    result = subt(222, 999)
+
+    # THEN: result should be difference bw 2 numbers
+    assert result == -777
 
 # testing a function that prints stuff, you have to use the capsys fixture
 def test_hello(capsys):
@@ -46,3 +56,21 @@ def test_subtotal_ismissing():
 
     # THEN: the result should be zero
     assert result == 0
+
+def test_mult():
+    # GIVEN: nothing in partic
+
+    # WHEN: We call mult()
+    result = mult(3, 9)
+    
+    # THEN: result should be product of numbers
+    assert result == 27
+
+def test_div():
+    # GIVEN: nothin really
+
+    # WHEN: we call div()
+    result = div(16, 2)
+    
+    # THEN: result should be the quotient of args
+    assert result == 8 

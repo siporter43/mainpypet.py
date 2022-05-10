@@ -8,7 +8,7 @@ import pytest
 
 import adventure
 
-from adventure import get_place, error, debug, header, write, get_item
+from adventure import get_place, error, debug, header, write, get_item, player_has
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
 PLACES_STATE = deepcopy(adventure.PLACES)
@@ -69,3 +69,33 @@ def test_get_item(capsys):
     adventure.ITEMS["hats"] = {"name": "cap"}
     item = get_item("hats")
     assert item == {"name": "cap"}, "Our errors shall be written"
+
+def test_player_has():
+    # GIVEN: player has item in inventory
+    adventure.PLAYER["inventory"]["purse"] = 1
+
+    # WHEN: we call to ask if they have the item
+    result = player_has("purse")
+
+    # THEN: it will return true 
+    assert result == True
+
+def test_player_has_0():
+    # GIVEN: player has no item in inventory
+    adventure.PLAYER["inventory"]["kitten"] = 0
+
+    # WHEN: we call to ask if they have an item
+    result = player_has("kitten")
+
+    # THEN: it will return False
+    assert result == False
+
+def test_player_no_key():
+    # GIVEN: key nonexistent in inventory
+    adventure.PLAYER["inventory"] = {}
+
+    # WHEN: we call to ask for the key
+    result = player_has("feet")
+
+    # THEN: it will return False
+    assert result == False
