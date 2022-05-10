@@ -1,7 +1,7 @@
 """This is our cool new project in which we'll create a text based adventure game :)
             https://alissa-huskey.github.io/python-class/exercises/adventure.html"""
 
-
+"""Either write place_has() use TDD or use player_has()"""
 # [x]     2.4 Fill in the GO
 # [x] Part 3: Prettify
 # [x]     3.1 Text Wrapping
@@ -32,13 +32,13 @@
     # [x] 9.1: Add abort()
     # [x] 9.2: Add get_place()
     # []  9.3: Add get_item()
-        # [] A. Define get_item()
-            # [ ] define a get_item() function that takes one argument key
-            # [ ] use the .get() method on the ITEMS dictionary to get the value assocated from the key key and assign it to the variable item
-            # [ ] If item is falsy,
-            # [ ] Use the abort() function to print an error message like:
+        # [x] A. Define get_item()
+            # [x] define a get_item() function that takes one argument key
+            # [x] use the .get() method on the ITEMS dictionary to get the value assocated from the key key and assign it to the variable item
+            # [x] If item is falsy,
+            # [x] Use the abort() function to print an error message like:
             # "Woops! The information about the item name seems to be missing."
-            # [ ] return item
+            # [x] return item
 
 #  [] Part 11: Test Things
         #[x] 11.1 Setup
@@ -56,7 +56,7 @@
 
 # Imports
 
-from ast import Assert
+from ast import Assert, Pass
 from email.policy import default
 from inspect import ArgSpec
 
@@ -245,6 +245,14 @@ def get_item(key):
     if not item:
         abort(f"Welp-O! Looks like info about item {name} is missing")
     return item
+
+def player_has(key):
+    if PLAYER["inventory"].get(key, 0) > 0:
+        return True
+    else:
+        return False
+
+
 
 def do_examine(args):
     place = get_place()
