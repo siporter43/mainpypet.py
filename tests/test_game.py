@@ -8,7 +8,7 @@ import pytest
 
 import adventure
 
-from adventure import get_place, error, debug, header, write, get_item, player_has
+from adventure import get_place, error, debug, header, write, get_item, player_has, current_place_has
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
 PLACES_STATE = deepcopy(adventure.PLACES)
@@ -98,4 +98,37 @@ def test_player_no_key():
     result = player_has("feet")
 
     # THEN: it will return False
+    assert result == False
+
+def test_current_place_has():
+    # GIVEN: if somewhere the player is in has a particular item
+    adventure.PLAYER["place"] = "somewhere"
+    adventure.PLACES["somewhere"] = {"items": ["dog"]}
+
+    # WHEN: we call to ask if an item exists in that space
+    result = current_place_has("dog")
+
+    # THEN: it will return True
+    assert result == True
+
+def test_current_place_has_0():
+    # GIVEN: if somewhere the player is in has no item
+    adventure.PLAYER["place"] = "somewhere"
+    adventure.PLACES["somewhere"] = {"items": []}
+
+    # WHEN: we call to ask if an item exists in that space
+    result = current_place_has("dog")
+
+    # THEN: it will return False
+    assert result == False
+
+def test_current_place_has_no_item():
+    # GIVEN: if somewhere the player is has no items key
+    adventure.PLAYER["place"] = "somewhere"
+    adventure.PLACES["somewhere"] = {"name": "somewhere"}
+
+    # WHEN: we call to ask if an item exists in that space
+    result = current_place_has("dog")
+
+    # THEN: it will return True
     assert result == False

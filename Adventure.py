@@ -252,7 +252,12 @@ def player_has(key):
     else:
         return False
 
-
+def current_place_has(key):
+    place = get_place()
+    if key not in place.get("items", []):
+        return False
+    else:
+        return True
 
 def do_examine(args):
     place = get_place()
