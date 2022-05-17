@@ -1,5 +1,6 @@
+from unittest import result
 import may2
-from may2 import add, subt, hello, subtotal, mult, div
+from may2 import add, subt, hello, subtotal, mult, div, power
 
 # GIVEN: the prerequisites to running your test, such as the data
 # WHEN: you run the code you want to test
@@ -74,3 +75,12 @@ def test_div():
     
     # THEN: result should be the quotient of args
     assert result == 8 
+
+def test_power():
+    # GIVEN: nada
+
+    # WHEN: we call power()
+    result = power(3, 4)
+
+    # Then: result should be 3 to the 4th power
+    assert result == 81

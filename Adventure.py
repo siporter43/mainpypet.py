@@ -56,10 +56,6 @@
 
 # Imports
 
-from ast import Assert, Pass
-from email.policy import default
-from inspect import ArgSpec
-
 from os import error, name
 
 from pprint import pprint
@@ -68,15 +64,9 @@ from pathlib import Path
 
 from sys import stderr
 
-from tkinter.messagebox import ABORT
-
 from console import fg, bg, fx
 
 import textwrap
-
-from pytest import Item
-from requests import get
-
 
 # Global Variables
 
@@ -303,6 +293,7 @@ def do_look():
         write(f"\n To the {direction} is: {destination['name']}. \n")
 
 def do_take(args):
+    # breakpoint()
     place = get_place()
     if not args:
         error("Which way do you want to go with all this?")
@@ -310,7 +301,7 @@ def do_take(args):
     name = args[0].lower()
     item = ITEMS.get(name)
     debug(f"Trying to take: {name}")
-    if name not in place.get("items", []):
+    if not current_place_has(name):
         error(f"I don't see {name} here, you fool of a Took!")
         return
     if not item:
@@ -444,6 +435,7 @@ def do_quit():
     write(bg.lightmagenta("Goodbye, nerd"))
     quit()
 
+# NOTE: make this a seperate script sometime
 def new_file():
     path = Path("may2.py")
     print(f"Now creating {path} for our new lesson")
@@ -451,14 +443,6 @@ def new_file():
 
 
 # Runner
-
-# main()
-
-# do_examine(["cat"])
-
-# check_main()
-
-# do_shop()
-
-new_file()
+if __name__ == "__main__":
+    main()
 

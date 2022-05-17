@@ -15,6 +15,8 @@ MENU = {
 def add( y, x):
     return y+x
 
+def power(y, x):
+    return pow(y ,x)
 
 def subt(y, x):
     return y-x 

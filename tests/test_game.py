@@ -8,7 +8,7 @@ import pytest
 
 import adventure
 
-from adventure import get_place, error, debug, header, write, get_item, player_has, current_place_has
+from adventure import PLAYER, get_place, error, debug, header, write, get_item, player_has, current_place_has, do_take
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
 PLACES_STATE = deepcopy(adventure.PLACES)
@@ -132,3 +132,53 @@ def test_current_place_has_no_item():
 
     # THEN: it will return True
     assert result == False
+
+def test_do_take_with_item(capsys):
+    # GIVEN: an item the player wants to take is in the current place
+    adventure.PLAYER["place"] = "somewhere"
+    adventure.PLACES["somewhere"] = {"items":["duck"]}
+
+    # AND: that item is not in the players inventory
+    adventure.PLAYER["inventory"] = {}
+
+    # AND: the item exists and is takable
+    adventure.ITEMS["duck"] = {"name":"duck", "can_take": True}
+
+    # WHEN: When the player tries to take it
+    do_take(["duck"])
+    output = capsys.readouterr().out
+    # breakpoint()
+    
+    # THEN: It is added to player inventory
+    assert adventure.PLAYER["inventory"]["duck"] == 1
+    
+    # AND: It is removed from the place
+    assert "duck" not in adventure.PLACES["somewhere"]["items"]
+
+    # AND: The fncn tells you what happened 
+    assert "You pick up the duck" in output
+
+def test_do_take_without_item(capsys):
+    # GIVEN: an item the player wants to take an item that isn't in the current place
+    adventure.PLAYER["place"] = "somewhere"
+    adventure.PLACES["somewhere"] = {"name": "somewhere", "items": []}
+
+    # AND: that item is not in the players inventory
+    adventure.PLAYER["inventory"] = {}
+
+    # AND: the item exists and is takable
+    # adventure.ITEMS["duck"] = {"name":"duck", "can_take": True}
+
+    # WHEN: When the player tries to take it
+    do_take(["duck"])
+    output = capsys.readouterr().out
+    # breakpoint()
+    
+    # THEN: It is not added to player inventory
+    assert "duck" not in adventure.PLAYER["inventory"]
+    
+    # AND: It is not removed from the place
+    assert "duck" not in adventure.PLACES["somewhere"]["items"]
+
+    # AND: The fncn tells you what happened 
+    assert "I don't see duck" in output
