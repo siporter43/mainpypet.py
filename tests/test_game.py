@@ -1,14 +1,12 @@
 from ast import arg
 from copy import deepcopy
-from email.policy import default
-from more_itertools import bucket
 
 import pytest
 # import pdbr
 
 import adventure
 
-from adventure import PLAYER, get_place, error, debug, header, write, get_item, player_has, current_place_has, do_take
+from adventure import PLAYER, do_examine, get_place, error, debug, header, write, get_item, player_has, current_place_has, do_take, do_examine
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
 PLACES_STATE = deepcopy(adventure.PLACES)
@@ -182,3 +180,19 @@ def test_do_take_without_item(capsys):
 
     # AND: The fncn tells you what happened 
     assert "I don't see duck" in output
+
+def test_do_examine_with_item(capsys):
+    # GIVEN: The player is in a place where there is an item that can be examined
+    adventure.PLAYER["place"] = "somewhere"
+    # breakpoint()
+    adventure.ITEMS["duck"] = {"name": "duck", "description": "It's just a duck, bucko"}
+    adventure.PLACES["somewhere"] = {"items": ["duck"]}
+
+    # WHEN: The player attempts to examine it     
+    do_examine(["duck"])
+    output = capsys.readouterr().out
+
+    # THEN: Item desc. is returned
+    assert "just a duck, bucko" in output
+
+# WRITE test to test what happens when the item is missing from above

@@ -31,7 +31,7 @@
 # [] Part 9: Refactoring
     # [x] 9.1: Add abort()
     # [x] 9.2: Add get_place()
-    # []  9.3: Add get_item()
+    # [x]  9.3: Add get_item()
         # [x] A. Define get_item()
             # [x] define a get_item() function that takes one argument key
             # [x] use the .get() method on the ITEMS dictionary to get the value assocated from the key key and assign it to the variable item
@@ -257,7 +257,7 @@ def do_examine(args):
         return
     name = args[0].lower()
     items = place.get("items", [])
-    if name not in items and name not in PLAYER["inventory"]:
+    if not current_place_has(name) and name not in PLAYER["inventory"]:
         error(f"Sorry, idk what this is: {name}")
         return
     if name not in ITEMS:
