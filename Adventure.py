@@ -326,12 +326,13 @@ def do_inventory():
         print(f"You find {qty} {thing} \n")
     
 def do_drop(args):
+    # breakpoint()
     debug(f"Trying to drop {args}")
     if not args:
         error("What you wanna drop?")
         return
     name = args[0].lower()
-    if name not in PLAYER["inventory"] or PLAYER["inventory"][name] < 1:
+    if not player_has(name):
         error(f"You don't have any {name}.")
         return
     PLAYER["inventory"][name] -= 1
