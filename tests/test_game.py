@@ -6,7 +6,7 @@ import pytest
 
 import adventure
 
-from adventure import PLAYER, do_examine, get_place, error, debug, header, write, get_item, player_has, current_place_has, do_take, do_examine
+from adventure import PLAYER, do_examine, get_place, error, debug, header, write, get_item, player_has, current_place_has, do_take, do_examine, do_drop
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
 PLACES_STATE = deepcopy(adventure.PLACES)
@@ -196,3 +196,29 @@ def test_do_examine_with_item(capsys):
     assert "just a duck, bucko" in output
 
 # WRITE test to test what happens when the item is missing from above
+
+def test_do_drop_player_has(capsys):
+    # GIVEN: A player has an item in inventory
+    adventure.PLAYER["inventory"]["kitten"] = 1
+    
+    # AND: A player is in a place 
+    adventure.PLAYER["place"] = "somewhere"
+    
+    # AND: The place currently does not have the item
+    adventure.PLACES["somewhere"] = {"name": "somewhere", "items": []}
+
+    # WHEN: A player tries to drop that item
+    do_drop(["kitten"])
+    output = capsys.readouterr().out
+    # breakpoint()
+
+    # THEN: We tell user their item is dropped
+    assert "gently toss" in output
+
+    # AND: Item is dropped in location
+    assert "kitten" in adventure.PLACES["somewhere"]["items"]
+
+    # AND: Item is no longer in player inventory
+    assert "kitten" not in adventure.PLAYER["inventory"]
+
+# def test_do_drop_player_has_not()
