@@ -250,14 +250,12 @@ def current_place_has(key):
         return True
 
 def do_examine(args):
-    place = get_place()
     debug(f"Trying to examine: {args}")
     if not args:
         error("What do you want to examine?")
         return
     name = args[0].lower()
-    items = place.get("items", [])
-    if not current_place_has(name) and name not in PLAYER["inventory"]:
+    if not current_place_has(name) and not player_has(name):
         error(f"Sorry, idk what this is: {name}")
         return
     if name not in ITEMS:

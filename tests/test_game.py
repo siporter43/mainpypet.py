@@ -1,5 +1,5 @@
-from ast import arg
 from copy import deepcopy
+from doctest import OutputChecker
 
 import pytest
 # import pdbr
@@ -60,7 +60,7 @@ def test_write(capsys):
 
 def test_get_item_missing_from_items():
     adventure.PLAYER["inventory"]["hats"] = 11
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as err:
         get_item("hats")
 
 def test_get_item(capsys):
@@ -165,7 +165,7 @@ def test_do_take_without_item(capsys):
     adventure.PLAYER["inventory"] = {}
 
     # AND: the item exists and is takable
-    # adventure.ITEMS["duck"] = {"name":"duck", "can_take": True}
+    adventure.ITEMS["duck"] = {"name":"duck", "can_take": True}
 
     # WHEN: When the player tries to take it
     do_take(["duck"])
@@ -181,12 +181,16 @@ def test_do_take_without_item(capsys):
     # AND: The fncn tells you what happened 
     assert "I don't see duck" in output
 
+# item IS in place and NOT in inventory
 def test_do_examine_with_item(capsys):
     # GIVEN: The player is in a place where there is an item that can be examined
     adventure.PLAYER["place"] = "somewhere"
     # breakpoint()
     adventure.ITEMS["duck"] = {"name": "duck", "description": "It's just a duck, bucko"}
     adventure.PLACES["somewhere"] = {"items": ["duck"]}
+
+    # AND: The item is not in player inventory
+    adventure.PLAYER["inventory"] = {}
 
     # WHEN: The player attempts to examine it     
     do_examine(["duck"])
@@ -195,7 +199,48 @@ def test_do_examine_with_item(capsys):
     # THEN: Item desc. is returned
     assert "just a duck, bucko" in output
 
-# WRITE test to test what happens when the item is missing from above
+
+# NOT in inventory, NOT in place
+def test_do_examine_no_location_item(capsys):
+    # GIVEN: The player is in a location
+    adventure.PLAYER["place"] = "somewhere"
+
+    # AND: The object is not in that place
+    adventure.PLACES["somewhere"] = {"items": []}
+
+    # AND: Item is not in player item inventory
+    adventure.PLAYER["inventory"] = {}
+
+    # WHEN: The player tries to examine the object
+    do_examine(["duck"])
+    output = capsys.readouterr().out
+
+    # THEN: An error message is returned
+    assert "idk what this is: duck" in output
+
+# TODO: IS in inventory, NOT in place
+def test_do_examine_not_place_in_inventory(capsys):
+    # GIVEN: A player is in a location
+    adventure.PLAYER["place"] = "somewhere"
+
+    # AND: That place doesn't have an item
+    adventure.PLACES["somewhere"] = {"items": []}
+
+    # AND: The item is in player inventory
+    adventure.PLAYER["inventory"] = {"duck": 1,}
+
+    # AND: The item has a description
+    adventure.ITEMS["duck"] = {"name": "Ducky", "description": "An air monster with beak"}
+
+    # WHEN: The player tries to examine the item
+    do_examine(["duck"])
+    output = capsys.readouterr().out
+
+    # THEN: It prints item description
+    assert "air monster" in output
+
+# TODO: NOT in inventory, NOT in place
+#       (but lower priority)
 
 def test_do_drop_player_has(capsys):
     # GIVEN: A player has an item in inventory
@@ -221,4 +266,16 @@ def test_do_drop_player_has(capsys):
     # AND: Item is no longer in player inventory
     assert "kitten" not in adventure.PLAYER["inventory"]
 
-# def test_do_drop_player_has_not()
+def test_do_drop_player_has_not(capsys):
+    # GIVEN: A player does not have an item in inventory
+    adventure.PLAYER["inventory"]["kitty"] = 0 
+
+    # AND: A player is in a place
+    adventure.PLAYER["place"] = "somewhere"
+
+    # WHEN: A player tries to drop an item
+    do_drop(["kitty"])
+    output = capsys.readouterr().out
+
+    # THEN: An error is returned
+    assert "don't have any kitty" in output
