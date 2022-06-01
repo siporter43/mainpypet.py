@@ -1,12 +1,13 @@
 from copy import deepcopy
 from doctest import OutputChecker
+from unittest import result
 
 import pytest
 # import pdbr
 
 import adventure
 
-from adventure import PLAYER, do_examine, get_place, error, debug, header, write, get_item, player_has, current_place_has, do_take, do_examine, do_drop
+from adventure import PLAYER, do_examine, get_place, error, debug, header, is_for_sale, write, get_item, player_has, current_place_has, do_take, do_examine, do_drop, is_for_sale
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
 PLACES_STATE = deepcopy(adventure.PLACES)
@@ -241,6 +242,23 @@ def test_do_examine_not_place_in_inventory(capsys):
 
 # TODO: NOT in inventory, NOT in place
 #       (but lower priority)
+def test_do_examine_not_place_not_inventory(capsys):
+    # GIVEN: A player is in a location
+    adventure.PLAYER["place"] = "somewhere"
+
+    # AND: That place doesn't have an item
+    adventure.PLACES["somewhere"] = {"items": []}
+
+    # AND: The item is not in player inventory
+    adventure.PLAYER["inventory"] = {"duck": 0,}
+
+    # WHEN: The player tries to examine an item
+    do_examine(["duck"])
+    output = capsys.readouterr().out
+
+    # THEN: It returns an error
+    assert "idk what this is" in output
+
 
 def test_do_drop_player_has(capsys):
     # GIVEN: A player has an item in inventory
@@ -279,3 +297,27 @@ def test_do_drop_player_has_not(capsys):
 
     # THEN: An error is returned
     assert "don't have any kitty" in output
+
+def test_is_for_sale(capsys):
+    # GIVEN: An item has the key/value "price"
+    adventure.ITEMS["doggy"] = {"key": "doggy", "name": "Pupperoni", 
+        "description": "One with waggly tail", 
+        "price": 25}
+
+    # WHEN: A player checks if an item is for sale
+    result = is_for_sale("doggy")
+
+    # THEN: Output returns true
+    assert result == True
+
+# TODO: test_is_not_for_sale()
+def test_is_not_for_sale():
+    # GIVEN: An item does not have the key/value "price"
+    adventure.ITEMS["doggy"] = {"key": "doggy", "name": "Pupperoni", 
+    "description": "One with waggly tail"}
+
+    # WHEN: A player checks if it's for sale
+    result = is_for_sale("doggy")
+
+    # THEN: Output returns false
+    assert result == False

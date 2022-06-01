@@ -28,18 +28,16 @@
     #[x] 8.1: Add Command
     #[x] 8.2: Validate
     #[x] 8.3: Drop it
-# [] Part 9: Refactoring
+# [x] Part 9: Refactoring
     # [x] 9.1: Add abort()
     # [x] 9.2: Add get_place()
     # [x]  9.3: Add get_item()
-        # [x] A. Define get_item()
-            # [x] define a get_item() function that takes one argument key
-            # [x] use the .get() method on the ITEMS dictionary to get the value assocated from the key key and assign it to the variable item
-            # [x] If item is falsy,
-            # [x] Use the abort() function to print an error message like:
-            # "Woops! The information about the item name seems to be missing."
-            # [x] return item
-
+    # []   9.4: Validation fncns
+    #   []  G. Define is_for_sale
+    #       [] Define is_for_sale fncn takes one arg
+    #       [] Check if "price" key is in item dict.
+    #           [] If so, return True
+    #           [] If not, return false 
 #  [] Part 11: Test Things
         #[x] 11.1 Setup
         # [] 11.2 Test is_for_sale
@@ -56,6 +54,7 @@
 
 # Imports
 
+from bdb import Breakpoint
 from os import error, name
 
 from pprint import pprint
@@ -248,6 +247,15 @@ def current_place_has(key):
         return False
     else:
         return True
+
+def is_for_sale(key):
+    # breakpoint()
+    item = ITEMS.get(key)
+    sale_price = item["price"]
+    if sale_price:
+        return True
+    else:
+        return False
 
 def do_examine(args):
     debug(f"Trying to examine: {args}")
