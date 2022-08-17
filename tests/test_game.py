@@ -310,14 +310,17 @@ def test_is_for_sale(capsys):
     # THEN: Output returns true
     assert result == True
 
-# TODO: test_is_not_for_sale()
 def test_is_not_for_sale():
     # GIVEN: An item does not have the key/value "price"
-    adventure.ITEMS["doggy"] = {"key": "doggy", "name": "Pupperoni", 
-    "description": "One with waggly tail"}
+    adventure.ITEMS["doggy"] = {
+        "key": "doggy",
+        "name": "Pupperoni",
+        "description": "One with waggly tail",
+    }
 
     # WHEN: A player checks if it's for sale
     result = is_for_sale("doggy")
 
-    # THEN: Output returns false
+    # THEN: It returns false
     assert result == False
+
