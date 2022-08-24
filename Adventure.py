@@ -1,56 +1,4 @@
-"""This is our cool new project in which we'll create a text based adventure game :)
-            https://alissa-huskey.github.io/python-class/exercises/adventure.html"""
-
-"""Either write place_has() use TDD or use player_has()"""
-# [x]     2.4 Fill in the GO
-# [x] Part 3: Prettify
-# [x]     3.1 Text Wrapping
-# [x]     3.2 Colors
-# [x]     3.3: Headers and write fncns
-# [x] Part 4: Examine Items 
-#     [x] 4.1 Add New Items
-#     [x] 4.2 Add do_examine()
-#     [x] 4.3 Finish Examine Command
-# [x] Part 5: Look Around
-#    [x] 5.1: Add Command
-#    [x] 5.2: Print place name and desc.
-#    [x] 5.3: Print the place items
-#    [x] 5.4: Print the nearby places
-# [x] Part 6: Take Things
-#       [x] 6.1: Add Command
-#       [x] 6.2: Validate Item
-#       [x] 6.3: Take it
-#       [x] 6.4: Examine Inventory
-# [x] Part 7: Show Inventory
-    # [x] 7.1: Add command
-    # [x] 7.2: Print Inventory
-# [x]Part 8: Drop things
-    #[x] 8.1: Add Command
-    #[x] 8.2: Validate
-    #[x] 8.3: Drop it
-# [x] Part 9: Refactoring
-    # [x] 9.1: Add abort()
-    # [x] 9.2: Add get_place()
-    # [x]  9.3: Add get_item()
-    # []   9.4: Validation fncns
-    #   []  G. Define is_for_sale
-    #       [] Define is_for_sale fncn takes one arg
-    #       [] Check if "price" key is in item dict.
-    #           [] If so, return True
-    #           [] If not, return false 
-#  [] Part 11: Test Things
-        #[x] 11.1 Setup
-        # [] 11.2 Test is_for_sale
-        # [] 11.3 Test Error
-        #   [] A. Write test_error()
-        #        [?] Add error to your import line, something like: from adventure import is_for_sale, error.
-#                [x] Add a test_error() function with the parameter capsys.
-                # [x] Call error() with any message you like
-                # [x] Assign the results of capsys.readouterr().out to the variable output
-                # [x] Write an assert statement that output equals what you expect to be printed, 
-                #     with a failure message like:
-                # [ ] Run your tests, either at the command line or in VS Code.
-                #     "The formatted error message should be printed."
+"""This is our cool new project in which we'll create a text based adventure game :) https://alissa-huskey.github.io/python-class/exercises/adventure.html"""
 
 # Imports
 
@@ -62,6 +10,7 @@ from pprint import pprint
 from pathlib import Path
 
 from sys import stderr
+from this import d
 
 from console import fg, bg, fx
 
@@ -92,7 +41,7 @@ ITEMS = {
         "key": "flute",
         "name": "Flute of Viscious Whimsy",
         "description": "An Instrument for Melody and Murder",
-        "price": -15
+        "price": -15,
     },
     "poison": {
         "key": "poison",
@@ -204,14 +153,17 @@ PLACES = {
 }
 # FNCNs
 
-def debug(message):
+def debug(message: str):
+    """Print a debug message when in debug mode."""
     if DEBUG == True:
         print(fg.green(bg.black(f"DEBUG:{message}")))
 
-def error(message):
+def error(message: str):
+    """Print a formatted error message."""
     print(bg.red(f"ERROR: {message}"))
 
-def abort(message):
+def abort(message: str):
+    """Print a formatted error message then exit the game."""
     error(message)
     exit(1)
 
@@ -229,35 +181,69 @@ def header(title):
     write(real_title)
     print()
 
-def get_item(key):
+def get_item(key: str) -> dict:
+    """Return the item dictionary from ITEMS associated with key.
+
+       If key is missing, abort.
+       
+       Args
+       ----
+       * key: the key to the item in the ITEMS dictionary
+    """
     item = ITEMS.get(key)
     if not item:
         abort(f"Welp-O! Looks like info about item {name} is missing")
     return item
 
-def player_has(key):
+def player_has(key: str) -> bool:
+    """ Checks whether an item exists in current player inventory.
+    
+    Args
+    ----
+    * key: the key is in PLAYER: inventory dict
+    """
     if PLAYER["inventory"].get(key, 0) > 0:
         return True
     else:
         return False
 
-def current_place_has(key):
+def current_place_has(key: str) -> bool:
+    """Checks whether an item is in current place. 
+
+    Args
+    ----
+    * key: the key is in PLACES dict
+    """
     place = get_place()
     if key not in place.get("items", []):
         return False
     else:
         return True
 
-def is_for_sale(key):
-    # breakpoint()
+def is_for_sale(key: str) -> bool:
+    """Check whether an item in a dictionary has a price key.
+
+    If no key, return False.
+
+    Args
+    ----
+    * key: key is in ITEMS dict
+    """
     item = ITEMS.get(key)
-    sale_price = item["price"]
+    sale_price = item.get("price")
     if sale_price:
         return True
     else:
         return False
 
-def do_examine(args):
+def do_examine(args: list) -> "None":
+    """Run for the examine command and lets user get further info on item in location/
+    inventory 
+    
+    Args
+    ----
+    * args: list of strings
+    """
     debug(f"Trying to examine: {args}")
     if not args:
         error("What do you want to examine?")
@@ -298,8 +284,20 @@ def do_look():
         destination = get_place(name)
         write(f"\n To the {direction} is: {destination['name']}. \n")
 
-def do_take(args):
-    # breakpoint()
+def do_take(args: list):
+    """Runs relative to take cmd to take an item from a 
+    location if it is there/can be taken and place in PLAYER inventory 
+
+    If no arg, then print error
+
+    If item info missing, abort
+
+    If cannot take, tell user No
+
+    Args
+    ----
+    * args: list of strings 
+    """
     place = get_place()
     if not args:
         error("Which way do you want to go with all this?")
