@@ -56,3 +56,4 @@ x.["c"] + 1              # will fail with a KeyError
 x.get("c") + 1           # will fail with a TypeError (can't do None + 1)
 x.get("c", 0) + 1        # will evaluate to 1
 ```
+
