@@ -10,7 +10,6 @@ from pprint import pprint
 from pathlib import Path
 
 from sys import stderr
-from this import d
 
 from console import fg, bg, fx
 
@@ -236,6 +235,41 @@ def is_for_sale(key: str) -> bool:
     else:
         return False
 
+def inventory_change(key, quantity):
+    """Run to change quantity of item in inventory
+    
+    If no key, message error asking for item name
+
+    If no quatity, return error 
+
+    Args
+    ----
+    key: any string
+    quantity: numbers excluding 0, incl negatives
+    """
+    # PLAYER["inventory"].setdefault(key, 0) # NOTE: same as below
+    if key not in PLAYER["inventory"]:
+        PLAYER["inventory"][key] = 0
+
+    PLAYER["inventory"][key] = (PLAYER["inventory"][key] + quantity)
+
+    # need to set it up such that anytime a quantity hits 0 that it .pop the item
+    if PLAYER["inventory"][key] <= 0:
+       PLAYER["inventory"].pop(key)
+
+def place_add(key: str):
+    """This moves an item into the 'items' of current place
+    
+    Args
+    ----
+    * key: any string
+    """
+    place = get_place()
+    place["items"].append(key)
+
+
+
+
 def do_examine(args: list) -> "None":
     """Run for the examine command and lets user get further info on item in location/
     inventory 
@@ -313,8 +347,9 @@ def do_take(args: list):
     if not item.get("can_take", []):
         wrap(f"You try to pick up {item['name']}, but you are a puny mortal with no muscles")
         return
-    PLAYER["inventory"].setdefault(name, 0)
-    PLAYER["inventory"][name] = PLAYER["inventory"][name] + 1
+    # rn we're gonna change some stuff to 
+    # PLAYER["inventory"][name] = PLAYER["inventory"][name] + 1
+    inventory_change(name, 1)
     place["items"].remove(name)
     wrap(f"You pick up the {item['name']} and put it in your backy-pack")
 
@@ -339,9 +374,11 @@ def do_drop(args):
     if not player_has(name):
         error(f"You don't have any {name}.")
         return
-    PLAYER["inventory"][name] -= 1
-    if not PLAYER["inventory"][name]:
-       PLAYER["inventory"].pop(name)
+    # rn we're gonna replace below with inventory_change fncn
+    # PLAYER["inventory"][name] -= 1
+    # if not PLAYER["inventory"][name]:
+    #    PLAYER["inventory"].pop(name)
+    inventory_change(name, -1)
     place = get_place()
     place.setdefault(name, [])
     place["items"].append(name)
@@ -355,7 +392,9 @@ def do_shop():
             continue
         write(f'Name:{item["name"]} \n Desc.: {item["description"]} \n Cost: {item["price"]}')
 
-def get_place(key=None):
+def get_place(key: str=None) -> dict:
+    """"It returns the dictionary info for a place from PLACES dict using the key
+        key defaults to wherever current Player location"""
     if not key:
         key = PLAYER["place"]
     place = PLACES[key]

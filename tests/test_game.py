@@ -7,7 +7,25 @@ import pytest
 
 import adventure
 
-from adventure import PLAYER, do_examine, get_place, error, debug, header, is_for_sale, write, get_item, player_has, current_place_has, do_take, do_examine, do_drop, is_for_sale
+from adventure import (
+    PLAYER,
+    do_examine,
+    get_place,
+    error,
+    debug,
+    header,
+    is_for_sale,
+    write,
+    get_item,
+    player_has,
+    current_place_has,
+    do_take,
+    do_examine,
+    do_drop,
+    is_for_sale,
+    inventory_change,
+    place_add,
+)
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
 PLACES_STATE = deepcopy(adventure.PLACES)
@@ -298,6 +316,8 @@ def test_do_drop_player_has_not(capsys):
     # THEN: An error is returned
     assert "don't have any kitty" in output
 
+
+
 def test_is_for_sale(capsys):
     # GIVEN: An item has the key/value "price"
     adventure.ITEMS["doggy"] = {"key": "doggy", "name": "Pupperoni", 
@@ -323,4 +343,15 @@ def test_is_not_for_sale():
 
     # THEN: It returns false
     assert result == False
+
+def test_place_add_player_has():
+    # GIVEN: A Player is at a place with an items key
+    adventure.PLAYER["place"] = "somewhere"
+    adventure.PLACES["somewhere"] = {"items": []}
+
+    # WHEN: Place_add is called with item key
+    place_add("fox")
+
+    # THEN: The item is added to current place items
+    assert "fox" in adventure.PLACES["somewhere"]["items"]
 

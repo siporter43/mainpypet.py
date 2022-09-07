@@ -28,3 +28,5 @@ Part 9.6
 * [ ]Part 9.6:     Add `place_add()`
 * [ ]              Write `test_place_add()` 
          9.6 A     Define `place_add(key) `
+* [ ]              Write `test_place_add_when_no_items_key()` 
+* [ ]              (Should test when the place does not have an "items" key)

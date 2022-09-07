@@ -57,3 +57,14 @@ x.get("c") + 1           # will fail with a TypeError (can't do None + 1)
 x.get("c", 0) + 1        # will evaluate to 1
 ```
 
+So when creating tests... MAKE SURE TO IMPORT THE FNCN
+
+Also, when attempting to create a new item instance you can use either "if" of
+'setdefault'
+
+```python
+if key not in PLAYER["inventory"]:
+        PLAYER["inventory"][key] = 0
+    
+PLAYER["inventory"].setdefault(key, 0) # NOTE: same as below
+```
