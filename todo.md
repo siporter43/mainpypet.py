@@ -11,12 +11,12 @@ Misc
 Part 9.5
 --------
 
-* [ ] Part 9.5:   Add `inventory_change()`
+* [x] Part 9.5:   Add `inventory_change()`
 * [x]             Write `test_inventory_change()`  (should fail)
 * [x]     9.5 A   Define `inventory_change()`
 * [x]     9.5 B   Replace code in `do_take()` that modifies inventory with a call
                   to your new `inventory_change()` function
-* [?]   (extra)   Write a test for `do_drop()` that should pass and reflect its
+* [x]   (extra)   Write a test for `do_drop()` that should pass and reflect its
                   current behavior
 * [x]     9.5 C   Replace code in `do_drop()` that modifies inventory with a call
                   to your new `inventory_change()` function
@@ -26,7 +26,25 @@ Part 9.6
 --------
 
 * [ ]Part 9.6:     Add `place_add()`
-* [ ]              Write `test_place_add()` 
-         9.6 A     Define `place_add(key) `
-* [ ]              Write `test_place_add_when_no_items_key()` 
-* [ ]              (Should test when the place does not have an "items" key)
+* [x]              Write `test_place_add()` 
+        [x] 9.6 A     Define `place_add(key) `
+* [x]              Write `test_place_add_when_no_items_key()` 
+                   (Should test when there is no "items" key in the current place dictionary)
+* [x]              Modify place_add() to make above test pass 
+* [x]              Write `test_place_add_when_already_there()`             
+                   Should test when the `key` is already in the current place "items" list
+* [x]              Modify place_add() to make above test pass 
+                   [x] 9.6 B Call place_add() in do_drop()
+* [x]              Find where you add the item to the place. Replace those lines with a call to place_add() and pass the name argument.
+                   
+* [x]              You can also remove the line where you get the current place using the get_place() function.
+* [x]              write a test like: place_remove_without_items_key() 
+                   place does not have the "items" key
+* [x]              write a test like: place_remove_when_no_item()
+                   when place does have the "items" key, but key is not in the list
+
+
+Part 10
+--------
+
+[ ]Part 10.1       
