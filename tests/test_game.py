@@ -25,6 +25,7 @@ from adventure import (
     is_for_sale,
     inventory_change,
     place_add,
+    place_remove,
 )
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
@@ -355,3 +356,64 @@ def test_place_add_player_has():
     # THEN: The item is added to current place items
     assert "fox" in adventure.PLACES["somewhere"]["items"]
 
+def test_place_add_when_no_items_key():
+    # GIVEN: A place has no 'items' key 
+    adventure.PLAYER["place"] = "somewhere"
+    adventure.PLACES["somewhere"] = {}
+
+    # WHEN: Place_add is called on that place
+    place_add("grey fox")
+
+    # THEN: Items key is created with added item in there
+    assert "grey fox" in adventure.PLACES["somewhere"]["items"]
+
+def test_place_add_when_already_there():
+    # GIVEN: A place has an item and an items key
+    adventure.PLAYER["place"] = "somewhere"
+    adventure.PLACES["somewhere"] = {"items": ["pink fox"]}
+
+    # WHEN: Place_add is called on the place
+    place_add("pink fox")
+
+    # THEN: The item is not duplicated in items list
+    assert adventure.PLACES["somewhere"]["items"].count("pink fox") == 1
+    # x = [1, 2, 1, 2, 3]
+    # x.count(1)           # return 2
+    # x.count(3)           # return 1
+    # x.count(5)           # return 0
+ 
+def test_place_remove_with_item():
+    # GIVEN: An item is in current place
+    adventure.PLAYER["place"] = "somewhere"
+    adventure.PLACES["somewhere"] = {"items": ["gold owl"]}
+
+    # WHEN: Item is removed from that location
+    place_remove("gold owl")
+
+    # THEN: Item is removed(popped) from the place item list
+    assert "gold owl" not in adventure.PLACES["somewhere"]["items"]
+    ...
+
+def test_place_remove_without_item():
+    # GIVEN: There is no item in current place
+    adventure.PLAYER["place"] = "somewhere"
+    adventure.PLACES["somewhere"] = {"items": []}
+
+    # WHEN: Item is removed from location
+    place_remove("silver owl")
+
+    # THEN: No error is raised
+    assert True, "No error is raised"
+
+def test_place_remove_no_item_key():
+    # GIVEN: There is no item key in a location
+    adventure.PLAYER["place"] = "somewhere"
+    adventure.PLACES["somewhere"] = {}
+
+    # WHEN: Item is removed
+    place_remove("bronze owl")
+
+    # THEN: No error is raised
+    assert True, "No error is raised"
+
+    ...

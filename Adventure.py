@@ -3,6 +3,7 @@
 # Imports
 
 from bdb import Breakpoint
+from email import message
 from os import error, name
 
 from pprint import pprint
@@ -167,11 +168,13 @@ def abort(message: str):
     exit(1)
 
 def wrap(text):
+    """"Prints standard format for text"""
     margin = MARGIN * " "
     paragraph = textwrap.fill(text, WIDTH, initial_indent= margin, subsequent_indent= margin)
     print(f"{paragraph} \n")
 
 def write(text):
+    """Prints text standard with margins"""
     print(MARGIN * " ", text, sep="")
 
 def header(title):
@@ -219,6 +222,27 @@ def current_place_has(key: str) -> bool:
     else:
         return True
 
+
+def place_remove(key: str):
+    """This will remove an item from a PLACE's item list.
+    
+    Args
+    ----
+    * key: the key is the name of the item (hopefully in the list)
+    """
+    # We're getting current place
+    place = get_place()
+    
+    # If key is in place then we remove it
+    if "items" not in place:
+        # place["items"] = []
+        return
+
+    if key in place['items']:
+        place["items"].remove(key)
+
+
+
 def is_for_sale(key: str) -> bool:
     """Check whether an item in a dictionary has a price key.
 
@@ -264,11 +288,16 @@ def place_add(key: str):
     ----
     * key: any string
     """
+    # We're getting the current Player place ->a dict
     place = get_place()
-    place["items"].append(key)
-
-
-
+    
+    # We're now creating an 'items' list for that dict if one doesn't exist
+    place.setdefault("items", [])
+    
+    # We're checking if key is in 'items' list, if it is then return,
+    #  if not then add list to place
+    if key not in place["items"]:
+        place["items"].append(key)
 
 def do_examine(args: list) -> "None":
     """Run for the examine command and lets user get further info on item in location/
@@ -350,7 +379,8 @@ def do_take(args: list):
     # rn we're gonna change some stuff to 
     # PLAYER["inventory"][name] = PLAYER["inventory"][name] + 1
     inventory_change(name, 1)
-    place["items"].remove(name)
+    # place["items"].remove(name)
+    place_remove(name)
     wrap(f"You pick up the {item['name']} and put it in your backy-pack")
 
 
@@ -379,9 +409,10 @@ def do_drop(args):
     # if not PLAYER["inventory"][name]:
     #    PLAYER["inventory"].pop(name)
     inventory_change(name, -1)
-    place = get_place()
-    place.setdefault(name, [])
-    place["items"].append(name)
+    # place = get_place()
+    # place.setdefault(name, [])
+    # place["items"].append(name)
+    place_add(name)
     wrap(f"You gently toss {name} on the ground.")
     
 
@@ -397,8 +428,8 @@ def get_place(key: str=None) -> dict:
         key defaults to wherever current Player location"""
     if not key:
         key = PLAYER["place"]
-    place = PLACES[key]
-    if not place:
+    place = PLACES.get(key)
+    if place == None:
         abort(f"Well ya got me stumped. Info about {name} ain't here, bucko.")    
     return place
 

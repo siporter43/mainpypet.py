@@ -59,12 +59,23 @@ x.get("c", 0) + 1        # will evaluate to 1
 
 So when creating tests... MAKE SURE TO IMPORT THE FNCN
 
+```
+
+To test:
+1. From terminal:
+        pytest ....tests/test file
+
+
+
+HOW to deal with things that aren't there, but could be there
+
 Also, when attempting to create a new item instance you can use either "if" of
 'setdefault'
 
-```python
 if key not in PLAYER["inventory"]:
         PLAYER["inventory"][key] = 0
     
 PLAYER["inventory"].setdefault(key, 0) # NOTE: same as below
-```
+
+if "items" not in place:
+        place["items"] = []
