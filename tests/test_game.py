@@ -415,5 +415,22 @@ def test_place_remove_no_item_key():
 
     # THEN: No error is raised
     assert True, "No error is raised"
-
     ...
+
+def test_do_shop():
+    # GIVEN: There are items for sale
+    adventure.ITEMS["cat"] = {"key": "cat", "name": "korg", "description": "cute lil kitty-cat", "price": -15}
+
+    # AND: There are items not for sale
+    adventure.ITEMS["rat"] = {"key": "rat", "name": "ronnie", "description": "ugly plague beast", "price": ""}
+    
+    # WHEN: do_shop is called
+    breakpoint()
+    output = do_shop()
+
+    # THEN: Items for sale are printed
+    assert "lil kitty-cat" in output
+
+    # AND: Items not for sale aren't listed
+    # assert not "ronnie" in output
+
