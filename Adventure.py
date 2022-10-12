@@ -419,7 +419,7 @@ def do_drop(args):
 def do_shop():
     header("Items for Sale:")
     for item in ITEMS.values():
-        if not item["price"]:
+        if not item.get("price"):
             continue
         write(f'Name:{item["name"]} \n Desc.: {item["description"]} \n Cost: {item["price"]}')
 

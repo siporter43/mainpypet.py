@@ -49,10 +49,10 @@ Part 10
 
 * [-] Part 10.1       
 * [ ] Do 10.1 A
-* [ ] Write (passing) test for current behavior of do_shop()
+* [x] Write (passing) test for current behavior of do_shop()
       (Note: be sure to look at other do_*() tests to remember how it works.)
-* [ ] Modify test (to fail)for new behavior:
-* [ ] - instead of listing all for-sale items, only list for-sale items in the
+* [x] Modify test (to fail)for new behavior:
+* [x] - instead of listing all for-sale items, only list for-sale items in the
         current place
 * [ ] Modify do_shop() to pass modified test
 * [-] Part 10.2

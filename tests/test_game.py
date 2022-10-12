@@ -11,6 +11,7 @@ from adventure import (
     PLAYER,
     do_examine,
     get_place,
+    do_shop,
     error,
     debug,
     header,
@@ -216,7 +217,7 @@ def test_do_examine_with_item(capsys):
     do_examine(["duck"])
     output = capsys.readouterr().out
 
-    # THEN: Item desc. is returned
+    # THEN: Item desc. is printed
     assert "just a duck, bucko" in output
 
 
@@ -417,20 +418,31 @@ def test_place_remove_no_item_key():
     assert True, "No error is raised"
     ...
 
-def test_do_shop():
+def test_do_shop(capsys):
     # GIVEN: There are items for sale
     adventure.ITEMS["cat"] = {"key": "cat", "name": "korg", "description": "cute lil kitty-cat", "price": -15}
-
+    
     # AND: There are items not for sale
-    adventure.ITEMS["rat"] = {"key": "rat", "name": "ronnie", "description": "ugly plague beast", "price": ""}
+    adventure.ITEMS["rat"] = {"key": "rat", "name": "ronnie", "description": "ugly plague beast"}
+
+    # AND: There is an item in a different place that is for sale
+    adventure.ITEMS["worm"] = {"key": "worm", "name": "wermhat", "description": "wiggly worm", "price": -1}
+
+    # AND: The item exists in a location 
+    adventure.PLACES["somewhere"] = {"items": ["cat", "rat"]}
+
+    # AND: A Player exists in that location
+    adventure.PLAYER["place"] = "somewhere"
     
     # WHEN: do_shop is called
-    breakpoint()
-    output = do_shop()
+    do_shop()
+    output = capsys.readouterr().out
 
     # THEN: Items for sale are printed
     assert "lil kitty-cat" in output
 
     # AND: Items not for sale aren't listed
-    # assert not "ronnie" in output
-
+    assert "ronnie" not in output
+    
+    # AND: Items not in location are not listed
+    assert "wermhat" not in output
