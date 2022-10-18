@@ -60,3 +60,5 @@ Part 10
 * [ ] take one argument: action
 * [ ] a place dict may now have a "can": []
 * [ ] 
+
+Write notes for fncns get_items is_for_sale
