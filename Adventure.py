@@ -418,13 +418,16 @@ def do_drop(args):
 
 def do_shop():
     header("Items for Sale:")
-    for item in ITEMS.values():
-        if not item.get("price"):
+    place = get_place()
+    local_items = place["items"]
+    for key in local_items:
+        item = get_item(key)
+        if not is_for_sale(key):
             continue
         write(f'Name:{item["name"]} \n Desc.: {item["description"]} \n Cost: {item["price"]}')
 
 def get_place(key: str=None) -> dict:
-    """"It returns the dictionary info for a place from PLACES dict using the key
+    """"It returns the dictionary info for a place from PLACES dict using the key.
         key defaults to wherever current Player location"""
     if not key:
         key = PLAYER["place"]

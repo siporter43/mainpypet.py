@@ -419,20 +419,20 @@ def test_place_remove_no_item_key():
     ...
 
 def test_do_shop(capsys):
-    # GIVEN: There are items for sale
+    # GIVEN: A Player is in a location
+    adventure.PLAYER["place"] = "somewhere"
+    
+    # AND: There are items for sale
     adventure.ITEMS["cat"] = {"key": "cat", "name": "korg", "description": "cute lil kitty-cat", "price": -15}
     
-    # AND: There are items not for sale
+    # AND: There are also items not for sale
     adventure.ITEMS["rat"] = {"key": "rat", "name": "ronnie", "description": "ugly plague beast"}
 
-    # AND: There is an item in a different place that is for sale
-    adventure.ITEMS["worm"] = {"key": "worm", "name": "wermhat", "description": "wiggly worm", "price": -1}
-
-    # AND: The item exists in a location 
+    # AND: The both those items are in the same location as the Player
     adventure.PLACES["somewhere"] = {"items": ["cat", "rat"]}
 
-    # AND: A Player exists in that location
-    adventure.PLAYER["place"] = "somewhere"
+    # AND: There is an item for sale that is not in that location
+    adventure.ITEMS["worm"] = {"key": "worm", "name": "wermhat", "description": "wiggly worm", "price": -1}
     
     # WHEN: do_shop is called
     do_shop()
