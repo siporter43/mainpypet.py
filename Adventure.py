@@ -113,7 +113,7 @@ PLACES = {
     "town square": {
         "key": "town square",
         "name": "Rad Center",
-        "description": "A wretched hive of scum and villainy... and commerce",
+        "description": "A wretched hive of scum and villainy... and parks",
         "west": "home",
         "north": "market",
         "south": "cove",
@@ -125,7 +125,8 @@ PLACES = {
         "description": "It's the place to buy the things",
         "west": "well",
         "south": "town square",
-        "items": ["elixir", "club", "flute", "poison"]
+        "items": ["elixir", "club", "flute", "poison"],
+        "can": ["shop"],
     },
     "well":{
         "key": "well",
@@ -242,7 +243,6 @@ def place_remove(key: str):
         place["items"].remove(key)
 
 
-
 def is_for_sale(key: str) -> bool:
     """Check whether an item in a dictionary has a price key.
 
@@ -258,6 +258,11 @@ def is_for_sale(key: str) -> bool:
         return True
     else:
         return False
+
+def place_can(arg):
+    
+    ...
+
 
 def inventory_change(key, quantity):
     """Run to change quantity of item in inventory
@@ -425,6 +430,7 @@ def do_shop():
         if not is_for_sale(key):
             continue
         write(f'Name:{item["name"]} \n Desc.: {item["description"]} \n Cost: {item["price"]}')
+
 
 def get_place(key: str=None) -> dict:
     """"It returns the dictionary info for a place from PLACES dict using the key.

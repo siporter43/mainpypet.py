@@ -55,10 +55,10 @@ Part 10
 * [x] - instead of listing all for-sale items, only list for-sale items in the
         current place
 * [ ] Modify do_shop() to pass modified test
+* [x] Write notes for fncns get_items is_for_sale
 * [-] Part 10.2
+* [x] talk to Alissa before you move on
 * [ ] Write (failing) test for new place_can() function that should:
 * [ ] take one argument: action
 * [ ] a place dict may now have a "can": []
 * [ ] 
-
-Write notes for fncns get_items is_for_sale

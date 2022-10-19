@@ -79,3 +79,14 @@ PLAYER["inventory"].setdefault(key, 0) # NOTE: same as below
 
 if "items" not in place:
         place["items"] = []
+
+Fncns like below were built as a way to not get TypeErrors and overall smoothen
+how game runs get_item checks a key to see if it exists in ITEMS dict, abort
+otherwise. This fncn is called in other fncns like do_shop in order to bypass
+the need check if an item is there, while not having to code every time. In
+do_shop this fncn is called so that subscription issues/type problems aren't run
+into. AND IT RETURNS an item DICT
+
+is_for_sale checks if there's a 'price' associated with the item. If no,
+the falsy-ness moves it along. In do_shop this fncn is called to check
+that property. True or False ending

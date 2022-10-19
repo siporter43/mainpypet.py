@@ -27,6 +27,7 @@ from adventure import (
     inventory_change,
     place_add,
     place_remove,
+    place_can, 
 )
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
@@ -446,3 +447,15 @@ def test_do_shop(capsys):
     
     # AND: Items not in location are not listed
     assert "wermhat" not in output
+
+def test_place_can(capsys):
+    # GIVEN: A Place has values for the 'can' key 
+    adventure.PLACES["somewhere"] = {"can": ["sleep"]}
+
+    # WHEN: Place_can is called on a value
+    place_can(["sleep"])
+    output = capsys.readouterr().out
+
+    # THEN: The action is returned as truthy
+    assert "sleep" in output
+    ...
