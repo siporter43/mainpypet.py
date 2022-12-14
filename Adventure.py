@@ -259,9 +259,12 @@ def is_for_sale(key: str) -> bool:
     else:
         return False
 
-def place_can(arg):
-    
-    ...
+def place_can(action):
+    place = get_place()
+    if action in place.get("can", []):
+        return True
+    else:
+        return False
 
 
 def inventory_change(key, quantity):
@@ -422,6 +425,10 @@ def do_drop(args):
     
 
 def do_shop():
+    ability = place_can("shop")
+    if ability == False:
+        error(f"You cannot use that action here")
+        return
     header("Items for Sale:")
     place = get_place()
     local_items = place["items"]

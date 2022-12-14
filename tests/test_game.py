@@ -429,12 +429,12 @@ def test_do_shop(capsys):
     # AND: There are also items not for sale
     adventure.ITEMS["rat"] = {"key": "rat", "name": "ronnie", "description": "ugly plague beast"}
 
-    # AND: The both those items are in the same location as the Player
-    adventure.PLACES["somewhere"] = {"items": ["cat", "rat"]}
+    # AND: The both those items are in the same location as the Player, That place has 'shop' action 
+    adventure.PLACES["somewhere"] = {"items": ["cat", "rat"], "can": ["shop",]}
 
     # AND: There is an item for sale that is not in that location
     adventure.ITEMS["worm"] = {"key": "worm", "name": "wermhat", "description": "wiggly worm", "price": -1}
-    
+  
     # WHEN: do_shop is called
     do_shop()
     output = capsys.readouterr().out
@@ -448,14 +448,16 @@ def test_do_shop(capsys):
     # AND: Items not in location are not listed
     assert "wermhat" not in output
 
-def test_place_can(capsys):
+def test_place_can():
     # GIVEN: A Place has values for the 'can' key 
     adventure.PLACES["somewhere"] = {"can": ["sleep"]}
 
+    # AND: Player is in that place
+    adventure.PLAYER["place"] = "somewhere"
+
     # WHEN: Place_can is called on a value
-    place_can(["sleep"])
-    output = capsys.readouterr().out
+    ability = place_can("sleep")
 
     # THEN: The action is returned as truthy
-    assert "sleep" in output
+    assert ability
     ...
