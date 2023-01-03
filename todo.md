@@ -58,7 +58,22 @@ Part 10
 * [x] Write notes for fncns get_items is_for_sale
 * [-] Part 10.2
 * [x] talk to Alissa before you move on
-* [ ] Write (failing) test for new place_can() function that should:
-* [ ] take one argument: action
-* [ ] a place dict may now have a "can": []
-* [ ] 
+* [x] Write (failing) test for new place_can() function that should:
+* [x] take one argument: action
+* [x] a place dict may now have a "can": []
+* [x] Get the current place by calling get_place() and assign it to the variable place
+* [x] Check if action is not in the list of place items by calling .get() on place with the             key "can" and an empty list for the default argument.
+        *[x] If so, return True
+        *[x] Otherwise, return False
+
+* [x] In do_shop() at the very beginning of the function check if shopping is supported in the current place by calling place_can() with the argument "shop".
+* [x] If not, print an error message like Sorry, you can't action here. then return
+* [-] Part 10.3
+        Writing notes for each test in do_buy
+        1. with no args
+        2. with wrong location (no buy property)
+        3. with invalid item (no buy property)
+        4. with right location, invalid item
+        5. with right location, item not at location
+        6. with right location, right item, no gems
+        7. with right location, right item, enough gems

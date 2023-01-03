@@ -90,3 +90,8 @@ into. AND IT RETURNS an item DICT
 is_for_sale checks if there's a 'price' associated with the item. If no,
 the falsy-ness moves it along. In do_shop this fncn is called to check
 that property. True or False ending
+
+in our "do"_ fncn tests we are trying to see what the user sees, not what's returned
+
+IMPORTANT-- return stops stuff, does not print 
+        also, output capsys shows us 

@@ -28,6 +28,7 @@ from adventure import (
     place_add,
     place_remove,
     place_can, 
+    do_buy,
 )
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
@@ -191,7 +192,8 @@ def test_do_take_without_item(capsys):
 
     # WHEN: When the player tries to take it
     do_take(["duck"])
-    output = capsys.readouterr().out
+    # what_the_function_returned = do_take(list_of_what_the_player_typed)
+    what_the_player_saw = capsys.readouterr().out
     # breakpoint()
     
     # THEN: It is not added to player inventory
@@ -201,7 +203,7 @@ def test_do_take_without_item(capsys):
     assert "duck" not in adventure.PLACES["somewhere"]["items"]
 
     # AND: The fncn tells you what happened 
-    assert "I don't see duck" in output
+    assert "I don't see duck" in what_the_player_saw
 
 # item IS in place and NOT in inventory
 def test_do_examine_with_item(capsys):
@@ -460,4 +462,16 @@ def test_place_can():
 
     # THEN: The action is returned as truthy
     assert ability
-    ...
+
+
+# do_buy with no args
+def test_do_buy_no_args(capsys):
+    # GIVEN: Player is in location
+    adventure.PLAYER["place"] = "somewhere"
+
+    # WHEN: Player attempts to buy w/o arg
+    do_buy([])
+    output =  capsys.readouterr().out
+
+    # THEN: It should fail and player should get an error
+    
