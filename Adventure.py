@@ -83,12 +83,17 @@ ITEMS = {
         "description": "This is what happens when you don't commit...you get pushed INTO HELL!",
         "price": "",
         "can_take": False
-    }
+    },
+    "gems": {
+        "key": "gem",
+        "name": "Regal Gems of Sahaphfire",
+        "description": "It's a bunch of sparkly rocks, big whoop",    
+    },
 }
 
 PLAYER = {
     "place": "home",
-    "inventory": {}
+    "inventory": {"gems": 50},
 }
 
 #  MAP of PLACES:
@@ -126,7 +131,7 @@ PLACES = {
         "west": "well",
         "south": "town square",
         "items": ["elixir", "club", "flute", "poison"],
-        "can": ["shop"],
+        "can": ["shop", "buy"],
     },
     "well":{
         "key": "well",
@@ -260,6 +265,7 @@ def is_for_sale(key: str) -> bool:
         return False
 
 def place_can(action):
+    # ya put the action in the arg to check for viability
     place = get_place()
     if action in place.get("can", []):
         return True
@@ -306,6 +312,20 @@ def place_add(key: str):
     #  if not then add list to place
     if key not in place["items"]:
         place["items"].append(key)
+
+
+def do_buy(args):
+    debug(f"Trying to buy {args}")
+    if not args:
+        error("You haven't input an item from here. Buy something or get out!")
+        return
+    # here i need to create an if statement that tests if a location has the 'can':['buy'] 
+    # property then create an error otherwise
+    if not place_can('buy'): 
+        error("You can't buy that here! Go to a real store, you lazy capitalist!")
+        return
+
+
 
 def do_examine(args: list) -> "None":
     """Run for the examine command and lets user get further info on item in location/
@@ -372,25 +392,25 @@ def do_take(args: list):
     place = get_place()
     if not args:
         error("Which way do you want to go with all this?")
-        return
+        return None
     name = args[0].lower()
     item = ITEMS.get(name)
     debug(f"Trying to take: {name}")
     if not current_place_has(name):
         error(f"I don't see {name} here, you fool of a Took!")
-        return
+        return  None
     if not item:
         abort(f"Welp! The info about {name} is missing or something...")
     if not item.get("can_take", []):
         wrap(f"You try to pick up {item['name']}, but you are a puny mortal with no muscles")
-        return
+        return None
     # rn we're gonna change some stuff to 
     # PLAYER["inventory"][name] = PLAYER["inventory"][name] + 1
     inventory_change(name, 1)
     # place["items"].remove(name)
     place_remove(name)
     wrap(f"You pick up the {item['name']} and put it in your backy-pack")
-
+    return None
 
 def do_inventory():
     debug(f"Trying to show inventory")
@@ -488,6 +508,7 @@ def main():
         args = reply.split()
         inventory = ["i", "inventory", "I", "inven"]
         drop = ["D", "d", "Drop", "drop"]
+        buy = ["B", "b", "buy", "Buy"]
         if not args:
             continue
         command = args.pop(0)
@@ -509,6 +530,8 @@ def main():
             do_inventory()
         elif command in drop:
             do_drop(args)
+        elif command in buy:
+            do_buy(args)
         else:
             error("No Such Command")
             continue
