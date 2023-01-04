@@ -94,4 +94,4 @@ that property. True or False ending
 in our "do"_ fncn tests we are trying to see what the user sees, not what's returned
 
 IMPORTANT-- return stops stuff, does not print 
-        also, output capsys shows us 
+        also, output capsys shows us what the player is seeing
