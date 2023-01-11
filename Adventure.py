@@ -319,13 +319,16 @@ def do_buy(args):
     if not args:
         error("You haven't input an item from here. Buy something or get out!")
         return
-    # here i need to create an if statement that tests if a location has the 'can':['buy'] 
-    # property then create an error otherwise
     if not place_can('buy'): 
         error("You can't buy that here! Go to a real store, you lazy capitalist!")
         return
-
-
+    name = args[0].lower()
+    if name not in ITEMS:
+        error(f"-_- {name} isn't real. I'm not a conjurer of cheap tricks!")
+        return
+    if not is_for_sale(name): 
+        error(f"Not for sale to a hobbit like you!")
+        return
 
 def do_examine(args: list) -> "None":
     """Run for the examine command and lets user get further info on item in location/

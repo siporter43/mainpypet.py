@@ -95,3 +95,6 @@ in our "do"_ fncn tests we are trying to see what the user sees, not what's retu
 
 IMPORTANT-- return stops stuff, does not print 
         also, output capsys shows us what the player is seeing
+
+for our guardian conditional statements (if -blank- not in -dict-) return needs to stop
+it at the end lest there be an attr err

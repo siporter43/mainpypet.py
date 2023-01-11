@@ -471,7 +471,62 @@ def test_do_buy_no_args(capsys):
 
     # WHEN: Player attempts to buy w/o arg
     do_buy([])
-    output =  capsys.readouterr().out
-
+    output = capsys.readouterr().out
+    # 
+    # breakpoint()
     # THEN: It should fail and player should get an error
+    assert "get out" in output 
+
+# do_buy with wrong location
+def test_do_buy_wrong_place(capsys):
+    # GIVEN: Player is in a place
+    adventure.PLAYER["place"] = "somewhere"
+
+    # AND: Place has no buy property
+    adventure.PLACES["somewhere"] = {"can": []}
+
+    # WHEN: Player attempts to buy
+    do_buy(["hat"])
+    output = capsys.readouterr().out
+    # breakpoint()
+    # THEN: It should print an error
+    assert "Go to a real store" in output
+
+# do_buy with item not for sale
+def test_do_buy_item_no_buy_prop(capsys):
+    # GIVEN: Player is in an appropriate place
+    adventure.PLAYER["place"] = "bodega"
+
+    # AND: Location has buy property
+    adventure.PLACES["bodega"] = {"can": ["buy",], "items": ["dumpster fire", "politicians"]}
     
+    # AND: Player has gems
+    adventure.PLAYER["inventory"] = {'gems': 50},
+
+    # AND: A given item is not for sale
+    adventure.ITEMS["dumpster fire"] = {"key": "dumpster fire", "name": "Politics", "description": "real real bad"}
+  
+    # WHEN: Player attempts to buy
+    do_buy(["dumpster fire"])
+    output = capsys.readouterr().out
+
+    # THEN: An error should be printed
+    assert "Not for sale to a hobbit like you!" in output
+
+# do_buy with non-existant item
+def test_do_buy_item_not_exist(capsys):
+    # GIVEN: Player is in an appropriate place
+    adventure.PLAYER["place"] = "bodega"
+
+    # AND: Location has buy property
+    adventure.PLACES["bodega"] = {"can": ["buy",], "items": ["kit", "caboodle"]}
+    
+    # AND: Player has gems
+    adventure.PLAYER["inventory"] = {'gems': 50},
+
+    # WHEN: Player attempts to buy an item not listed in code
+    do_buy(["elephant"])
+    output = capsys.readouterr().out
+
+    # THEN: An error should be printed
+    assert "I'm not a conjurer of cheap tricks!" in output

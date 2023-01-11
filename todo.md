@@ -70,10 +70,10 @@ Part 10
 * [x] If not, print an error message like Sorry, you can't action here. then return
 * [-] Part 10.3
         Writing notes for each test in do_buy
-        1. with no args
-        2. with wrong location (no buy property)
-        3. with invalid item (no buy property)
-        4. with right location, invalid item
+       X 1. with no args
+       X 2. with wrong location (no buy property)
+       X 3. with right location, invalid item
+        4. with invalid item (not an item in the game)
         5. with right location, item not at location
         6. with right location, right item, no gems
         7. with right location, right item, enough gems
