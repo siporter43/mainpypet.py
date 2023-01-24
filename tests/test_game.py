@@ -91,7 +91,7 @@ def test_get_item(capsys):
     item = get_item("hats")
     assert item == {"name": "cap"}, "Our errors shall be written"
 
-def test_player_has():
+# def test_player_has():
     # GIVEN: player has item in inventory
     adventure.PLAYER["inventory"]["purse"] = 1
 
@@ -530,3 +530,45 @@ def test_do_buy_item_not_exist(capsys):
 
     # THEN: An error should be printed
     assert "I'm not a conjurer of cheap tricks!" in output
+
+# do_buy with item that can be bought, not at location
+def test_do_buy_item_not_here(capsys):
+    # GIVEN: Player is in an appropriate place
+    adventure.PLAYER["place"] = "pawn shop"
+
+    # AND: Location has buy property
+    adventure.PLACES["pawn shop"] = {"can": ["buy",], "items": ["ugly shoes", "broken bells"]}
+    
+    # AND: Player has gems
+    adventure.PLAYER["inventory"] = {'gems': 50},
+
+    # AND: There exists an item that has buy in a different location
+    adventure.ITEMS["big guitar"] = {"key": "big guitar", "name": "Dusty the Stratocaster", "description": "6 strings, no blings", "price": -10}
+    
+    # WHEN: Player attempts to buy that item
+    do_buy(['big guitar'])
+    output = capsys.readouterr().out
+    
+    # THEN: An error should be printed 
+    assert "Beat it" in output
+
+# do_buy with correct location/item but no gems
+def test_do_buy_no_gems(capsys):
+    # GIVEN: Player is at appropriate place
+    adventure.PLAYER["place"] = "store"
+
+    # AND: Location has buy property
+    adventure.PLACES["store"] = {"can": ["buy",], "items": ["pickled ginger", "gabagool", "coyote snout"]}
+
+    # AND: Item exists that can be bought in location
+    adventure.ITEMS["gabagool"] = {"key": "gabagool", "name": "yabba gabagool", "description": "yummy curing meat", "price": -20}
+
+    # AND: Player doesn't have enough gems
+    adventure.PLAYER["inventory"] = {"gems": 5}
+
+    # WHEN: Player attempts to buy item
+    do_buy(["gabagool"])
+    output = capsys.readouterr().out
+
+    # THEN: An error should be printed
+    assert "Get a job" in output

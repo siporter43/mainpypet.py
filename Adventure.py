@@ -203,14 +203,14 @@ def get_item(key: str) -> dict:
         abort(f"Welp-O! Looks like info about item {name} is missing")
     return item
 
-def player_has(key: str) -> bool:
+def player_has(key: str, qty = 1) -> bool:
     """ Checks whether an item exists in current player inventory.
-    
+      it also checks qty compared to default       
     Args
     ----
     * key: the key is in PLAYER: inventory dict
     """
-    if PLAYER["inventory"].get(key, 0) > 0:
+    if PLAYER["inventory"].get(key, 0) >= qty:
         return True
     else:
         return False
@@ -326,8 +326,14 @@ def do_buy(args):
     if name not in ITEMS:
         error(f"-_- {name} isn't real. I'm not a conjurer of cheap tricks!")
         return
+    if not current_place_has(name):
+        error(f"{name} ain't here for you to buy! Beat it, shorty")
+        return
     if not is_for_sale(name): 
         error(f"Not for sale to a hobbit like you!")
+        return
+    if player_has("gems", ) < name["price"]:
+        error("You don't have enough toll for the troll. Get out and Get a Job")
         return
 
 def do_examine(args: list) -> "None":
