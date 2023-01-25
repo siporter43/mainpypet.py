@@ -91,7 +91,8 @@ def test_get_item(capsys):
     item = get_item("hats")
     assert item == {"name": "cap"}, "Our errors shall be written"
 
-# def test_player_has():
+# Testing for when an instance of an item exists in inventory
+def test_player_has():
     # GIVEN: player has item in inventory
     adventure.PLAYER["inventory"]["purse"] = 1
 
@@ -101,6 +102,7 @@ def test_get_item(capsys):
     # THEN: it will return true 
     assert result == True
 
+# Testing for when there is 0 in inventory
 def test_player_has_0():
     # GIVEN: player has no item in inventory
     adventure.PLAYER["inventory"]["kitten"] = 0
@@ -111,6 +113,7 @@ def test_player_has_0():
     # THEN: it will return False
     assert result == False
 
+# Testing for when no key is given when fncn called
 def test_player_no_key():
     # GIVEN: key nonexistent in inventory
     adventure.PLAYER["inventory"] = {}
@@ -120,6 +123,35 @@ def test_player_no_key():
 
     # THEN: it will return False
     assert result == False
+
+# Testing for when Player has multiple items in inventory
+def test_player_has_mult_items():
+    # GIVEN: Player has multiple items in inventory
+    adventure.PLAYER["inventory"] = {}
+    adventure.PLAYER["inventory"]["piggy"] = 5
+    adventure.PLAYER["inventory"]["puppy"] = 1
+
+    # WHEN: We call if Player has any item there
+    result = player_has("piggy")
+    
+    # THEN: it will return True
+    assert result == True
+
+# test player_has for inventory discrepancy comparing inv to called fncn
+def test_player_has_more():
+    # GIVEN: Player has gems in inventory
+    adventure.PLAYER["inventory"]["gems"] = 5
+
+    # AND: Qty is less than gems in inventory
+    qty = 6
+   
+    # WHEN: Player_has fncn called with qty 
+    result = player_has("gems", qty)
+   
+    # THEN: it will return false
+    assert result == False
+
+
 
 def test_current_place_has():
     # GIVEN: if somewhere the player is in has a particular item

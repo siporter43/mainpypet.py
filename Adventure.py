@@ -203,12 +203,13 @@ def get_item(key: str) -> dict:
         abort(f"Welp-O! Looks like info about item {name} is missing")
     return item
 
-def player_has(key: str, qty = 1) -> bool:
+def player_has(key: str, qty: int = 1) -> bool:
     """ Checks whether an item exists in current player inventory.
       it also checks qty compared to default       
     Args
     ----
     * key: the key is in PLAYER: inventory dict
+    * qty: is the number of a key in inv
     """
     if PLAYER["inventory"].get(key, 0) >= qty:
         return True
