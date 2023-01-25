@@ -152,7 +152,6 @@ def test_player_has_more():
     assert result == False
 
 
-
 def test_current_place_has():
     # GIVEN: if somewhere the player is in has a particular item
     adventure.PLAYER["place"] = "somewhere"
@@ -603,4 +602,4 @@ def test_do_buy_no_gems(capsys):
     output = capsys.readouterr().out
 
     # THEN: An error should be printed
-    assert "Get a job" in output
+    assert "Get a Job" in output

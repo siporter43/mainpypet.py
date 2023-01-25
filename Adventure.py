@@ -333,7 +333,10 @@ def do_buy(args):
     if not is_for_sale(name): 
         error(f"Not for sale to a hobbit like you!")
         return
-    if player_has("gems", ) < name["price"]:
+    # breakpoint()
+    item = get_item(name)
+    price = abs(item["price"])
+    if not player_has("gems", price):
         error("You don't have enough toll for the troll. Get out and Get a Job")
         return
 

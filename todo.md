@@ -75,6 +75,7 @@ Part 10
        X 3. with right location, invalid item
        X 4. with invalid item (not an item in the game)
        X 5. with right location, item not at location
-        6. with right location, right item, no gems
-        [Need to redo player_has tests, to test for qty prop...]
+        X 6. with right location, right item, no gems
+        
+        X [Need to redo player_has tests, to test for qty prop...]
         7. with right location, right item, enough gems
