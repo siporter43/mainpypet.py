@@ -333,12 +333,17 @@ def do_buy(args):
     if not is_for_sale(name): 
         error(f"Not for sale to a hobbit like you!")
         return
-    # breakpoint()
     item = get_item(name)
     price = abs(item["price"])
     if not player_has("gems", price):
         error("You don't have enough toll for the troll. Get out and Get a Job")
         return
+    # Now we have to deduct price from player[inv][gems,] and save that value
+    inventory_change("gems", -price)
+    # Right here we need to put the bought item into player inventory, remove from store
+    inventory_change(name, +1)
+    place_remove(name)
+    wrap(f"Let's get you all sorted then. You've bought {item} for {price}. All sales final. Good day.")
 
 def do_examine(args: list) -> "None":
     """Run for the examine command and lets user get further info on item in location/

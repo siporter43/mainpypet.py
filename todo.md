@@ -78,4 +78,4 @@ Part 10
         X 6. with right location, right item, no gems
         
         X [Need to redo player_has tests, to test for qty prop...]
-        7. with right location, right item, enough gems
+        X 7. with right location, right item, enough gems

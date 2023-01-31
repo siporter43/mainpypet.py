@@ -603,3 +603,33 @@ def test_do_buy_no_gems(capsys):
 
     # THEN: An error should be printed
     assert "Get a Job" in output
+
+# do_buy with correct location/item/gems
+def test_do_buy_all_correct(capsys):
+    # GIVEN: Player is at appropriate location
+    adventure.PLAYER["place"] = "store"
+
+    # AND: Location has buy property
+    adventure.PLACES["store"] = {"can": ["buy",], "items": ["time machine", "coffee machine", "ex machina"]}
+
+    # AND: Item exists tha can be bought in location
+    adventure.ITEMS["time machine"] = {"key": "time machine", "name": "Delorean", "description": "TIME IS ALIVE", "price": -10}
+
+    # AND: Player has enough gems
+    adventure.PLAYER["inventory"] = {"gems": 30}
+
+    # WHEN: Player attempts to buy item
+    do_buy(["time machine"])
+    output = capsys.readouterr().out
+
+    # THEN: No error raised
+    assert "Let's get you all sorted then" in output
+    
+    # AND: The item is put into player inventory
+    assert "time machine" in adventure.PLAYER["inventory"]
+
+    # AND: Gems should be deducted from player inventory
+    assert adventure.PLAYER["inventory"]
+
+    # AND: Item should be removed from location
+    assert "time machine" not in adventure.PLACES["store"]
