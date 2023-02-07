@@ -68,7 +68,7 @@ Part 10
 
 * [x] In do_shop() at the very beginning of the function check if shopping is supported in the current place by calling place_can() with the argument "shop".
 * [x] If not, print an error message like Sorry, you can't action here. then return
-* [-] Part 10.3
+* [x] Part 10.3
         Writing notes for each test in do_buy
        X 1. with no args
        X 2. with wrong location (no buy property)
@@ -80,7 +80,11 @@ Part 10
         X [Need to redo player_has tests, to test for qty prop...]
         X 7. with right location, right item, enough gems
 
-[ ] Part 10.4: Clean up the shop
-*       [ ] A. Show price in do_shop
+* [ ] Part 10.4: Clean up the shop
+       [x] A. Show price in do_shop
                 [x] Print item 'price' with desc and name, use abs() to make price positive
-                [ ] Use string formatting to align into columns
+                [x] Use string formatting to align into columns
+        [x] B. Handle long desc.
+                [x] in 'for' loop call textwrap.shorten() with 2 args
+                item desc and desired max width ->Assign to desc var
+                [x] in write fncn replace --- with desc (see above)
