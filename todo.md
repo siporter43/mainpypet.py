@@ -79,3 +79,8 @@ Part 10
         
         X [Need to redo player_has tests, to test for qty prop...]
         X 7. with right location, right item, enough gems
+
+[ ] Part 10.4: Clean up the shop
+*       [ ] A. Show price in do_shop
+                [x] Print item 'price' with desc and name, use abs() to make price positive
+                [ ] Use string formatting to align into columns

@@ -27,7 +27,7 @@ DEBUG = True
 ITEMS = {
     "elixir": {
         "key": "elixir",
-        "name": "Booze of healing",
+        "name": "Elixir of healing",
         "description": "Some medicine mixed with everclear for taste",
         "price": -10,
     },
@@ -92,7 +92,7 @@ ITEMS = {
 }
 
 PLAYER = {
-    "place": "home",
+    "place": "market",
     "inventory": {"gems": 50},
 }
 
@@ -328,7 +328,7 @@ def do_buy(args):
         error(f"-_- {name} isn't real. I'm not a conjurer of cheap tricks!")
         return
     if not current_place_has(name):
-        error(f"{name} ain't here for you to buy! Beat it, shorty")
+        error(f"Ain't no {name} here for you to buy! Beat it, shorty")
         return
     if not is_for_sale(name): 
         error(f"Not for sale to a hobbit like you!")
@@ -343,7 +343,7 @@ def do_buy(args):
     # Right here we need to put the bought item into player inventory, remove from store
     inventory_change(name, +1)
     place_remove(name)
-    wrap(f"Let's get you all sorted then. You've bought {item} for {price}. All sales final. Good day.")
+    wrap(f"Let's get you all sorted then. You've bought {name} for {price} gems. All sales final. Good day.")
 
 def do_examine(args: list) -> "None":
     """Run for the examine command and lets user get further info on item in location/
@@ -474,7 +474,7 @@ def do_shop():
         item = get_item(key)
         if not is_for_sale(key):
             continue
-        write(f'Name:{item["name"]} \n Desc.: {item["description"]} \n Cost: {item["price"]}')
+        write(f'{format(item["name"], "<")}: {abs(item["price"])} gems \n {format(item["description"], "<")}')
 
 
 def get_place(key: str=None) -> dict:
@@ -510,7 +510,9 @@ def do_go(args):
     wrap(fx.bold(new_place["name"])) 
     wrap(fx.encircle(new_place["description"]))
 
-
+def do_quit():
+    wrap(bg.lightmagenta("Goodbye, nerd"))
+    quit()
 
 def main():
     print("Welcome to the Adventure of a Slight-time!")
@@ -563,13 +565,10 @@ def check_main():
         main()
 
 
-def do_quit():
-    write(bg.lightmagenta("Goodbye, nerd"))
-    quit()
 
 # NOTE: make this a seperate script sometime
 def new_file():
-    path = Path("may2.py")
+    path = Path("pracBoyo.py")
     print(f"Now creating {path} for our new lesson")
     path.touch()
 
@@ -578,3 +577,6 @@ def new_file():
 if __name__ == "__main__":
     main()
 
+main()
+
+new_file()
