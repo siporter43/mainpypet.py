@@ -472,9 +472,15 @@ def do_shop():
     local_items = place["items"]
     for key in local_items:
         item = get_item(key)
+        name = item["name"]
+        price = abs(item["price"])
+        description = item["description"]
         if not is_for_sale(key):
             continue
-        write(f'{format(item["name"], "<")}: {abs(item["price"])} gems \n {format(item["description"], "<")}')
+        f_name_price = f"{name}: {price} gems"
+        desc = textwrap.shorten(description, 35)
+        write(f'{f_name_price: <35} {desc}')
+        # write(f'{format(item["name"], "<")}: {abs(item["price"])} gems \n {format(item["description"], "<")}')
 
 
 def get_place(key: str=None) -> dict:
@@ -579,4 +585,3 @@ if __name__ == "__main__":
 
 main()
 
-new_file()
