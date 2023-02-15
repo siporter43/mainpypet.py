@@ -48,7 +48,7 @@ Part 10
 --------
 
 * [-] Part 10.1       
-* [ ] Do 10.1 A
+* [x] Do 10.1 A
 * [x] Write (passing) test for current behavior of do_shop()
       (Note: be sure to look at other do_*() tests to remember how it works.)
 * [x] Modify test (to fail)for new behavior:
@@ -80,7 +80,7 @@ Part 10
         X [Need to redo player_has tests, to test for qty prop...]
         X 7. with right location, right item, enough gems
 
-* [ ] Part 10.4: Clean up the shop
+* [x] Part 10.4: Clean up the shop
        [x] A. Show price in do_shop
                 [x] Print item 'price' with desc and name, use abs() to make price positive
                 [x] Use string formatting to align into columns
@@ -88,3 +88,26 @@ Part 10
                 [x] in 'for' loop call textwrap.shorten() with 2 args
                 item desc and desired max width ->Assign to desc var
                 [x] in write fncn replace --- with desc (see above)
+        [x] B,2. Add short summary items in dict
+                [x] In each dict in ITEMS add a key 'summary' with one line descr
+                [x] in do_shop replace item[desc] with item[summary]
+        [x] C. Show price in do_examine
+                [x] In do_shop check if: 
+                        [x]place supports 'shop'
+                        [x]place has item with place_has
+                        [x]item is for sale by calling is_for_sale
+                [x] Print price
+        [x] D. Show inventory quant in do_examine
+                [x]Check if player has item in inv. using player_has with -name-
+                [x] Print quant from Player inv dict for -name-
+
+* [] Part 11: Tests, More
+        [] 11.6 Test inventory_change()
+                [x] A. Add teardown
+                [] B. Write test_inventory_change()
+                        [x] Import inventory_change fncn
+                        [x] Add a test_inv_ch fncn
+                        [] Add key with qty
+                        [] Call inv_ch with key value
+                        [] Assert statement that checks addition of inv
+                        [] Run test

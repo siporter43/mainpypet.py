@@ -27,32 +27,46 @@ DEBUG = True
 ITEMS = {
     "elixir": {
         "key": "elixir",
-        "name": "Elixir of healing",
-        "description": "Some medicine mixed with everclear for taste",
+        "name": "Elixir of Healing",
+        "description": (
+            "A tiny ruby vial of some dark medicine mixed with everclear for taste. Kills villains usually"
+            "Often recovers hp if cool"
+            ),
+        "summary": "Lixir Fixer Upper",
         "price": -10,
     },
     "club": {
         "key": "club",
         "name": "Club",
-        "description": "A big piece of something you can hit anyone with",
+        "description": (
+            "A big piece of something you can hit anyone with, even friends...Does damage inverse to intelligence"
+            "Historically this has been used to settle arguments of sport"
+            ),
+        "summary": "Club for to hit",
         "price": -20,
     },
     "flute": {
         "key": "flute",
         "name": "Flute of Viscious Whimsy",
-        "description": "An Instrument for Melody and Murder",
+        "description": (
+            "An Instrument for Melody and Murder. Forged from fluish fruit flies"
+            "Only to be used for festive functions"
+        ),
+        "summary": "Friggin' Fight Flute",
         "price": -15,
     },
     "poison": {
         "key": "poison",
         "name": "Actual Poison",
         "description": "It's poison. Don't buy this",
+        "summary": "PELIGRO: POISON", 
         "price": -10,
     },
     "book": {
         "key": "book",
         "name": "The Book of Mild Secrets",
         "description": "It's a pleather-bound book of pages from sages",
+        "summary": "Readable for nerds",
         "price": "",
         "can_take": True
     },
@@ -60,6 +74,7 @@ ITEMS = {
         "key": "desk",
         "name": "The Resolute Desk",
         "description": "A heavy wooden desk with a clever book open on its surface",
+        "summary": "Desk of...wood?",
         "price": "",
         "can_take": False
     },
@@ -67,6 +82,7 @@ ITEMS = {
         "key": "dogs",
         "name": "little pupperonis",
         "description": "The cutest little things",
+        "summary": "Cutie cuties",
         "price": "",
         "can_take": False
     },
@@ -74,6 +90,7 @@ ITEMS = {
         "key": "snack",
         "name": "secret electro-ice cream",
         "description": "The ice cream that makes you good at coding instead of giving brain freezes",
+        "summary": "yummy frozen robo-dessert",
         "price": "",
         "can_take": True
     },
@@ -81,13 +98,15 @@ ITEMS = {
         "key": "bones",
         "name": "The Bones of her enemies",
         "description": "This is what happens when you don't commit...you get pushed INTO HELL!",
+        "summary": "Human bones! AY CARAMBA!",
         "price": "",
         "can_take": False
     },
     "gems": {
         "key": "gem",
         "name": "Regal Gems of Sahaphfire",
-        "description": "It's a bunch of sparkly rocks, big whoop",    
+        "description": "It's a bunch of sparkly rocks, big whoop", 
+        "summary": "It'sa tha money"   
     },
 }
 
@@ -366,6 +385,13 @@ def do_examine(args: list) -> "None":
     item = ITEMS[name]
     header(item["name"])
     wrap(item["description"])
+    # print price of item if at a shop with item
+    if place_can("shop") and current_place_has(name) and is_for_sale(name):
+        write(f"{abs(item['price'])} gems")
+    # print qty if item is from inv
+    if player_has(name):
+        write(f"You have {PLAYER['inventory'][name]} {name}s in your inventory")
+
 
 def do_look():
     place = get_place()
@@ -474,11 +500,11 @@ def do_shop():
         item = get_item(key)
         name = item["name"]
         price = abs(item["price"])
-        description = item["description"]
+        summary = item["summary"]
         if not is_for_sale(key):
             continue
         f_name_price = f"{name}: {price} gems"
-        desc = textwrap.shorten(description, 35)
+        desc = textwrap.shorten(summary, 35)
         write(f'{f_name_price: <35} {desc}')
         # write(f'{format(item["name"], "<")}: {abs(item["price"])} gems \n {format(item["description"], "<")}')
 
