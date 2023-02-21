@@ -107,7 +107,7 @@ Part 10
                 [] B. Write test_inventory_change()
                         [x] Import inventory_change fncn
                         [x] Add a test_inv_ch fncn
-                        [] Add key with qty
-                        [] Call inv_ch with key value
+                        [x] Add key with qty
+                        [x] Call inv_ch with key value
                         [] Assert statement that checks addition of inv
                         [] Run test

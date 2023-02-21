@@ -457,16 +457,16 @@ def test_do_shop(capsys):
     adventure.PLAYER["place"] = "somewhere"
     
     # AND: There are items for sale
-    adventure.ITEMS["cat"] = {"key": "cat", "name": "korg", "description": "cute lil kitty-cat", "price": -15}
+    adventure.ITEMS["cat"] = {"key": "cat", "name": "korg", "summary": "cute lil kitty-cat", "price": -15}
     
     # AND: There are also items not for sale
-    adventure.ITEMS["rat"] = {"key": "rat", "name": "ronnie", "description": "ugly plague beast"}
+    adventure.ITEMS["rat"] = {"key": "rat", "name": "ronnie", "summary": "ugly plague beast"}
 
     # AND: The both those items are in the same location as the Player, That place has 'shop' action 
     adventure.PLACES["somewhere"] = {"items": ["cat", "rat"], "can": ["shop",]}
 
     # AND: There is an item for sale that is not in that location
-    adventure.ITEMS["worm"] = {"key": "worm", "name": "wermhat", "description": "wiggly worm", "price": -1}
+    adventure.ITEMS["worm"] = {"key": "worm", "name": "wermhat", "summary": "wiggly worm", "price": -1}
   
     # WHEN: do_shop is called
     do_shop()
@@ -633,3 +633,17 @@ def test_do_buy_all_correct(capsys):
 
     # AND: Item should be removed from location
     assert "time machine" not in adventure.PLACES["store"]
+
+
+# inv_ch adding 1 to item already in inv
+def test_inventory_change_plus():
+    # GIVEN: Player has item in inventory
+    adventure.PLAYER["inventory"] = {"shoes": 5}
+
+    # WHEN: Inv_ch called with an item/int
+    inventory_change("shoes", 1)
+
+    # THEN: Item in Player Inv qty should increase by one
+    assert adventure.PLAYER["inventory"]["shoes"] > 5
+
+# inv_ch w/o second arg
