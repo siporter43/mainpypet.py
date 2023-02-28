@@ -109,5 +109,5 @@ Part 10
                         [x] Add a test_inv_ch fncn
                         [x] Add key with qty
                         [x] Call inv_ch with key value
-                        [] Assert statement that checks addition of inv
-                        [] Run test
+                        [x] Assert statement that checks addition of inv
+                        [x] Run test
