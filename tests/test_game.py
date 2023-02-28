@@ -647,3 +647,45 @@ def test_inventory_change_plus():
     assert adventure.PLAYER["inventory"]["shoes"] > 5
 
 # inv_ch w/o second arg
+def test_inventory_change_no_second():
+    # GIVEN: Player has inventory
+    adventure.PLAYER["inventory"] = {"candy": 11}
+
+    # WHEN: Inv_ch called with item but w/o qty
+    inventory_change("candy")
+
+    # THEN: Inventory will increase by 1
+    assert adventure.PLAYER["inventory"]["candy"] == 12
+
+# inv_ch key not in dict
+def test_inventory_change_missing_key():
+    # GIVEN: Player has inventory
+    adventure.PLAYER["inventory"] = {}
+
+    # WHEN: Inv_ch called w/o key
+    inventory_change("almonds")
+
+    # THEN: An error will be raised
+    assert adventure.PLAYER["inventory"]["almonds"] == 1
+    
+# inv_ch w/ negative num
+def test_inventory_change_neg():
+    # GIVEN: Player has inv
+    adventure.PLAYER["inventory"] = {"cookies": 13}
+
+    # WHEN: Inv_ch called with negative num
+    inventory_change("cookies", -3)
+
+    # THEN: Qty in inv is reduced
+    assert adventure.PLAYER["inventory"]["cookies"] == 10
+    
+# inv_ch removal
+def test_inventory_change_removal():
+    # GIVEN: 
+    adventure.PLAYER["inventory"] = {"brownies": 4}
+
+    # WHEN: 
+    inventory_change("brownies", -4)
+
+    # THEN:
+    assert "brownies" not in adventure.PLAYER["inventory"]

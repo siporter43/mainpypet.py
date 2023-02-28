@@ -293,12 +293,12 @@ def place_can(action):
         return False
 
 
-def inventory_change(key, quantity):
+def inventory_change(key, quantity = 1):
     """Run to change quantity of item in inventory
     
     If no key, message error asking for item name
 
-    If no quatity, return error 
+    If no quatity, return error -X
 
     Args
     ----
@@ -497,12 +497,12 @@ def do_shop():
     place = get_place()
     local_items = place["items"]
     for key in local_items:
+        if not is_for_sale(key):
+            continue
         item = get_item(key)
         name = item["name"]
         price = abs(item["price"])
-        summary = item["summary"]
-        if not is_for_sale(key):
-            continue
+        summary = item.get("summary", "")
         f_name_price = f"{name}: {price} gems"
         desc = textwrap.shorten(summary, 35)
         write(f'{f_name_price: <35} {desc}')
@@ -606,8 +606,10 @@ def new_file():
 
 
 # Runner
-if __name__ == "__main__":
+if __name__ == "__main__":  # if this file is run directly via python filename.py
     main()
+else:                       # if it is imported
+    ...
 
-main()
+
 
