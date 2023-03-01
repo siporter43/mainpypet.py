@@ -29,6 +29,7 @@ from adventure import (
     place_remove,
     place_can, 
     do_buy,
+    do_read,
 )
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
@@ -352,6 +353,19 @@ def test_do_drop_player_has_not(capsys):
     # THEN: An error is returned
     assert "don't have any kitty" in output
 
+def test_do_drop_no_args(capsys):
+    # GIVEN: Player has inventory
+    adventure.PLAYER["inventory"] = {"kitten":3}
+
+    # AND: Player is in location
+    adventure.PLAYER["place"] = "library"
+
+    # WHEN: do_drop called w/o arg
+    do_drop([])
+    output = capsys.readouterr().out
+
+    # THEN: Error is raised
+    assert "What you wanna drop" in output
 
 
 def test_is_for_sale(capsys):
@@ -681,11 +695,24 @@ def test_inventory_change_neg():
     
 # inv_ch removal
 def test_inventory_change_removal():
-    # GIVEN: 
+    # GIVEN: Player has item in inventory 
     adventure.PLAYER["inventory"] = {"brownies": 4}
 
-    # WHEN: 
+    # WHEN: inv_ch called on all units
     inventory_change("brownies", -4)
 
-    # THEN:
+    # THEN: Item will not be shown
     assert "brownies" not in adventure.PLAYER["inventory"]
+
+# do_read w/ empty list
+def test_do_read_empty_list(capsys):
+    # GIVEN: 
+
+
+    # WHEN:
+    do_read([])
+    output = capsys.readouterr().out
+
+    # THEN:
+    assert "Trying to read" in output
+    ...
