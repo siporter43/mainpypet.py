@@ -705,14 +705,31 @@ def test_inventory_change_removal():
     assert "brownies" not in adventure.PLAYER["inventory"]
 
 # do_read w/ empty list
-def test_do_read_empty_list(capsys):
-    # GIVEN: 
+def test_do_read_no_args(capsys):
+    # GIVEN: None
 
-
-    # WHEN:
+    # WHEN: An empty list is passed
     do_read([])
     output = capsys.readouterr().out
 
-    # THEN:
+    # THEN: The fncn runs
     assert "Trying to read" in output
-    ...
+
+    # AND: An error should be printed
+    assert "What are you trying to read" in output
+
+# do_read w/ missing item
+def test_do_read_missing_item(capsys):
+    # GIVEN: None
+
+
+    # WHEN: An arg is passed that isn't not an item key
+    do_read(["boring memoir"])
+    output = capsys.readouterr().out
+
+    # THEN: Then fncn runs its debug
+    assert "Trying to read" in output
+
+    # AND: An error is raised 
+    assert "Sorry, chum" in output
+

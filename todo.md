@@ -101,13 +101,52 @@ Part 10
                 [x]Check if player has item in inv. using player_has with -name-
                 [x] Print quant from Player inv dict for -name-
 
-* [] Part 11: Tests, More
-        [] 11.6 Test inventory_change()
+* [x] Part 11: Tests, More
+
+        [x] 11.6 Test inventory_change()
                 [x] A. Add teardown
-                [] B. Write test_inventory_change()
+                [x] B. Write test_inventory_change()
                         [x] Import inventory_change fncn
                         [x] Add a test_inv_ch fncn
                         [x] Add key with qty
                         [x] Call inv_ch with key value
                         [x] Assert statement that checks addition of inv
                         [x] Run test
+        [] 11.7 Test do_drop()
+                [x] A. Write test_do_drop_no_args
+                [x] B. Write test_do_drop_missing_item
+
+Part 12: Read Things
+-------
+* [x] Part 12.1 Add command
+        [x] A. In test_game.py
+                [x] Import do_read fncn
+                [x] Add test_do_read() with parameter capsys
+                [x] Call do_read with empty list as arg
+                [x] Write assert statement that checks debug message 
+                [x] Run test to get error
+        [x] B. add do_read to adventure.py
+        [x] C. in main()
+                [x] Add elif for do_read
+* [x] Part 12.2 Ensure item
+        [x] A. in test_game.py
+                [x] Change test name
+                [x] Add assertion that checks for error
+                [x] Run test. Should fail
+        [x] B. in adv.py in do_read
+                [x] Check if args is falsy, print error if so
+                [x] Run test to pass
+* [] Part 12.3 Ensure item is there
+        [x] A. in test_game.py
+                [x] Add test_do_read_missing_item() with param capsys
+                [x] Call do_read with a list and any str that's not an item key for an arg
+                [x] Assign capsys... to output
+                [x] Write an assert statement checking debug message
+                [x] Write an assert that checks "Sorry, I don't know what this is" in output
+                [x] Run failing test
+        [] B. In adv.py in do_read
+                [] Assign first item of args list to a var name with lower
+                [] Write an if statement that checks if player or place has item:
+                        [] Use error() to print message like "Sorry idk what args is"
+                        [] return
+                [] Run the passing test
