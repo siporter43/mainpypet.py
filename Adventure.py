@@ -111,7 +111,7 @@ ITEMS = {
 }
 
 PLAYER = {
-    "place": "market",
+    "place": "home",
     "inventory": {"gems": 50},
 }
 
@@ -392,6 +392,21 @@ def do_examine(args: list) -> "None":
     if player_has(name):
         write(f"You have {PLAYER['inventory'][name]} {name}s in your inventory")
 
+def do_read(args: str):
+    """This fncn will allow player to read various texts like books
+    
+    Args
+    ----
+    *args: list of strings
+    """
+    debug(f"Trying to read {args}")
+    if not args:
+        error(f"You can't read nothing, goofus. What are you trying to read?")
+        return
+    name = args[0].lower
+    if not player_has(name) and not current_place_has(name):
+        error(f"Sorry, chum. I don't know what this is: {name}")
+        return
 
 def do_look():
     place = get_place()
@@ -561,6 +576,7 @@ def main():
         inventory = ["i", "inventory", "I", "inven"]
         drop = ["D", "d", "Drop", "drop"]
         buy = ["B", "b", "buy", "Buy"]
+        read = ["R", "r", "Read", "read"]
         if not args:
             continue
         command = args.pop(0)
@@ -584,6 +600,8 @@ def main():
             do_drop(args)
         elif command in buy:
             do_buy(args)
+        elif command in read:
+            do_read(args)
         else:
             error("No Such Command")
             continue
