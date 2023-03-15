@@ -136,7 +136,7 @@ Part 12: Read Things
         [x] B. in adv.py in do_read
                 [x] Check if args is falsy, print error if so
                 [x] Run test to pass
-* [] Part 12.3 Ensure item is there
+* [x] Part 12.3 Ensure item is there
         [x] A. in test_game.py
                 [x] Add test_do_read_missing_item() with param capsys
                 [x] Call do_read with a list and any str that's not an item key for an arg
@@ -144,9 +144,43 @@ Part 12: Read Things
                 [x] Write an assert statement checking debug message
                 [x] Write an assert that checks "Sorry, I don't know what this is" in output
                 [x] Run failing test
+        [x] B. In adv.py in do_read
+                [x] Assign first item of args list to a var name with lower
+                [x] Write an if statement that checks if player or place has item:
+                        [x] Use error() to print message like "Sorry idk what args is"
+                        [x] return
+                [x] Run the passing test
+* [x] Part 12.4 Ensure item is readable
+        [x] A. In test_game.py write test_do_unreadable_item()
+                [x] Add a fake unreadable item to current place.. needs to be empty dict
+                [x] Call do_read w/ args 'read <fake thing> '
+                [x] Check the output for error
+                        [x] import place_add
+                        [x] add test_do_unreadable_item() w/ capsys
+                        [x] Add fake item to adv.ITEMs with a key
+                        [x] Use place_add to add fake item to current place
+                        [x] Call do_read w/ a list containing new key as the arg
+                        [x] capsys to output
+                        [x] Write assert that checks message 'I can't read key'
+                        [x] Run failing test
+        [x] READ https://alissa-huskey.github.io/python-class/practices/testing/pytest-tests.html#part-1-3-reading-test-output
+        [x] B. In adv.py in do_read()
+                [x] 1. Use get_item to get item from dict and assign to var. item
+                [x] 2. Check if the 'message' key in dict. If not
+                        [x] Use error() to print 'I can't read'
+                        [x] return
+                [x] 3. Run passing test
+* [] Part 12.5 Read things
+        [x] A. In test_game.py write test_do_read_in_place
+                [x] 1. Add test 
+                [x] 2. Create dict repr fake item with keys: title and message
+                [x] 3. Use place_add to add item to place
+                [x] 4. Call do_read on item
+                [x] 5. Assign capsys
+                [x] 6. Write an assert that title is in output
+                [x] 7. Write an assert that message is in output
+                [x] 8. Run failing test
         [] B. In adv.py in do_read
-                [] Assign first item of args list to a var name with lower
-                [] Write an if statement that checks if player or place has item:
-                        [] Use error() to print message like "Sorry idk what args is"
-                        [] return
-                [] Run the passing test
+                [] 1. If "title" key exists in the item dict,use header fncn to print. 
+                        Otherwise print "It reads..."
+                [] 2. Use wrap fncn to print "message" from item dict

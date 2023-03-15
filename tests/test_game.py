@@ -733,3 +733,45 @@ def test_do_read_missing_item(capsys):
     # AND: An error is raised 
     assert "Sorry, chum" in output
 
+# do_read w/ unreadable item
+def test_do_read_unreadable_item(capsys):
+    # GIVEN: Player is in place
+    adventure.PLACES["Canada"] = {"key": "Canada","name": "Still Canada", "items": []}
+    
+    adventure.PLAYER["place"] = "Canada"
+
+    # AND: An item is unreadable
+    adventure.ITEMS["fake item"] = {"key": "fake", "name": "fake item"}
+
+    # AND: Item is in current place
+    place_add("fake item")
+
+    # WHEN: Player tries to read item
+    do_read(["fake item"])
+    output = capsys.readouterr().out
+
+    # THEN: An error should be printed
+    assert "I really can't read" in output
+
+# do_read in place
+def test_do_read_in_place(capsys):
+    # GIVEN: Player is in place
+    adventure.PLACES["California"] = {"key": "California","name": "SF", "items": []}
+    
+    adventure.PLAYER["place"] = "California"
+
+    # AND: Item has title and message 
+    adventure.ITEMS["brochure"] = {"key": "brochure", "name": "adverts", "title": "Reasons to Revolt", "message": "It's better than fighting dragons"}
+
+    # AND: An item is in current place
+    place_add("brochure")
+
+    # WHEN: Player tries to read item
+    do_read(["brochure"])
+    output = capsys.readouterr().out
+
+    # THEN: The title should be in output
+    assert "title" in output
+
+    # AND: The message should be in output
+    assert "message" in output

@@ -403,10 +403,20 @@ def do_read(args: str):
     if not args:
         error(f"You can't read nothing, goofus. What are you trying to read?")
         return
-    name = args[0].lower
+    name = args[0].lower()
     if not player_has(name) and not current_place_has(name):
         error(f"Sorry, chum. I don't know what this is: {name}")
         return
+    item = get_item(name)
+    if "message" not in item:
+        error(f"Sorry, I really can't read {name}")
+        return
+    if item["title"]:
+        header(item["title"])
+    else:
+        wrap("It reads...")
+    
+
 
 def do_look():
     place = get_place()
