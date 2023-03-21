@@ -180,7 +180,11 @@ Part 12: Read Things
                 [x] 6. Write an assert that title is in output
                 [x] 7. Write an assert that message is in output
                 [x] 8. Run failing test
-        [] B. In adv.py in do_read
-                [] 1. If "title" key exists in the item dict,use header fncn to print. 
+        [x] B. In adv.py in do_read
+                [x] 1. If "title" key exists in the item dict,use header fncn to print. 
                         Otherwise print "It reads..."
-                [] 2. Use wrap fncn to print "message" from item dict
+                [x] 2. Use wrap fncn to print "message" from item dict
+        [x] C. Modify ITEMS: add to 'book'
+                [x] 1. Add key 'title' to book
+                [x] 2. Add 'message' to book
+        [x] D. In test.py define test_do_read_in_inv
