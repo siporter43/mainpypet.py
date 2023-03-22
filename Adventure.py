@@ -65,6 +65,8 @@ ITEMS = {
     "book": {
         "key": "book",
         "name": "The Book of Mild Secrets",
+        "title": "Mild Style Secretos",
+        "message": "This is a little secreto: Don't trust the guards",
         "description": "It's a pleather-bound book of pages from sages",
         "summary": "Readable for nerds",
         "price": "",
@@ -73,6 +75,7 @@ ITEMS = {
     "desk": {
         "key": "desk",
         "name": "The Resolute Desk",
+        "message": "The next clue is in Philly",
         "description": "A heavy wooden desk with a clever book open on its surface",
         "summary": "Desk of...wood?",
         "price": "",
@@ -411,10 +414,12 @@ def do_read(args: str):
     if "message" not in item:
         error(f"Sorry, I really can't read {name}")
         return
-    if item["title"]:
+    # breakpoint()
+    if item.get("title"):
         header(item["title"])
     else:
         wrap("It reads...")
+    wrap(item["message"])
     
 
 

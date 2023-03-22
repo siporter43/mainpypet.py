@@ -771,7 +771,34 @@ def test_do_read_in_place(capsys):
     output = capsys.readouterr().out
 
     # THEN: The title should be in output
-    assert "title" in output
+    # breakpoint()
+    assert "Reasons" in output
 
     # AND: The message should be in output
-    assert "message" in output
+    assert "better than" in output
+
+# do_read of player inv if it isn't in a place
+def test_do_read_in_inventory(capsys):
+    # GIVEN: Player is in place
+    adventure.PLACES["California"] = {"key": "California","name": "SF", "items": []}
+    
+    adventure.PLAYER["place"] = "California"
+    
+    # AND: Player has item in inv that is not in place that can be read
+    adventure.ITEMS["comics"] = {"key": "comics", "name": "Batman Issue 2", "title": "Full of Bats", "message": "Please don't eat Bats!"}
+    
+    adventure.PLAYER["inventory"] = {}
+
+    inventory_change("comics")
+
+    # WHEN: Player tries to read item
+    do_read(["comics"])
+
+    output = capsys.readouterr().out
+
+    # THEN: Title should be in output
+    assert "Full of Bats" in output
+
+    # AND: Message should be in output
+    assert "don't eat" in output
+    ...
