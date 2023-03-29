@@ -170,7 +170,7 @@ Part 12: Read Things
                         [x] Use error() to print 'I can't read'
                         [x] return
                 [x] 3. Run passing test
-* [] Part 12.5 Read things
+* [x] Part 12.5 Read things
         [x] A. In test_game.py write test_do_read_in_place
                 [x] 1. Add test 
                 [x] 2. Create dict repr fake item with keys: title and message
@@ -188,3 +188,23 @@ Part 12: Read Things
                 [x] 1. Add key 'title' to book
                 [x] 2. Add 'message' to book
         [x] D. In test.py define test_do_read_in_inv
+* [] Part 12.6 Indent message
+        [x] A. In test_game.py modify test_do_r_in_inv()
+                [x] 1. Call .splitlines() on output and assign to var 'lines'
+                [x] 2. Write assert st checking if lasst item in 'lines' = fake item's message w/ 4 spaces at beginning
+                [x] 3. Run failing test
+        [0] B. In test_game.py define test_wrap
+                [x] 1. Add test_wrap(capsys)
+                [x] 2. Call wrap with string longer than WIDTH
+                [x] 3. Assign results to output
+                [x] 4. Call .splitlines on output = 'line'
+                [x] 5. Write assert that tests that length of lines > 1
+                [x] 6. Write assert that tests output contains first few words of text arg
+                [x] 7. Write assert that tests output ends w/ last few words of text arg followed by new line
+                [?] 8. Make sure strings in lines start w/ 2 spaces
+                [x] 9. Run passing test
+        [] C. In adv.py modify wrap()
+                <!-- When I tried to do this got error re:_wrap_chunks -->
+                [0] 1. Add optional indent parameter w def value 1
+                [] 2. When calculating margin, mult existing val by indent
+                [] 3. Run passing test_wrap 

@@ -195,11 +195,11 @@ def abort(message: str):
     error(message)
     exit(1)
 
-def wrap(text):
+def wrap(text, indent = 1):
     """"Prints standard format for text"""
-    margin = MARGIN * " "
+    margin = MARGIN * indent
     paragraph = textwrap.fill(text, WIDTH, initial_indent= margin, subsequent_indent= margin)
-    print(f"{paragraph} \n")
+    print(f"{paragraph}")
 
 def write(text):
     """Prints text standard with margins"""

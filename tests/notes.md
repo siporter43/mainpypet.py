@@ -98,3 +98,11 @@ IMPORTANT-- return stops stuff, does not print
 
 for our guardian conditional statements (if -blank- not in -dict-) return needs to stop
 it at the end lest there be an attr err
+
+for grabbing things in list:
+        for first item 
+                list[0]
+        for second item
+                list[1]
+        for last item
+                list[-1]

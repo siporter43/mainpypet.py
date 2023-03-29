@@ -1,4 +1,5 @@
 from copy import deepcopy
+
 from doctest import OutputChecker
 from unittest import result
 
@@ -9,6 +10,8 @@ import adventure
 
 from adventure import (
     PLAYER,
+    WIDTH,
+    MARGIN,
     do_examine,
     get_place,
     do_shop,
@@ -30,6 +33,7 @@ from adventure import (
     place_can, 
     do_buy,
     do_read,
+    wrap,
 )
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
@@ -796,9 +800,37 @@ def test_do_read_in_inventory(capsys):
 
     output = capsys.readouterr().out
 
+    lines = output.splitlines()
+
     # THEN: Title should be in output
     assert "Full of Bats" in output
 
     # AND: Message should be in output
     assert "don't eat" in output
-    ...
+
+    # AND: Last item in lines = item message
+    assert lines[-1] == "    eat Bats!"
+
+# wrap test to make sure it works correctly w/ regards to gl.width
+def test_wrap(capsys):
+    # GIVEN: 
+
+    # WHEN: We try to wrap around a string longer than WIDTH
+    # breakpoint()
+    wrap(WIDTH * "Bingo ")
+
+    output = capsys.readouterr().out
+
+    lines = output.splitlines()
+
+    # THEN: 'Lines' is more than 1
+    assert len(lines) > 1
+
+    # AND: Output has first few words of str
+    assert "Bingo" in output
+
+    # AND: Output ends with last few string words, followed by new line
+    assert output.endswith("Bingo\n")
+
+    # AND: Each str in lines starts w 2 spaces
+    assert str(lines[2]).startswith("  ")
