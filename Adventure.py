@@ -197,7 +197,7 @@ def abort(message: str):
 
 def wrap(text, indent = 1):
     """"Prints standard format for text"""
-    margin = MARGIN * indent
+    margin = MARGIN * " "
     paragraph = textwrap.fill(text, WIDTH, initial_indent= margin, subsequent_indent= margin)
     print(f"{paragraph}")
 

@@ -809,7 +809,7 @@ def test_do_read_in_inventory(capsys):
     assert "don't eat" in output
 
     # AND: Last item in lines = item message
-    assert lines[-1] == "    eat Bats!"
+    assert lines[-1] == "    Please don't eat Bats!"
 
 # wrap test to make sure it works correctly w/ regards to gl.width
 def test_wrap(capsys):
@@ -817,7 +817,7 @@ def test_wrap(capsys):
 
     # WHEN: We try to wrap around a string longer than WIDTH
     # breakpoint()
-    wrap(WIDTH * "Bingo ")
+    wrap("Bingo " * WIDTH, WIDTH)
 
     output = capsys.readouterr().out
 
