@@ -112,7 +112,7 @@ Part 10
                         [x] Call inv_ch with key value
                         [x] Assert statement that checks addition of inv
                         [x] Run test
-        [] 11.7 Test do_drop()
+        [x] 11.7 Test do_drop()
                 [x] A. Write test_do_drop_no_args
                 [x] B. Write test_do_drop_missing_item
 
@@ -188,12 +188,12 @@ Part 12: Read Things
                 [x] 1. Add key 'title' to book
                 [x] 2. Add 'message' to book
         [x] D. In test.py define test_do_read_in_inv
-* [] Part 12.6 Indent message
+* [x] Part 12.6 Indent message
         [x] A. In test_game.py modify test_do_r_in_inv()
                 [x] 1. Call .splitlines() on output and assign to var 'lines'
                 [x] 2. Write assert st checking if lasst item in 'lines' = fake item's message w/ 4 spaces at beginning
                 [x] 3. Run failing test
-        [0] B. In test_game.py define test_wrap
+        [x] B. In test_game.py define test_wrap
                 [x] 1. Add test_wrap(capsys)
                 [x] 2. Call wrap with string longer than WIDTH
                 [x] 3. Assign results to output
@@ -201,10 +201,29 @@ Part 12: Read Things
                 [x] 5. Write assert that tests that length of lines > 1
                 [x] 6. Write assert that tests output contains first few words of text arg
                 [x] 7. Write assert that tests output ends w/ last few words of text arg followed by new line
-                [?] 8. Make sure strings in lines start w/ 2 spaces
+                [x] 8. Make sure strings in lines start w/ 2 spaces
                 [x] 9. Run passing test
-        [] C. In adv.py modify wrap()
-                <!-- When I tried to do this got error re:_wrap_chunks -->
-                [0] 1. Add optional indent parameter w def value 1
-                [] 2. When calculating margin, mult existing val by indent
-                [] 3. Run passing test_wrap 
+        [x] C. In test.game.py define test_wrap_w_indent
+                [x] 1. Add test_wrap_w_indent(capsys)
+                [x] 2. Call wrap() w/ str longer than WIDTH followed by keyword indent = 2
+                [x] 3. Assign capsys.roe.out to output
+                [x] 4. Assn var lines to call spltlines on output
+                [x] 5. Write assert lines > 1
+                [x] 6. Assert output contains first words in text
+                [x] 7. Assert output ends with last few words in text followed by 
+                /n
+                [x] 8. Make sure each str in var lines starts w 4 spaces
+                [x] 9. Run failing test 
+        [x] D. In adv.py modify wrap()
+                [x] 1. Add optional indent parameter w def value 1
+                [x] 2. When calculating margin, mult existing val by indent
+                [x] 3. Run passing test_wrap 
+        [x] E. In adv.py modify do_read()
+                [x] 1. When printing item message with wrap(), add kwd arg indent w value 2
+                [x] 2. Run test_do_read_in_inv -> Should pass
+                [x] 3. All tests should pass
+* [] Part 12.7 Allow for stanzas
+        [] A. In test_game.py Modify test_do_read_in_place()
+                [x] 1. Modify value of "message" key in fake item dict to be a tuple or list w mult items
+                [] 2. Add an assert that checks to make sure output contains 2 blank lines followed by indentation, followed by first few words of message items
+                [] 3. Run failing test

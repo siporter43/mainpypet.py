@@ -764,9 +764,11 @@ def test_do_read_in_place(capsys):
     
     adventure.PLAYER["place"] = "California"
 
-    # AND: Item has title and message 
-    adventure.ITEMS["brochure"] = {"key": "brochure", "name": "adverts", "title": "Reasons to Revolt", "message": "It's better than fighting dragons"}
-
+    # AND: Items have titles and messages 
+    adventure.ITEMS ={"brochure": {"key": "brochure", "name": "adverts", "title": "Reasons to Revolt", "message": "It's better than fighting dragons"},
+                      "magazine": {"key": "mag", "name": "Cosmo", "title": "Eating Healthy", "message": "Devour the Aristocracy"}, 
+                      "dissertation": {"key":"dissertation", "name":"diss track", "title": "Monarchs Suck", "message": "Yup it does"}
+                        }
     # AND: An item is in current place
     place_add("brochure")
 
@@ -809,7 +811,7 @@ def test_do_read_in_inventory(capsys):
     assert "don't eat" in output
 
     # AND: Last item in lines = item message
-    assert lines[-1] == "    Please don't eat Bats!"
+    assert lines[-1] == "        Please don't eat Bats!"
 
 # wrap test to make sure it works correctly w/ regards to gl.width
 def test_wrap(capsys):
@@ -817,7 +819,7 @@ def test_wrap(capsys):
 
     # WHEN: We try to wrap around a string longer than WIDTH
     # breakpoint()
-    wrap("Bingo " * WIDTH, WIDTH)
+    wrap("Bingo " * WIDTH)
 
     output = capsys.readouterr().out
 
@@ -827,10 +829,29 @@ def test_wrap(capsys):
     assert len(lines) > 1
 
     # AND: Output has first few words of str
-    assert "Bingo" in output
+    assert "  Bingo" in output
 
     # AND: Output ends with last few string words, followed by new line
     assert output.endswith("Bingo\n")
 
     # AND: Each str in lines starts w 2 spaces
     assert str(lines[2]).startswith("  ")
+
+# wrap test to make sure things are wrong with extra indent. FAILING TEST
+def test_wrap_with_indent(capsys):
+    # GIVEN:
+
+    # WHEN: We try to wrap with a indent = 2
+    # breakpoint()
+    wrap("Humdinger" * WIDTH, 2)
+    
+    output = capsys.readouterr().out
+
+    lines = output.splitlines()
+    
+    # THEN: "lines" is more than 1
+    assert len(lines) > 1
+
+    # AND: Each str starts with 8 spaces
+    assert lines[0].startswith("        Humdinger")
+    ...

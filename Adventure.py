@@ -197,7 +197,7 @@ def abort(message: str):
 
 def wrap(text, indent = 1):
     """"Prints standard format for text"""
-    margin = MARGIN * " "
+    margin = (MARGIN * indent) * " "
     paragraph = textwrap.fill(text, WIDTH, initial_indent= margin, subsequent_indent= margin)
     print(f"{paragraph}")
 
@@ -418,8 +418,8 @@ def do_read(args: str):
     if item.get("title"):
         header(item["title"])
     else:
-        wrap("It reads...")
-    wrap(item["message"])
+        wrap("It reads...", indent= 2)
+    wrap(item["message"], indent= 2)
     
 
 
