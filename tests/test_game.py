@@ -760,16 +760,19 @@ def test_do_read_unreadable_item(capsys):
 # do_read in place
 def test_do_read_in_place(capsys):
     # GIVEN: Player is in place
-    adventure.PLACES["California"] = {"key": "California","name": "SF", "items": []}
-    
     adventure.PLAYER["place"] = "California"
+    
 
     # AND: Items have titles and messages 
-    adventure.ITEMS ={"brochure": {"key": "brochure", "name": "adverts", "title": "Reasons to Revolt", "message": "It's better than fighting dragons"},
-                      "magazine": {"key": "mag", "name": "Cosmo", "title": "Eating Healthy", "message": "Devour the Aristocracy"}, 
-                      "dissertation": {"key":"dissertation", "name":"diss track", "title": "Monarchs Suck", "message": "Yup it does"}
-                        }
+    adventure.ITEMS["brochure"] = {
+        "key": "brochure",
+        "name": "adverts",
+        "title": "Reasons to Revolt",
+        "message": "It's better than fighting dragons",
+    }
+    
     # AND: An item is in current place
+    adventure.PLACES["California"] = {"key": "California","name": "SF", "items": []}
     place_add("brochure")
 
     # WHEN: Player tries to read item
@@ -785,18 +788,20 @@ def test_do_read_in_place(capsys):
 
 # do_read of player inv if it isn't in a place
 def test_do_read_in_inventory(capsys):
-    # GIVEN: Player is in place
-    adventure.PLACES["California"] = {"key": "California","name": "SF", "items": []}
-    
+    # GIVEN: Player is in place 
     adventure.PLAYER["place"] = "California"
     
-    # AND: Player has item in inv that is not in place that can be read
+    # AND: There is an item that can be read
     adventure.ITEMS["comics"] = {"key": "comics", "name": "Batman Issue 2", "title": "Full of Bats", "message": "Please don't eat Bats!"}
     
+    # AND: Player has item in inv 
     adventure.PLAYER["inventory"] = {}
-
+     
     inventory_change("comics")
-
+   
+    # AND: Item that is not in place 
+    adventure.PLACES["California"] = {"key": "California","name": "SF", "items": []}
+    
     # WHEN: Player tries to read item
     do_read(["comics"])
 
@@ -813,6 +818,41 @@ def test_do_read_in_inventory(capsys):
     # AND: Last item in lines = item message
     assert lines[-1] == "        Please don't eat Bats!"
 
+def test_do_read_with_stanzas(capsys):
+    # GIVEN: Player is in place
+    adventure.PLAYER["place"] = "California"
+    
+
+    # AND: Items have titles and messages 
+    adventure.ITEMS["dissertation"] = {
+        "key":"dissertation", 
+        "name":"diss track", 
+        "title": "Monarchs Suck", 
+        "message": [
+            "Yup it does",
+            "I can't they still have this?",
+            "Why'd they fill in potholes with sand?",
+        ],
+    }
+    
+    # AND: An item is in current place
+    adventure.PLACES["California"] = {
+        "key": "California",
+        "name": "SF", 
+        "items": [],
+    }
+    place_add("dissertation")
+
+    # WHEN: Player tries to read item
+    do_read(["dissertation"])
+
+    output = capsys.readouterr().out
+    breakpoint()
+    lines = output.splitlines()
+
+    # AND: Output has 2 blank lines ->number of indentations -> first few words a message
+    assert lines[-1].startswith("\n\n        Why'd they fill")
+
 # wrap test to make sure it works correctly w/ regards to gl.width
 def test_wrap(capsys):
     # GIVEN: 
@@ -828,14 +868,11 @@ def test_wrap(capsys):
     # THEN: 'Lines' is more than 1
     assert len(lines) > 1
 
-    # AND: Output has first few words of str
-    assert "  Bingo" in output
-
     # AND: Output ends with last few string words, followed by new line
     assert output.endswith("Bingo\n")
 
     # AND: Each str in lines starts w 2 spaces
-    assert str(lines[2]).startswith("  ")
+    assert str(lines[2]).startswith("    Bingo")
 
 # wrap test to make sure things are wrong with extra indent. FAILING TEST
 def test_wrap_with_indent(capsys):
@@ -854,4 +891,4 @@ def test_wrap_with_indent(capsys):
 
     # AND: Each str starts with 8 spaces
     assert lines[0].startswith("        Humdinger")
-    ...
+
