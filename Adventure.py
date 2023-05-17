@@ -66,7 +66,11 @@ ITEMS = {
         "key": "book",
         "name": "The Book of Mild Secrets",
         "title": "Mild Style Secretos",
-        "message": "This is a little secreto: Don't trust the guards",
+        "message": [
+            "This is a little secreto: Don't trust the guards",
+            "Yeah, also don't use dark magics",
+            "Unless you were there when it was written",
+            ],
         "description": "It's a pleather-bound book of pages from sages",
         "summary": "Readable for nerds",
         "price": "",
@@ -116,6 +120,7 @@ ITEMS = {
 PLAYER = {
     "place": "home",
     "inventory": {"gems": 50},
+    "health": 100,
 }
 
 #  MAP of PLACES:
@@ -198,8 +203,15 @@ def abort(message: str):
 def wrap(text, indent = 1):
     """"Prints standard format for text"""
     margin = (MARGIN * indent) * " "
-    paragraph = textwrap.fill(text, WIDTH, initial_indent= margin, subsequent_indent= margin)
-    print(f"{paragraph}")
+    if isinstance(text, str):
+        text = [text]
+    blocks = []
+    for stanza in text:
+        paragraph = textwrap.fill(stanza, WIDTH, initial_indent= margin, subsequent_indent= margin)
+        blocks.append(paragraph)
+    big_block = '\n\n'.join(blocks)
+    print(big_block)
+    # print(f"{paragraph}")
 
 def write(text):
     """Prints text standard with margins"""
@@ -210,6 +222,10 @@ def header(title):
     real_title = fg.lightblack(fx.bold(title))
     write(real_title)
     print()
+
+def health_change(amount: int):
+    ...
+
 
 def get_item(key: str) -> dict:
     """Return the item dictionary from ITEMS associated with key.

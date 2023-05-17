@@ -222,8 +222,29 @@ Part 12: Read Things
                 [x] 1. When printing item message with wrap(), add kwd arg indent w value 2
                 [x] 2. Run test_do_read_in_inv -> Should pass
                 [x] 3. All tests should pass
-* [] Part 12.7 Allow for stanzas
-        [] A. In test_game.py Modify test_do_read_in_place()
+* [x] Part 12.7 Allow for stanzas
+        [x] A. In test_game.py Modify test_do_read_in_place()
                 [x] 1. Modify value of "message" key in fake item dict to be a tuple or list w mult items
-                [] 2. Add an assert that checks to make sure output contains 2 blank lines followed by indentation, followed by first few words of message items
-                [] 3. Run failing test
+                [x] 2. Add an assert that checks to make sure output contains 2 blank lines followed by indentation, followed by first few words of message items
+                [x] 3. Run failing test
+        [x] B. 
+        [x] C. In adv.py modify wrap()
+                [x] 1. Write an if statement checking if text is a string using isinstance fncn
+                        [x] If so, make a list or tuple w text and assign to var text
+                [x] 2. Make empty list and assign to var blocks
+                [x] 3. Use a for loop to iterate over text using var name stanza
+                        [x] Indent line(s) where you assign paragraph to be in for loop
+                        [x] In call to textwrap.fill() use stanza for first arg instead of text
+                        [x] Append paragraph to blocks
+                [x] 4. Either:
+                        [] Use arg unpacking to send all items in blocks list as sep args to print(), and kwd arg sep to print 
+                                2 newlines bw each arg
+                        [x] Join the blocks list using 2 newlines as the delimiter, then print
+                [x] 5. Run passing 
+        [x] D. In adv.py modify items
+                [x] 1. Change "message" in "book" to be a list or a tuple of strings
+
+Part 13: Health
+* [] Part 13.1 Add health_change()
+        [] A. In test_game.py define test_health_change
+        
