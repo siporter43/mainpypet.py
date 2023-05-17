@@ -34,6 +34,7 @@ from adventure import (
     do_buy,
     do_read,
     wrap,
+    health_change,
 )
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
@@ -847,11 +848,10 @@ def test_do_read_with_stanzas(capsys):
     do_read(["dissertation"])
 
     output = capsys.readouterr().out
-    breakpoint()
-    lines = output.splitlines()
-
+   
+    # breakpoint()
     # AND: Output has 2 blank lines ->number of indentations -> first few words a message
-    assert lines[-1].startswith("\n\n        Why'd they fill")
+    assert "\n\n        Why'd they fill" in output
 
 # wrap test to make sure it works correctly w/ regards to gl.width
 def test_wrap(capsys):
@@ -874,7 +874,7 @@ def test_wrap(capsys):
     # AND: Each str in lines starts w 2 spaces
     assert str(lines[2]).startswith("    Bingo")
 
-# wrap test to make sure things are wrong with extra indent. FAILING TEST
+# wrap test to make sure things are wrong with extra indent. 
 def test_wrap_with_indent(capsys):
     # GIVEN:
 
@@ -892,3 +892,15 @@ def test_wrap_with_indent(capsys):
     # AND: Each str starts with 8 spaces
     assert lines[0].startswith("        Humdinger")
 
+# basic test to make sure health changes
+def test_health_change():
+    # GIVEN: Player has health
+    PLAYER["health"] = 100
+
+    # WHEN: Health_change called with an int
+    health_change(10)
+    
+    # THEN: Health changes to reflect increase/decrease
+    assert PLAYER["health"] == 110
+
+    ...
