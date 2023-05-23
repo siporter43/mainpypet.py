@@ -224,6 +224,17 @@ def header(title):
     print()
 
 def health_change(amount: int):
+    """This fncn will adjust Player health based off int input. 
+    
+    Args
+    ----
+    * amount: The amount of health gained or lost
+    """
+    if not amount:
+        return
+    PLAYER["health"] = (PLAYER["health"] + amount)
+    if PLAYER["health"] <= 0:
+        print("You're Dead, Jim")
     ...
 
 

@@ -893,14 +893,20 @@ def test_wrap_with_indent(capsys):
     assert lines[0].startswith("        Humdinger")
 
 # basic test to make sure health changes
-def test_health_change():
+@pytest.mark.parametrize("start, amount, result, message", [
+    [100, 10, 110, "adding to health"], 
+    [51, 20, 71, "fncnal difference"],
+    [90, -40, 110, "subbing to health"],
+
+])
+def test_health_change(start, amount, result, message):
     # GIVEN: Player has health
-    PLAYER["health"] = 100
+    adventure.PLAYER["health"] = start
 
     # WHEN: Health_change called with an int
-    health_change(10)
+    health_change(amount)
     
-    # THEN: Health changes to reflect increase/decrease
-    assert PLAYER["health"] == 110
+    # THEN: Player health changes to reflect increase/decrease
+    assert adventure.PLAYER["health"] == result, message
 
     ...
