@@ -245,6 +245,12 @@ Part 12: Read Things
                 [x] 1. Change "message" in "book" to be a list or a tuple of strings
 
 Part 13: Health
-* [] Part 13.1 Add health_change()
-        [] A. In test_game.py define test_health_change
-        
+* [x] Part 13.1 Add health_change()
+        [x] A. In test_game.py define test_health_change
+        [x] B. In adv.py define health_change()
+* [] Part 13.2 Parameterize the test
+        [] A. In test_game.py modify test_health_change() and Parameterize
+                [x] 1. Change given Values to variables
+                [x] 2. Add variables as parameters to test fncn
+                [] 3. Call @pytest.mark.parameterize() with variables
+                        start, amount, result, message
