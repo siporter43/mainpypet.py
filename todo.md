@@ -245,12 +245,53 @@ Part 12: Read Things
                 [x] 1. Change "message" in "book" to be a list or a tuple of strings
 
 Part 13: Health
+--------
 * [x] Part 13.1 Add health_change()
         [x] A. In test_game.py define test_health_change
         [x] B. In adv.py define health_change()
-* [] Part 13.2 Parameterize the test
-        [] A. In test_game.py modify test_health_change() and Parameterize
+* [x] Part 13.2 Parameterize the test
+        [x] A. In test_game.py modify test_health_change() and Parameterize
                 [x] 1. Change given Values to variables
                 [x] 2. Add variables as parameters to test fncn
-                [] 3. Call @pytest.mark.parameterize() with variables
+                [x] 3. Call @pytest.mark.parameterize() with variables
                         start, amount, result, message
+                [x] 4. Change G/W/T comments to be more generic
+        [x] B. In test_game.py above test_health_change() Add another test case
+                [x] 1. Add new tuple for subtraction
+                [x] 2. Run passing test
+* [x] Part 13.3 Add health limits
+        [x] A. In test_game.py above test_health_change(): ensure health > 0
+                [x] 1. Add new tuple case that would result in a negative
+                [x] 2. Run failing test
+        [x] B. In adv.py modify health_change()
+                [x] 1. At the end of the fncn, check if Player health is < 0
+                        [x] If so, set health to 0
+                [x] 2. Run passing test
+        [x] C. At top of adv.py
+                [x] 1. Add global var MAX_HEALTH set to 100
+        [x] D. In test_game.py above test_health...: ensure MAX_HEALTH
+                [x] 1. Import max_health
+                [x] 2. Add new tuple that would >100
+                [x] 3. Run failing test
+        [x] E. In adv.py modify health_change
+                [x] 1. At the end of fncn, check if health is greater than max
+                        [x] If so, set health to max
+                [x] 2. Run passing test
+* [] Part 13.4 UX Changes
+        [x] A. In adv.py mod Player
+                [x] 1. Add a "health" key to PLAYER dict = 100
+        [x] B. At the top of adv.py: Add a ProgressBar
+                [x] 1. Import ProgressBar from console.progress
+                [x] 2. Create new global var BAR and set it to new ProgressBar()
+                        object
+        [x] C. In adv.py define health_bar(), gonna print that bar
+                [x] 1. Write fncn health_bar()
+                [x] 2. In fncn use write() to print
+                        [x] "Health"
+                        [x] the value returned when you call BAR() and pass arg 
+                                Player["health"]
+        [x] D. In adv.py mod do_inv()
+                [x] 1. At the beginning of do_inv() call health_bar()
+        [] E. In adv.py mod main()
+                [] 1. At the end of main(), check if player still has health
+                [] 2. If not print sumn like "Game over"

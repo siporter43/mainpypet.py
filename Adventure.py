@@ -14,6 +14,8 @@ from sys import stderr
 
 from console import fg, bg, fx
 
+from console.progress import ProgressBar
+
 import textwrap
 
 # Global Variables
@@ -117,10 +119,18 @@ ITEMS = {
     },
 }
 
+MAX_HEALTH = 100
+
+BAR = ProgressBar(
+    total = MAX_HEALTH + 0.1, 
+    clear_left = False,
+    width = WIDTH - len("Health") - len("100%"),
+)
+
 PLAYER = {
     "place": "home",
     "inventory": {"gems": 50},
-    "health": 100,
+    "health": MAX_HEALTH,
 }
 
 #  MAP of PLACES:
@@ -234,9 +244,16 @@ def health_change(amount: int):
         return
     PLAYER["health"] = (PLAYER["health"] + amount)
     if PLAYER["health"] <= 0:
-        print("You're Dead, Jim")
-    ...
+        PLAYER["health"] = 0
+        write("You're Dead, Jim")
+    if PLAYER["health"] > MAX_HEALTH:
+        PLAYER["health"] = MAX_HEALTH
+        write("Your strength knows maximum bounds")
 
+def health_bar():
+    write("Health")
+    write(BAR(PLAYER["health"]))
+    ...
 
 def get_item(key: str) -> dict:
     """Return the item dictionary from ITEMS associated with key.
@@ -515,6 +532,7 @@ def do_take(args: list):
 
 def do_inventory():
     debug(f"Trying to show inventory")
+    health_bar()
     header("Inventory")
     stuff = PLAYER["inventory"]
     if not stuff:
@@ -647,6 +665,9 @@ def main():
         else:
             error("No Such Command")
             continue
+        if PLAYER["health"] == 0:
+            write("Game over, chumpo")
+            do_quit()
     else:
         do_quit()
     

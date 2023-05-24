@@ -12,6 +12,7 @@ from adventure import (
     PLAYER,
     WIDTH,
     MARGIN,
+    MAX_HEALTH,
     do_examine,
     get_place,
     do_shop,
@@ -894,10 +895,11 @@ def test_wrap_with_indent(capsys):
 
 # basic test to make sure health changes
 @pytest.mark.parametrize("start, amount, result, message", [
-    [100, 10, 110, "adding to health"], 
+    # [100, 10, 110, "adding to health"], 
     [51, 20, 71, "fncnal difference"],
-    [90, -40, 110, "subbing to health"],
-
+    [90, -40, 50, "subbing to health"],
+    [25, -50, 0, "subbing to negative"],
+    [70, 33, 100, "adding over 100"]
 ])
 def test_health_change(start, amount, result, message):
     # GIVEN: Player has health
