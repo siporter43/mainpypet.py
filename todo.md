@@ -277,7 +277,7 @@ Part 13: Health
                 [x] 1. At the end of fncn, check if health is greater than max
                         [x] If so, set health to max
                 [x] 2. Run passing test
-* [] Part 13.4 UX Changes
+* [x] Part 13.4 UX Changes
         [x] A. In adv.py mod Player
                 [x] 1. Add a "health" key to PLAYER dict = 100
         [x] B. At the top of adv.py: Add a ProgressBar
@@ -292,6 +292,16 @@ Part 13: Health
                                 Player["health"]
         [x] D. In adv.py mod do_inv()
                 [x] 1. At the beginning of do_inv() call health_bar()
-        [] E. In adv.py mod main()
-                [] 1. At the end of main(), check if player still has health
-                [] 2. If not print sumn like "Game over"
+        [x] E. In adv.py mod main()
+                [x] 1. At the end of main(), check if player still has health
+                [x] 2. If not print sumn like "Game over"
+
+Part 14: Dragons
+------------
+* [x] Part 14.1 Add Command
+        [x] A. In test_game define test_do_pet()
+        [x] B. In adv.py define do_pet()
+        [x] C. In adv.py modify main(): Add delay
+* [] Part 14.2: Is Petting Allowed?
+        [x] A. In test_game define test_do_pet_cant_pet
+        [] B. In adv.py modify do_pet(): can pet
