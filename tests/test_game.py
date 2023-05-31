@@ -36,6 +36,7 @@ from adventure import (
     do_read,
     wrap,
     health_change,
+    do_pet,
 )
 
 PLAYER_STATE = deepcopy(adventure.PLAYER)
@@ -911,4 +912,58 @@ def test_health_change(start, amount, result, message):
     # THEN: Player health changes to reflect increase/decrease
     assert adventure.PLAYER["health"] == result, message
 
+    ...
+
+# test to pet on empty list
+def test_do_pet(capsys):
+
+    # WHEN: Player calls do_pet on empty list
+    do_pet([])
+
+    output = capsys.readouterr().out
+
+    # THEN: An error is raised
+    assert "Trying to pet:" in output
+    ...
+
+# test to pet item that can't be pet
+def test_do_pet_cant_pet(capsys):
+    # GIVEN: Player is in a location
+    adventure.PLAYER["place"] = "prison"
+
+    # AND: Location has no petting allowed
+    adventure.PLACES["prison"] = {
+        "key": "prison",
+        "name": "Alcatraz", 
+        "items": ["people",],
+        "can": ["cry", "sleep"],
+        }
+    # WHEN: Player attempts pet object
+    do_pet(["people"])
+
+    output = capsys.readouterr().out
+
+    # THEN: An error should be printed
+    assert "NO TOUCHING!" in output
+    ...
+
+# test to pet w/o arg
+def test_do_pet_no_args(capsys):
+    # GIVEN: Player is in place where they can pet
+    adventure.PLAYER["place"] = "zoo"
+
+    adventure.PLACES["zoo"] = {
+        "key": "zoo",
+        "description": "It's where the animals live",
+        "items": ["monkey", "duck", "donkey"],
+        "can": ["pet", "fight"],
+    }
+
+    # WHEN: Player tries to pet w/o an arg
+    do_pet([])
+
+    output = capsys.readouterr().out
+
+    # THEN: An error is raised 
+    assert "What you wanna touch?" in output
     ...

@@ -302,6 +302,10 @@ Part 14: Dragons
         [x] A. In test_game define test_do_pet()
         [x] B. In adv.py define do_pet()
         [x] C. In adv.py modify main(): Add delay
-* [] Part 14.2: Is Petting Allowed?
+* [x] Part 14.2: Is Petting Allowed?
         [x] A. In test_game define test_do_pet_cant_pet
-        [] B. In adv.py modify do_pet(): can pet
+        [x] B. In adv.py modify do_pet(): can pet
+        [x] C. In adv.py modify Places to incl a cave and path to there
+* [x] Part 14.3 Ensure Args
+        [x] A. In test.py def test_do_pet_no_args()
+        [x] B. In adv.py modify do_pet: ensure args

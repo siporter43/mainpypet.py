@@ -139,7 +139,7 @@ PLAYER = {
 #                |            |
 #               home -- town square
 #                           |
-#                           cove -- Alissa
+#                           cove -- Alissa -- cave
 # 
 
 
@@ -191,8 +191,18 @@ PLACES = {
         "name": "The Robo-Home of the Beep Boop Queen",
         "description": "The cybernetic lair of the Alissa person, may have food.",
         "west": "cove",
-        "items": ["snack", "dogs", "bones"]
-    }
+        "east": "cave",
+        "items": ["snack", "dogs", "bones"],
+        "can": ["pet",],
+    },
+    "cave": {
+        "key": "cave",
+        "name": "Cave of Blunders",
+        "description": "Here be Dragons probably",
+        "west": "Alissa",
+        "items": ["dragon",],
+        "can": ["pet",],
+    },
 }
 # FNCNs
 
@@ -254,6 +264,17 @@ def health_bar():
     write("Health")
     write(BAR(PLAYER["health"]))
     ...
+
+def do_pet(args: str):
+    debug(f"Trying to pet: {args}")
+    if not args:
+        error("You can't pet the air, weirdo. What you wanna touch?")
+        return
+    if not place_can("pet"):
+        error(f"NO TOUCHING! Go somewhere else, pervert")
+        return
+    ...
+
 
 def get_item(key: str) -> dict:
     """Return the item dictionary from ITEMS associated with key.
@@ -637,6 +658,7 @@ def main():
         drop = ["D", "d", "Drop", "drop"]
         buy = ["B", "b", "buy", "Buy"]
         read = ["R", "r", "Read", "read"]
+        pet = ["Pet", "pet", "P", "p"]
         if not args:
             continue
         command = args.pop(0)
@@ -662,6 +684,8 @@ def main():
             do_buy(args)
         elif command in read:
             do_read(args)
+        elif command in pet:
+            do_pet(args)
         else:
             error("No Such Command")
             continue
